@@ -1,3 +1,7 @@
+## [0.12.1] — 2026-03-28
+
+- fix: remove unused externalBin sidecar, use platform-correct python (3980352)
+
 ## [0.12.0] — 2026-03-28
 
 - feat: pares-bastion — infrastructure operations platform (4bbed70)
