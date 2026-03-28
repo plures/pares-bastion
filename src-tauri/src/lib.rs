@@ -7,7 +7,7 @@ mod licensing;
 mod partitions;
 mod policy;
 
-use commands::ScanCancelState;
+use commands::{InventoryState, ScanCancelState};
 use licensing::commands::LicenseState;
 use licensing::models::License;
 use partitions::commands::PartitionListState;
@@ -18,6 +18,7 @@ pub fn run() {
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_shell::init())
         .manage(ScanCancelState(Arc::new(Mutex::new(None))))
+        .manage(InventoryState(Arc::new(Mutex::new(Vec::new()))))
         .manage(LicenseState(Arc::new(Mutex::new(License::free()))))
         .manage(PartitionListState(Arc::new(Mutex::new(Vec::new()))))
         .invoke_handler(tauri::generate_handler![

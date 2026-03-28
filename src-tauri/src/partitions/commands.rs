@@ -77,19 +77,29 @@ pub async fn update_partition_state(
         .map_err(|_| format!("Invalid partition state: {new_state}"))?;
 
     let mut guard = partition_state.0.lock().await;
+
+    // Pre-check: if we need to enable sync, validate license limits first
+    // (before taking a mutable borrow on the specific partition).
+    let wants_sync = target == PartitionState::Synced;
+    if wants_sync {
+        let currently_local = guard
+            .iter()
+            .find(|p| p.partition_id == partition_id)
+            .map(|p| p.state == PartitionState::LocalOnly)
+            .unwrap_or(false);
+        if currently_local {
+            let license = license_state.0.lock().await;
+            let check = super::service::can_create_synced(&license, &guard);
+            if !check.ok {
+                return Err(check.error.unwrap_or_else(|| "Cannot enable sync".into()));
+            }
+        }
+    }
+
     let partition = guard
         .iter_mut()
         .find(|p| p.partition_id == partition_id)
         .ok_or("Partition not found")?;
-
-    // If enabling sync, check license limits
-    if target == PartitionState::Synced && partition.state == PartitionState::LocalOnly {
-        let license = license_state.0.lock().await;
-        let check = super::service::can_create_synced(&license, &guard);
-        if !check.ok {
-            return Err(check.error.unwrap_or_else(|| "Cannot enable sync".into()));
-        }
-    }
 
     let now_ms = std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
