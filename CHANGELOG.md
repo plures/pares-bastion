@@ -1,3 +1,7 @@
+## [0.12.2] — 2026-03-28
+
+- refactor: pure Rust backend — remove all Python dependencies (116f7b7)
+
 ## [0.12.1] — 2026-03-28
 
 - fix: remove unused externalBin sidecar, use platform-correct python (3980352)
