@@ -1,7 +1,0 @@
-#!/bin/sh
-# netops-scan — wrapper script that delegates to the netops-toolkit Python CLI.
-#
-# Tauri bundles this script as an external binary.  At runtime it is invoked
-# by the Rust backend, but the Rust code also supports calling python3 directly
-# (with the same arguments) as a fallback when this sidecar is not present.
-exec python3 -m netops.inventory.scan "$@"

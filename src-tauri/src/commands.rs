@@ -27,6 +27,12 @@ use tokio::process::Command;
 use tokio::sync::oneshot;
 use tokio::sync::Mutex;
 
+// Python executable — `python3` on Unix, `python` on Windows
+#[cfg(target_os = "windows")]
+const PYTHON: &str = "python";
+#[cfg(not(target_os = "windows"))]
+const PYTHON: &str = "python3";
+
 // ---------------------------------------------------------------------------
 // Shared cancellation state
 // ---------------------------------------------------------------------------
@@ -161,7 +167,7 @@ async fn run_scan(
 ) {
     let start = std::time::Instant::now();
 
-    let child = Command::new("python3")
+    let child = Command::new(PYTHON)
         .args(&python_args.args)
         .stdout(std::process::Stdio::piped())
         .stderr(std::process::Stdio::piped())
@@ -454,7 +460,7 @@ pub struct DeviceDetail {
 #[tauri::command]
 pub async fn get_device_detail(hostname: String) -> Result<DeviceDetail, String> {
     // Attempt to call the Python CLI
-    let output = Command::new("python3")
+    let output = Command::new(PYTHON)
         .args([
             "-m",
             "netops.device.detail",
@@ -484,7 +490,7 @@ pub async fn get_device_detail(hostname: String) -> Result<DeviceDetail, String>
 /// Falls back to mock data when the sidecar is unavailable.
 #[tauri::command]
 pub async fn get_device_health(hostname: String) -> Result<HealthInfo, String> {
-    let output = Command::new("python3")
+    let output = Command::new(PYTHON)
         .args([
             "-m",
             "netops.device.health",
@@ -661,7 +667,7 @@ pub struct LogAlertEntry {
 /// sidecar is unavailable.
 #[tauri::command]
 pub async fn get_fleet_health() -> Result<FleetHealth, String> {
-    let output = Command::new("python3")
+    let output = Command::new(PYTHON)
         .args(["-m", "netops.report.health_dashboard", "--format", "json"])
         .output()
         .await;
@@ -870,7 +876,7 @@ pub async fn backup_config(hostname: String) -> Result<ConfigBackup, String> {
         return Err("Hostname must not be empty".into());
     }
 
-    let output = Command::new("python3")
+    let output = Command::new(PYTHON)
         .args([
             "-m",
             "netops.collect.backup",
@@ -910,7 +916,7 @@ pub async fn list_backups(hostname: Option<String>) -> Result<Vec<ConfigBackup>,
         cmd_args.push(&hn);
     }
 
-    let output = Command::new("python3").args(&cmd_args).output().await;
+    let output = Command::new(PYTHON).args(&cmd_args).output().await;
 
     if let Ok(out) = output {
         if out.status.success() {
@@ -947,7 +953,7 @@ pub async fn diff_configs(
         return Err("Version A and Version B must be different".into());
     }
 
-    let output = Command::new("python3")
+    let output = Command::new(PYTHON)
         .args([
             "-m",
             "netops.change.diff",
@@ -988,7 +994,7 @@ pub async fn rollback_config(hostname: String, version: String) -> Result<Rollba
         return Err("Version must not be empty".into());
     }
 
-    let output = Command::new("python3")
+    let output = Command::new(PYTHON)
         .args([
             "-m",
             "netops.change.rollback",
@@ -1248,7 +1254,7 @@ pub async fn vault_init(password: String) -> Result<VaultStatus, String> {
         return Err("Master password must be at least 8 characters".into());
     }
 
-    let spawn_result = Command::new("python3")
+    let spawn_result = Command::new(PYTHON)
         .args(["-m", "netops.core.vault", "init", "--format", "json"])
         .stdin(std::process::Stdio::piped())
         .stdout(std::process::Stdio::piped())
@@ -1302,7 +1308,7 @@ pub async fn vault_unlock(password: String) -> Result<VaultStatus, String> {
         return Err("Password must not be empty".into());
     }
 
-    let spawn_result = Command::new("python3")
+    let spawn_result = Command::new(PYTHON)
         .args(["-m", "netops.core.vault", "unlock", "--format", "json"])
         .stdin(std::process::Stdio::piped())
         .stdout(std::process::Stdio::piped())
@@ -1356,7 +1362,7 @@ pub async fn vault_unlock(password: String) -> Result<VaultStatus, String> {
 /// Falls back to mock data only when the sidecar cannot be spawned.
 #[tauri::command]
 pub async fn vault_list() -> Result<Vec<VaultCredential>, String> {
-    match Command::new("python3")
+    match Command::new(PYTHON)
         .args(["-m", "netops.core.vault", "list", "--format", "json"])
         .output()
         .await
@@ -1406,7 +1412,7 @@ pub async fn vault_set(payload: VaultSetPayload) -> Result<VaultCredential, Stri
     let json_payload =
         serde_json::to_string(&payload).map_err(|e| format!("Serialise error: {e}"))?;
 
-    let spawn_result = Command::new("python3")
+    let spawn_result = Command::new(PYTHON)
         .args(["-m", "netops.core.vault", "set", "--format", "json"])
         .stdin(std::process::Stdio::piped())
         .stdout(std::process::Stdio::piped())
@@ -1472,7 +1478,7 @@ pub async fn vault_delete(id: String) -> Result<(), String> {
         return Err("Credential id must not be empty".into());
     }
 
-    let output = Command::new("python3")
+    let output = Command::new(PYTHON)
         .args([
             "-m",
             "netops.core.vault",
@@ -1506,7 +1512,7 @@ pub async fn vault_resolve(hostname: String) -> Result<VaultResolveResult, Strin
         return Err("Hostname must not be empty".into());
     }
 
-    let output = Command::new("python3")
+    let output = Command::new(PYTHON)
         .args([
             "-m",
             "netops.core.vault",
@@ -1723,7 +1729,7 @@ pub async fn export_ansible_inventory(
         }
     }
 
-    let output = Command::new("python3")
+    let output = Command::new(PYTHON)
         .args(&args)
         .output()
         .await;
@@ -1775,7 +1781,7 @@ pub async fn generate_playbook(
         }
     }
 
-    let output = Command::new("python3")
+    let output = Command::new(PYTHON)
         .args(&args)
         .output()
         .await;
@@ -1798,7 +1804,7 @@ pub async fn generate_playbook(
 /// Falls back to mock templates when the sidecar is unavailable.
 #[tauri::command]
 pub async fn list_playbook_templates() -> Result<Vec<PlaybookTemplate>, String> {
-    let output = Command::new("python3")
+    let output = Command::new(PYTHON)
         .args([
             "-m",
             "netops.playbooks.generator",
