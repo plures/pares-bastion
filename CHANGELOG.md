@@ -1,3 +1,7 @@
+## [0.12.0] — 2026-03-28
+
+- feat: pares-bastion — infrastructure operations platform (4bbed70)
+
 ## [0.11.0] — 2026-03-28
 
 - feat: add tests (33 passing), admin guide, vitest setup (63b58de)
