@@ -1,0 +1,28 @@
+name: "Copilot Setup Steps"
+on: workflow_dispatch
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install system dependencies (Tauri/GTK)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libgtk-3-dev libwebkit2gtk-4.1-dev \
+            libayatana-appindicator3-dev librsvg2-dev \
+            libjavascriptcoregtk-4.1-dev libsoup-3.0-dev
+
+      - name: Install Node dependencies
+        run: npm install
+
+      - name: Verify setup
+        run: |
+          npx svelte-kit sync || echo "svelte-kit sync skipped (no routes yet)"
+          echo "Setup OK"

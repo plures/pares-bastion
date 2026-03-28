@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="540" viewBox="0 0 900 540">
+  <defs>
+    <style>
+      .bg { fill: #1a1b26; }
+      .sidebar-bg { fill: #16161e; }
+      .card { fill: #24283b; rx: 8; }
+      .title { font: bold 18px 'Segoe UI', system-ui; fill: #c0caf5; }
+      .subtitle { font: 13px 'Segoe UI', system-ui; fill: #565f89; }
+      .nav-active { font: bold 14px 'Segoe UI', system-ui; fill: #7aa2f7; }
+      .label { font: 13px 'Segoe UI', system-ui; fill: #a9b1d6; }
+      .value { font: 13px 'SF Mono', monospace; fill: #c0caf5; }
+      .card-title { font: bold 14px 'Segoe UI', system-ui; fill: #c0caf5; }
+      .divider { stroke: #292e42; stroke-width: 1; }
+      .active-indicator { fill: #7aa2f7; }
+      .card-hover { fill: #292e42; rx: 4; }
+      .header { font: bold 12px 'SF Mono', monospace; fill: #7aa2f7; }
+      .cell { font: 13px 'SF Mono', monospace; fill: #a9b1d6; }
+      .badge-green { fill: #9ece6a; }
+      .badge-yellow { fill: #e0af68; }
+      .badge-red { fill: #f7768e; }
+      .badge-text { font: bold 11px 'Segoe UI', system-ui; fill: #1a1b26; }
+      .tab-active { fill: #7aa2f7; }
+      .tab-inactive { fill: #292e42; }
+      .tab-text-active { font: bold 12px 'Segoe UI', system-ui; fill: #1a1b26; }
+      .tab-text { font: 12px 'Segoe UI', system-ui; fill: #a9b1d6; }
+      .text-green { font: 13px 'SF Mono', monospace; fill: #9ece6a; }
+      .text-yellow { font: 13px 'SF Mono', monospace; fill: #e0af68; }
+      .progress-bg { fill: #1a1b26; rx: 3; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="900" height="540"/>
+
+  <!-- Sidebar -->
+  <rect class="sidebar-bg" x="0" y="0" width="200" height="540"/>
+  <text x="24" y="36" class="title">🌐 netops</text>
+  <line x1="0" y1="64" x2="200" y2="64" class="divider"/>
+
+  <text x="40" y="93" font-size="14" fill="#565f89" font-family="Segoe UI, system-ui">📊 Dashboard</text>
+  <text x="40" y="125" font-size="14" fill="#a9b1d6" font-family="Segoe UI, system-ui">📦 Inventory</text>
+  <text x="40" y="157" font-size="14" fill="#a9b1d6" font-family="Segoe UI, system-ui">🔍 Scan</text>
+  <text x="40" y="189" font-size="14" fill="#a9b1d6" font-family="Segoe UI, system-ui">📝 Configs</text>
+  <text x="40" y="221" font-size="14" fill="#a9b1d6" font-family="Segoe UI, system-ui">💓 Health</text>
+
+  <!-- Breadcrumb -->
+  <text x="224" y="30" class="subtitle">Inventory › core-rtr-02</text>
+  <text x="224" y="52" class="title">core-rtr-02</text>
+  <rect class="badge-yellow" x="400" y="38" width="68" height="20" rx="10"/>
+  <text x="412" y="52" class="badge-text">Warning</text>
+
+  <!-- Device info cards -->
+  <rect class="card" x="224" y="66" width="220" height="80"/>
+  <text x="240" y="88" class="subtitle">Hostname</text>
+  <text x="240" y="108" class="value">core-rtr-02</text>
+  <text x="240" y="128" class="subtitle">10.0.0.2 • NYC-DC1</text>
+
+  <rect class="card" x="456" y="66" width="180" height="80"/>
+  <text x="472" y="88" class="subtitle">Vendor / Model</text>
+  <text x="472" y="108" class="value">Cisco ASR1001-X</text>
+  <text x="472" y="128" class="subtitle">IOS-XE 16.9.4</text>
+
+  <rect class="card" x="648" y="66" width="240" height="80"/>
+  <text x="664" y="88" class="subtitle">Health Summary</text>
+  <text x="664" y="108" class="label">CPU:</text>
+  <rect class="progress-bg" x="700" y="97" width="120" height="14"/>
+  <rect fill="#e0af68" x="700" y="97" width="94" height="14" rx="3"/>
+  <text x="828" y="108" class="text-yellow">78%</text>
+  <text x="664" y="128" class="label">Mem:</text>
+  <rect class="progress-bg" x="700" y="117" width="120" height="14"/>
+  <rect fill="#f7768e" x="700" y="117" width="102" height="14" rx="3"/>
+  <text x="828" y="128" font-size="13" fill="#f7768e" font-family="SF Mono, monospace">85%</text>
+
+  <!-- Tabs -->
+  <rect class="tab-active" x="224" y="160" width="90" height="28" rx="4"/>
+  <text x="242" y="179" class="tab-text-active">Interfaces</text>
+  <rect class="tab-inactive" x="320" y="160" width="70" height="28" rx="4"/>
+  <text x="336" y="179" class="tab-text">Health</text>
+  <rect class="tab-inactive" x="396" y="160" width="54" height="28" rx="4"/>
+  <text x="410" y="179" class="tab-text">BGP</text>
+  <rect class="tab-inactive" x="456" y="160" width="70" height="28" rx="4"/>
+  <text x="470" y="179" class="tab-text">Config</text>
+
+  <!-- Interfaces table -->
+  <rect class="card" x="224" y="196" width="662" height="330"/>
+
+  <text x="248" y="224" class="header">Interface</text>
+  <text x="380" y="224" class="header">Status</text>
+  <text x="460" y="224" class="header">Speed</text>
+  <text x="540" y="224" class="header">IP Address</text>
+  <text x="680" y="224" class="header">Description</text>
+  <line x1="248" y1="232" x2="862" y2="232" class="divider"/>
+
+  <text x="248" y="254" class="cell">Gi0/0/0</text>
+  <rect class="badge-green" x="380" y="242" width="40" height="18" rx="9"/>
+  <text x="389" y="255" class="badge-text">Up</text>
+  <text x="460" y="254" class="cell">10Gbps</text>
+  <text x="540" y="254" class="cell">10.0.0.2/30</text>
+  <text x="680" y="254" class="cell">Uplink to spine-01</text>
+
+  <text x="248" y="280" class="cell">Gi0/0/1</text>
+  <rect class="badge-yellow" x="380" y="268" width="40" height="18" rx="9"/>
+  <text x="386" y="281" class="badge-text">Err</text>
+  <text x="460" y="280" class="cell">10Gbps</text>
+  <text x="540" y="280" class="cell">10.0.0.6/30</text>
+  <text x="680" y="280" class="cell">Uplink to spine-02</text>
+
+  <text x="248" y="306" class="cell">Gi0/0/2</text>
+  <rect class="badge-green" x="380" y="294" width="40" height="18" rx="9"/>
+  <text x="389" y="307" class="badge-text">Up</text>
+  <text x="460" y="306" class="cell">1Gbps</text>
+  <text x="540" y="306" class="cell">10.0.10.1/24</text>
+  <text x="680" y="306" class="cell">Management VLAN</text>
+
+  <text x="248" y="332" class="cell">Gi0/0/3</text>
+  <rect fill="#565f89" x="380" y="320" width="50" height="18" rx="9"/>
+  <text x="386" y="333" class="badge-text">Down</text>
+  <text x="460" y="332" class="cell">1Gbps</text>
+  <text x="540" y="332" class="cell">—</text>
+  <text x="680" y="332" class="cell">Unused</text>
+
+  <text x="248" y="358" class="cell">Lo0</text>
+  <rect class="badge-green" x="380" y="346" width="40" height="18" rx="9"/>
+  <text x="389" y="359" class="badge-text">Up</text>
+  <text x="460" y="358" class="cell">—</text>
+  <text x="540" y="358" class="cell">10.255.0.2/32</text>
+  <text x="680" y="358" class="cell">Router ID</text>
+
+  <text x="248" y="384" class="cell">Tu100</text>
+  <rect class="badge-green" x="380" y="372" width="40" height="18" rx="9"/>
+  <text x="389" y="385" class="badge-text">Up</text>
+  <text x="460" y="384" class="cell">—</text>
+  <text x="540" y="384" class="cell">172.16.0.2/30</text>
+  <text x="680" y="384" class="cell">GRE to edge-rtr-01</text>
+
+  <!-- Interface errors detail -->
+  <line x1="248" y1="404" x2="862" y2="404" class="divider"/>
+  <text x="248" y="424" class="card-title">⚠️ Interface Errors — Gi0/0/1</text>
+  <text x="248" y="448" class="label">CRC Errors:</text>
+  <text x="380" y="448" font-size="13" fill="#f7768e" font-family="SF Mono, monospace">12</text>
+  <text x="440" y="448" class="label">Input Errors:</text>
+  <text x="560" y="448" font-size="13" fill="#f7768e" font-family="SF Mono, monospace">45</text>
+  <text x="620" y="448" class="label">Output Errors:</text>
+  <text x="750" y="448" font-size="13" fill="#e0af68" font-family="SF Mono, monospace">3</text>
+
+  <text x="248" y="472" class="label">Recommendation: Check cabling and SFP on Gi0/0/1. CRC errors suggest physical layer issue.</text>
+
+  <!-- Back button -->
+  <rect fill="#292e42" x="248" y="490" width="100" height="28" rx="4"/>
+  <text x="264" y="509" font-size="12" fill="#a9b1d6" font-family="Segoe UI, system-ui">← Back to list</text>
+</svg>

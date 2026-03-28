@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="400" viewBox="0 0 820 400">
+  <defs>
+    <style>
+      .term-bg { fill: #0d1117; }
+      .term-text { font: 13px 'SF Mono', 'Cascadia Code', monospace; fill: #c9d1d9; }
+      .term-dim { font: 13px 'SF Mono', 'Cascadia Code', monospace; fill: #484f58; }
+      .term-blue { font: 13px 'SF Mono', 'Cascadia Code', monospace; fill: #58a6ff; }
+      .term-green { font: 13px 'SF Mono', 'Cascadia Code', monospace; fill: #56d364; }
+      .term-yellow { font: 13px 'SF Mono', 'Cascadia Code', monospace; fill: #e3b341; }
+      .term-red { font: 13px 'SF Mono', 'Cascadia Code', monospace; fill: #f85149; }
+      .term-cyan { font: 13px 'SF Mono', 'Cascadia Code', monospace; fill: #79c0ff; }
+      .term-bold { font: bold 13px 'SF Mono', 'Cascadia Code', monospace; fill: #f0f6fc; }
+      .term-header { font: bold 13px 'SF Mono', 'Cascadia Code', monospace; fill: #58a6ff; }
+      .selected { fill: #1f2937; }
+      .status-bg { fill: #161b22; }
+    </style>
+  </defs>
+
+  <rect class="term-bg" width="820" height="400"/>
+
+  <!-- Title -->
+  <rect fill="#161b22" x="0" y="0" width="820" height="22"/>
+  <text x="8" y="16" class="term-dim">┌─ netops-toolkit ─ Scan Runner ───────────────────────────────────────────────────┐</text>
+
+  <!-- Scan config -->
+  <text x="8" y="42" class="term-header">  SCAN CONFIGURATION</text>
+  <text x="8" y="62" class="term-text">  Subnet:  </text>
+  <text x="88" y="62" class="term-cyan">10.0.0.0/24</text>
+  <text x="230" y="62" class="term-text">User: </text>
+  <text x="280" y="62" class="term-cyan">admin</text>
+  <text x="370" y="62" class="term-text">Concurrency: </text>
+  <text x="490" y="62" class="term-cyan">10</text>
+  <text x="530" y="62" class="term-text">Deep: </text>
+  <text x="578" y="62" class="term-green">yes</text>
+
+  <!-- Progress -->
+  <text x="8" y="90" class="term-dim">  ════════════════════════════════════════════════════════════════════════════</text>
+  <text x="8" y="110" class="term-header">  PROGRESS</text>
+  <text x="8" y="130" class="term-text">  [</text>
+  <text x="28" y="130" class="term-blue">██████████████████████████████████████████████</text>
+  <text x="418" y="130" class="term-dim">░░░░░░░░░░░░░░░░░░░░░</text>
+  <text x="604" y="130" class="term-text">] </text>
+  <text x="620" y="130" class="term-bold">68%</text>
+
+  <text x="8" y="150" class="term-text">  Scanned: </text>
+  <text x="104" y="150" class="term-cyan">164</text>
+  <text x="132" y="150" class="term-text">/242   Elapsed: </text>
+  <text x="266" y="150" class="term-cyan">2m34s</text>
+  <text x="318" y="150" class="term-text">   ETA: </text>
+  <text x="370" y="150" class="term-cyan">~1m12s</text>
+  <text x="430" y="150" class="term-text">   Found: </text>
+  <text x="506" y="150" class="term-green">18 devices</text>
+
+  <!-- Live results -->
+  <text x="8" y="178" class="term-dim">  ════════════════════════════════════════════════════════════════════════════</text>
+  <text x="8" y="198" class="term-header">  LIVE RESULTS</text>
+
+  <text x="8" y="218" class="term-blue">  Name            Host          Vendor      Model           Status</text>
+  <text x="8" y="234" class="term-dim">  ───────────────────────────────────────────────────────────────────────────</text>
+
+  <text x="8" y="250" class="term-cyan">  core-rtr-01    </text>
+  <text x="140" y="250" class="term-text">10.0.0.1      </text>
+  <text x="270" y="250" class="term-text">cisco_ios   </text>
+  <text x="382" y="250" class="term-text">ASR1001-X       </text>
+  <text x="530" y="250" class="term-green">✓ OK</text>
+
+  <text x="8" y="266" class="term-cyan">  core-rtr-02    </text>
+  <text x="140" y="266" class="term-text">10.0.0.2      </text>
+  <text x="270" y="266" class="term-text">cisco_ios   </text>
+  <text x="382" y="266" class="term-text">ASR1001-X       </text>
+  <text x="530" y="266" class="term-green">✓ OK</text>
+
+  <text x="8" y="282" class="term-cyan">  edge-rtr-01    </text>
+  <text x="140" y="282" class="term-text">10.0.1.1      </text>
+  <text x="270" y="282" class="term-text">nokia_sros  </text>
+  <text x="382" y="282" class="term-text">7750 SR-12      </text>
+  <text x="530" y="282" class="term-green">✓ OK</text>
+
+  <text x="8" y="298" class="term-cyan">  dist-sw-01     </text>
+  <text x="140" y="298" class="term-text">10.0.2.1      </text>
+  <text x="270" y="298" class="term-text">arista_eos  </text>
+  <text x="382" y="298" class="term-text">7280R3          </text>
+  <text x="530" y="298" class="term-green">✓ OK</text>
+
+  <text x="8" y="314" class="term-cyan">  access-sw-01   </text>
+  <text x="140" y="314" class="term-text">10.0.3.1      </text>
+  <text x="270" y="314" class="term-text">cisco_ios   </text>
+  <text x="382" y="314" class="term-text">C9300-48T       </text>
+  <text x="530" y="314" class="term-yellow">⟳ scanning...</text>
+
+  <text x="8" y="330" class="term-dim">  ⋮ 13 more discovered devices above</text>
+
+  <!-- Vendor summary -->
+  <text x="8" y="358" class="term-text">  Vendors: </text>
+  <text x="96" y="358" class="term-blue">[Cisco:8]</text>
+  <text x="186" y="358" class="term-text"> </text>
+  <text x="194" y="358" font-size="13" fill="#a371f7" font-family="SF Mono, Cascadia Code, monospace">[Nokia:6]</text>
+  <text x="284" y="358" class="term-text"> </text>
+  <text x="292" y="358" class="term-green">[Arista:4]</text>
+
+  <!-- Status bar -->
+  <rect class="status-bg" x="0" y="380" width="820" height="20"/>
+  <text x="8" y="396" class="term-dim">Scanning 10.0.0.0/24 │ 164/242 (68%) │ Ctrl+C:stop  q:quit</text>
+</svg>

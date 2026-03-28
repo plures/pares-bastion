@@ -1,0 +1,170 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520">
+  <defs>
+    <style>
+      .bg { fill: #1a1b26; }
+      .sidebar-bg { fill: #16161e; }
+      .card { fill: #24283b; rx: 8; }
+      .title { font: bold 18px 'Segoe UI', system-ui; fill: #c0caf5; }
+      .subtitle { font: 13px 'Segoe UI', system-ui; fill: #565f89; }
+      .nav-active { font: bold 14px 'Segoe UI', system-ui; fill: #7aa2f7; }
+      .card-title { font: bold 14px 'Segoe UI', system-ui; fill: #c0caf5; }
+      .divider { stroke: #292e42; stroke-width: 1; }
+      .active-indicator { fill: #7aa2f7; }
+      .card-hover { fill: #292e42; rx: 4; }
+      .header { font: bold 12px 'SF Mono', monospace; fill: #7aa2f7; }
+      .cell { font: 13px 'SF Mono', monospace; fill: #a9b1d6; }
+      .label { font: 13px 'Segoe UI', system-ui; fill: #a9b1d6; }
+      .value { font: 13px 'SF Mono', monospace; fill: #c0caf5; }
+      .search-bg { fill: #1a1b26; stroke: #3b4261; rx: 4; }
+      .search-text { font: 13px 'SF Mono', monospace; fill: #565f89; }
+      .btn-primary { fill: #7aa2f7; rx: 4; }
+      .btn-text { font: bold 12px 'Segoe UI', system-ui; fill: #1a1b26; }
+      .btn-secondary { fill: #292e42; rx: 4; }
+      .selected-row { fill: #283457; }
+      .badge-green { fill: #9ece6a; }
+      .badge-yellow { fill: #e0af68; }
+      .badge-neutral { fill: #565f89; }
+      .badge-text { font: bold 11px 'Segoe UI', system-ui; fill: #1a1b26; }
+      .status-bar { fill: #16161e; }
+      .status-text { font: 12px 'SF Mono', monospace; fill: #565f89; }
+      .resolve-bg { fill: #1f2233; rx: 8; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="900" height="520"/>
+
+  <!-- Sidebar -->
+  <rect class="sidebar-bg" x="0" y="0" width="200" height="520"/>
+  <text x="24" y="36" class="title">🌐 netops</text>
+  <line x1="0" y1="64" x2="200" y2="64" class="divider"/>
+
+  <text x="40" y="93" font-size="14" fill="#565f89" font-family="Segoe UI, system-ui">📊 Dashboard</text>
+  <text x="40" y="125" font-size="14" fill="#a9b1d6" font-family="Segoe UI, system-ui">📦 Inventory</text>
+  <text x="40" y="157" font-size="14" fill="#a9b1d6" font-family="Segoe UI, system-ui">🔍 Scan</text>
+  <text x="40" y="189" font-size="14" fill="#a9b1d6" font-family="Segoe UI, system-ui">📝 Configs</text>
+  <text x="40" y="221" font-size="14" fill="#a9b1d6" font-family="Segoe UI, system-ui">💓 Health</text>
+
+  <rect class="active-indicator" x="0" y="232" width="3" height="32" rx="1"/>
+  <rect class="card-hover" x="4" y="232" width="192" height="32" rx="4"/>
+  <text x="40" y="253" class="nav-active">🔐 Vault</text>
+
+  <!-- Main content — Credential list view -->
+  <text x="224" y="44" class="title">Credential Vault</text>
+
+  <!-- Toolbar -->
+  <rect class="search-bg" x="224" y="56" width="200" height="24"/>
+  <text x="236" y="73" class="search-text">🔍 Search credentials...</text>
+
+  <rect class="btn-primary" x="440" y="56" width="130" height="24" rx="4"/>
+  <text x="456" y="73" class="btn-text">＋ Add Credential</text>
+
+  <rect class="btn-secondary" x="582" y="56" width="90" height="24" rx="4"/>
+  <text x="596" y="73" font-size="12" fill="#a9b1d6" font-family="Segoe UI, system-ui">🔎 Resolve</text>
+
+  <rect class="btn-secondary" x="684" y="56" width="80" height="24" rx="4"/>
+  <text x="700" y="73" font-size="12" fill="#a9b1d6" font-family="Segoe UI, system-ui">🔒 Lock</text>
+
+  <!-- Table header -->
+  <rect fill="#1a1b26" x="224" y="92" width="662" height="24"/>
+  <text x="232" y="109" class="header">Scope</text>
+  <text x="320" y="109" class="header">Target</text>
+  <text x="490" y="109" class="header">Username</text>
+  <text x="600" y="109" class="header">Auth</text>
+  <text x="690" y="109" class="header">Enable</text>
+  <text x="780" y="109" class="header">Actions</text>
+  <line x1="224" y1="116" x2="886" y2="116" class="divider"/>
+
+  <!-- Row 1: default -->
+  <rect class="badge-neutral" x="232" y="124" width="60" height="18" rx="9"/>
+  <text x="244" y="137" class="badge-text">default</text>
+  <text x="320" y="137" class="cell">(any)</text>
+  <text x="490" y="137" class="cell">admin</text>
+  <rect class="badge-neutral" x="600" y="124" width="68" height="18" rx="9"/>
+  <text x="610" y="137" class="badge-text">password</text>
+  <text x="690" y="137" font-size="13" fill="#9ece6a" font-family="SF Mono, monospace">yes</text>
+  <text x="780" y="137" font-size="12" fill="#565f89" font-family="SF Mono, monospace">✏️ 🗑</text>
+
+  <!-- Row 2: group (selected) -->
+  <rect class="selected-row" x="224" y="146" width="662" height="26"/>
+  <rect class="badge-yellow" x="232" y="150" width="52" height="18" rx="9"/>
+  <text x="243" y="163" class="badge-text">group</text>
+  <text x="320" y="163" class="value">10.0.1.*</text>
+  <text x="490" y="163" class="value">netops</text>
+  <rect class="badge-neutral" x="600" y="150" width="68" height="18" rx="9"/>
+  <text x="610" y="163" class="badge-text">password</text>
+  <text x="690" y="163" class="cell">no</text>
+  <text x="780" y="163" font-size="12" fill="#565f89" font-family="SF Mono, monospace">✏️ 🗑</text>
+
+  <!-- Row 3: group -->
+  <rect class="badge-yellow" x="232" y="178" width="52" height="18" rx="9"/>
+  <text x="243" y="191" class="badge-text">group</text>
+  <text x="320" y="191" class="cell">core-*</text>
+  <text x="490" y="191" class="cell">svcacct</text>
+  <rect class="badge-green" x="600" y="178" width="44" height="18" rx="9"/>
+  <text x="612" y="191" class="badge-text">key</text>
+  <text x="690" y="191" font-size="13" fill="#9ece6a" font-family="SF Mono, monospace">yes</text>
+  <text x="780" y="191" font-size="12" fill="#565f89" font-family="SF Mono, monospace">✏️ 🗑</text>
+
+  <!-- Row 4: device -->
+  <rect class="badge-green" x="232" y="204" width="56" height="18" rx="9"/>
+  <text x="242" y="217" class="badge-text">device</text>
+  <text x="320" y="217" class="cell">core-rtr-01</text>
+  <text x="490" y="217" class="cell">admin</text>
+  <rect class="badge-neutral" x="600" y="204" width="68" height="18" rx="9"/>
+  <text x="610" y="217" class="badge-text">password</text>
+  <text x="690" y="217" font-size="13" fill="#9ece6a" font-family="SF Mono, monospace">yes</text>
+  <text x="780" y="217" font-size="12" fill="#565f89" font-family="SF Mono, monospace">✏️ 🗑</text>
+
+  <!-- Resolution hierarchy diagram -->
+  <rect class="card" x="224" y="250" width="662" height="120"/>
+  <text x="248" y="278" class="card-title">🔎 Credential Resolution Preview</text>
+  <text x="248" y="298" class="subtitle">Resolution order: device → group → default (most specific wins)</text>
+  <line x1="248" y1="308" x2="862" y2="308" class="divider"/>
+
+  <text x="248" y="332" class="label">Hostname:</text>
+  <rect class="search-bg" x="330" y="318" width="180" height="24"/>
+  <text x="342" y="335" class="value">core-rtr-01</text>
+
+  <rect class="btn-primary" x="520" y="318" width="80" height="24" rx="4"/>
+  <text x="540" y="335" class="btn-text">Resolve</text>
+
+  <rect class="resolve-bg" x="620" y="270" width="256" height="90"/>
+  <text x="636" y="294" class="card-title">✓ Resolved</text>
+  <text x="636" y="314" class="label">Scope:</text>
+  <rect class="badge-green" x="696" y="302" width="56" height="16" rx="8"/>
+  <text x="706" y="314" class="badge-text">device</text>
+  <text x="636" y="334" class="label">User: </text>
+  <text x="680" y="334" class="value">admin</text>
+  <text x="740" y="334" class="label">Auth: </text>
+  <text x="780" y="334" class="value">password</text>
+  <text x="636" y="350" class="subtitle">Device-specific credential matched for "core-rtr-01"</text>
+
+  <!-- Add credential form (collapsed / preview) -->
+  <rect class="card" x="224" y="384" width="662" height="120"/>
+  <text x="248" y="412" class="card-title">✏️ Edit Credential — group: 10.0.1.*</text>
+  <line x1="248" y1="422" x2="862" y2="422" class="divider"/>
+
+  <text x="248" y="446" class="label">Scope</text>
+  <rect class="search-bg" x="248" y="452" width="100" height="24"/>
+  <text x="260" y="469" class="value">group ▾</text>
+
+  <text x="364" y="446" class="label">Target</text>
+  <rect class="search-bg" x="364" y="452" width="160" height="24"/>
+  <text x="376" y="469" class="value">10.0.1.*</text>
+
+  <text x="540" y="446" class="label">Username</text>
+  <rect class="search-bg" x="540" y="452" width="120" height="24"/>
+  <text x="552" y="469" class="value">netops</text>
+
+  <text x="676" y="446" class="label">Auth</text>
+  <rect class="search-bg" x="676" y="452" width="100" height="24"/>
+  <text x="688" y="469" class="value">password ▾</text>
+
+  <rect class="btn-primary" x="248" y="486" width="80" height="24" rx="4"/>
+  <text x="264" y="503" class="btn-text">Update</text>
+  <rect class="btn-secondary" x="340" y="486" width="70" height="24" rx="4"/>
+  <text x="356" y="503" font-size="12" fill="#a9b1d6" font-family="Segoe UI, system-ui">Cancel</text>
+
+  <!-- Status bar -->
+  <rect class="status-bar" x="200" y="496" width="700" height="24" style="display:none"/>
+</svg>

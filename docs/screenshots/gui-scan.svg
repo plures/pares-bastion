@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520">
+  <defs>
+    <style>
+      .bg { fill: #1a1b26; }
+      .sidebar-bg { fill: #16161e; }
+      .card { fill: #24283b; rx: 8; }
+      .title { font: bold 18px 'Segoe UI', system-ui; fill: #c0caf5; }
+      .subtitle { font: 13px 'Segoe UI', system-ui; fill: #565f89; }
+      .nav-active { font: bold 14px 'Segoe UI', system-ui; fill: #7aa2f7; }
+      .label { font: 13px 'Segoe UI', system-ui; fill: #a9b1d6; }
+      .value { font: 13px 'SF Mono', monospace; fill: #c0caf5; }
+      .input-bg { fill: #1a1b26; stroke: #3b4261; rx: 4; }
+      .input-text { font: 13px 'SF Mono', monospace; fill: #c0caf5; }
+      .btn-primary { fill: #7aa2f7; rx: 4; }
+      .btn-text { font: bold 13px 'Segoe UI', system-ui; fill: #1a1b26; }
+      .btn-secondary { fill: #292e42; rx: 4; }
+      .btn-sec-text { font: 13px 'Segoe UI', system-ui; fill: #a9b1d6; }
+      .progress-bg { fill: #1a1b26; rx: 4; }
+      .progress-fill { fill: #7aa2f7; rx: 4; }
+      .progress-text { font: bold 13px 'SF Mono', monospace; fill: #c0caf5; }
+      .stat-value { font: bold 20px 'Segoe UI', system-ui; fill: #c0caf5; }
+      .card-title { font: bold 14px 'Segoe UI', system-ui; fill: #c0caf5; }
+      .divider { stroke: #292e42; stroke-width: 1; }
+      .active-indicator { fill: #7aa2f7; }
+      .card-hover { fill: #292e42; rx: 4; }
+      .cell { font: 13px 'SF Mono', monospace; fill: #a9b1d6; }
+      .badge-green { fill: #9ece6a; }
+      .badge-yellow { fill: #e0af68; }
+      .badge-blue { fill: #7aa2f7; }
+      .badge-text { font: bold 11px 'Segoe UI', system-ui; fill: #1a1b26; }
+      .text-green { font: bold 12px 'SF Mono', monospace; fill: #9ece6a; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="900" height="520"/>
+
+  <!-- Sidebar -->
+  <rect class="sidebar-bg" x="0" y="0" width="200" height="520"/>
+  <text x="24" y="36" class="title">🌐 netops</text>
+  <line x1="0" y1="64" x2="200" y2="64" class="divider"/>
+
+  <text x="40" y="93" font-size="14" fill="#565f89" font-family="Segoe UI, system-ui">📊 Dashboard</text>
+  <text x="40" y="125" font-size="14" fill="#a9b1d6" font-family="Segoe UI, system-ui">📦 Inventory</text>
+
+  <rect class="active-indicator" x="0" y="136" width="3" height="32" rx="1"/>
+  <rect class="card-hover" x="4" y="136" width="192" height="32" rx="4"/>
+  <text x="40" y="157" class="nav-active">🔍 Scan</text>
+
+  <text x="40" y="189" font-size="14" fill="#a9b1d6" font-family="Segoe UI, system-ui">📝 Configs</text>
+  <text x="40" y="221" font-size="14" fill="#a9b1d6" font-family="Segoe UI, system-ui">💓 Health</text>
+
+  <!-- Main content -->
+  <text x="224" y="44" class="title">Scan Runner</text>
+  <text x="224" y="64" class="subtitle">Configure and launch network discovery scans</text>
+
+  <!-- Scan config card -->
+  <rect class="card" x="224" y="80" width="320" height="240"/>
+  <text x="248" y="108" class="card-title">Scan Configuration</text>
+  <line x1="248" y1="118" x2="520" y2="118" class="divider"/>
+
+  <text x="248" y="144" class="label">Subnet / CIDR</text>
+  <rect class="input-bg" x="248" y="150" width="272" height="28"/>
+  <text x="260" y="169" class="input-text">10.0.0.0/24</text>
+
+  <text x="248" y="198" class="label">Username</text>
+  <rect class="input-bg" x="248" y="204" width="130" height="28"/>
+  <text x="260" y="223" class="input-text">admin</text>
+
+  <text x="390" y="198" class="label">Concurrency</text>
+  <rect class="input-bg" x="390" y="204" width="130" height="28"/>
+  <text x="402" y="223" class="input-text">10</text>
+
+  <text x="248" y="256" class="label">☐ Deep Scan (interfaces, BGP, health)</text>
+
+  <rect class="btn-primary" x="248" y="278" width="130" height="32"/>
+  <text x="276" y="299" class="btn-text">🔍 Start Scan</text>
+
+  <rect class="btn-secondary" x="390" y="278" width="130" height="32"/>
+  <text x="414" y="299" class="btn-sec-text">📁 From CSV</text>
+
+  <!-- Progress card (active scan) -->
+  <rect class="card" x="558" y="80" width="328" height="240"/>
+  <text x="582" y="108" class="card-title">Scan Progress</text>
+  <line x1="582" y1="118" x2="862" y2="118" class="divider"/>
+
+  <!-- Progress bar -->
+  <rect class="progress-bg" x="582" y="130" width="280" height="20"/>
+  <rect class="progress-fill" x="582" y="130" width="192" height="20"/>
+  <text x="698" y="145" class="progress-text">68%</text>
+
+  <text x="582" y="170" class="label">Scanned: 164 / 242</text>
+  <text x="582" y="190" class="label">Elapsed: 2m 34s</text>
+  <text x="582" y="210" class="label">ETA: ~1m 12s</text>
+  <text x="582" y="230" class="label">Discovered: 18 devices</text>
+
+  <!-- Vendor summary -->
+  <text x="582" y="260" class="label">Vendors found:</text>
+  <rect class="badge-blue" x="582" y="268" width="65" height="18" rx="9"/>
+  <text x="593" y="281" class="badge-text">Cisco 8</text>
+  <rect fill="#bb9af7" x="655" y="268" width="72" height="18" rx="9"/>
+  <text x="664" y="281" class="badge-text">Nokia 6</text>
+  <rect class="badge-green" x="735" y="268" width="68" height="18" rx="9"/>
+  <text x="744" y="281" class="badge-text">Arista 4</text>
+
+  <rect fill="#f7768e" x="810" y="278" width="52" height="24" rx="4"/>
+  <text x="818" y="294" font-size="11" font-family="Segoe UI, system-ui" fill="#1a1b26" font-weight="bold">Stop</text>
+
+  <!-- Live results table -->
+  <rect class="card" x="224" y="336" width="662" height="172"/>
+  <text x="248" y="364" class="card-title">Live Results</text>
+  <line x1="248" y1="374" x2="862" y2="374" class="divider"/>
+
+  <text x="248" y="394" font-size="11" fill="#7aa2f7" font-family="SF Mono, monospace" font-weight="bold">Name</text>
+  <text x="380" y="394" font-size="11" fill="#7aa2f7" font-family="SF Mono, monospace" font-weight="bold">Host</text>
+  <text x="490" y="394" font-size="11" fill="#7aa2f7" font-family="SF Mono, monospace" font-weight="bold">Vendor</text>
+  <text x="590" y="394" font-size="11" fill="#7aa2f7" font-family="SF Mono, monospace" font-weight="bold">Model</text>
+  <text x="730" y="394" font-size="11" fill="#7aa2f7" font-family="SF Mono, monospace" font-weight="bold">Status</text>
+
+  <text x="248" y="416" class="cell">core-rtr-01</text>
+  <text x="380" y="416" class="cell">10.0.0.1</text>
+  <text x="490" y="416" class="cell">cisco_ios</text>
+  <text x="590" y="416" class="cell">ASR1001-X</text>
+  <text x="730" y="416" class="text-green">✓ OK</text>
+
+  <text x="248" y="438" class="cell">edge-rtr-01</text>
+  <text x="380" y="438" class="cell">10.0.1.1</text>
+  <text x="490" y="438" class="cell">nokia_sros</text>
+  <text x="590" y="438" class="cell">7750 SR-12</text>
+  <text x="730" y="438" class="text-green">✓ OK</text>
+
+  <text x="248" y="460" class="cell">dist-sw-01</text>
+  <text x="380" y="460" class="cell">10.0.2.1</text>
+  <text x="490" y="460" class="cell">arista_eos</text>
+  <text x="590" y="460" class="cell">7280R3</text>
+  <text x="730" y="460" class="text-green">✓ OK</text>
+
+  <text x="248" y="482" class="cell">access-sw-01</text>
+  <text x="380" y="482" class="cell">10.0.3.1</text>
+  <text x="490" y="482" class="cell">cisco_ios</text>
+  <text x="590" y="482" class="cell">C9300-48T</text>
+  <text x="730" y="482" font-size="12" fill="#e0af68" font-family="SF Mono, monospace">⟳ scanning...</text>
+</svg>

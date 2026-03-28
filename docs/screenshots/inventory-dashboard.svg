@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="560" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif">
+  <rect width="900" height="560" fill="#0d1117"/>
+  <!-- Sidebar -->
+  <rect x="0" y="0" width="200" height="560" fill="#161b22"/>
+  <rect x="0" y="0" width="200" height="48" fill="#1c2128"/>
+  <text x="16" y="32" fill="#58a6ff" font-size="16" font-weight="700">netops-toolkit</text>
+  <!-- Nav items -->
+  <rect x="0" y="56" width="200" height="36" fill="#1f6feb" rx="4" opacity="0.2"/>
+  <text x="40" y="80" fill="#58a6ff" font-size="13">󰲔  Inventory</text>
+  <text x="40" y="116" fill="#8b949e" font-size="13">󰑮  Scan Runner</text>
+  <text x="40" y="152" fill="#8b949e" font-size="13">󰢹  Device Detail</text>
+  <text x="40" y="188" fill="#8b949e" font-size="13">󰒓  Settings</text>
+  <!-- Main area -->
+  <text x="220" y="36" fill="#c9d1d9" font-size="18" font-weight="600">Inventory Dashboard</text>
+  <!-- Search bar -->
+  <rect x="220" y="50" width="400" height="32" fill="#161b22" stroke="#30363d" rx="6"/>
+  <text x="232" y="71" fill="#484f58" font-size="13">Search devices...</text>
+  <!-- Filter badges -->
+  <rect x="640" y="50" width="60" height="32" fill="#1f6feb" rx="12" opacity="0.3"/>
+  <text x="650" y="71" fill="#58a6ff" font-size="12">All (487)</text>
+  <rect x="710" y="50" width="72" height="32" fill="#161b22" stroke="#30363d" rx="12"/>
+  <text x="720" y="71" fill="#8b949e" font-size="12">Cisco (312)</text>
+  <rect x="792" y="50" width="72" height="32" fill="#161b22" stroke="#30363d" rx="12"/>
+  <text x="800" y="71" fill="#8b949e" font-size="12">Nokia (143)</text>
+  <!-- Table header -->
+  <rect x="220" y="96" width="660" height="28" fill="#161b22"/>
+  <text x="232" y="115" fill="#8b949e" font-size="12" font-weight="600">Hostname</text>
+  <text x="382" y="115" fill="#8b949e" font-size="12" font-weight="600">IP Address</text>
+  <text x="502" y="115" fill="#8b949e" font-size="12" font-weight="600">Vendor</text>
+  <text x="602" y="115" fill="#8b949e" font-size="12" font-weight="600">Model</text>
+  <text x="742" y="115" fill="#8b949e" font-size="12" font-weight="600">Status</text>
+  <!-- Table rows -->
+  <line x1="220" y1="124" x2="880" y2="124" stroke="#21262d"/>
+  <text x="232" y="146" fill="#c9d1d9" font-size="13">core-rtr-01.sea</text>
+  <text x="382" y="146" fill="#c9d1d9" font-size="13">10.1.0.1</text>
+  <text x="502" y="146" fill="#c9d1d9" font-size="13">Cisco IOS-XR</text>
+  <text x="602" y="146" fill="#c9d1d9" font-size="13">ASR 9006</text>
+  <rect x="742" y="134" width="48" height="18" fill="#238636" rx="9" opacity="0.3"/>
+  <text x="750" y="148" fill="#3fb950" font-size="11">Online</text>
+  <line x1="220" y1="158" x2="880" y2="158" stroke="#21262d"/>
+  <text x="232" y="180" fill="#c9d1d9" font-size="13">pe-rtr-02.lax</text>
+  <text x="382" y="180" fill="#c9d1d9" font-size="13">10.2.0.1</text>
+  <text x="502" y="180" fill="#c9d1d9" font-size="13">Nokia SR OS</text>
+  <text x="602" y="180" fill="#c9d1d9" font-size="13">7750 SR-12</text>
+  <rect x="742" y="168" width="48" height="18" fill="#238636" rx="9" opacity="0.3"/>
+  <text x="750" y="182" fill="#3fb950" font-size="11">Online</text>
+  <line x1="220" y1="192" x2="880" y2="192" stroke="#21262d"/>
+  <text x="232" y="214" fill="#c9d1d9" font-size="13">agg-sw-03.sjc</text>
+  <text x="382" y="214" fill="#c9d1d9" font-size="13">10.3.0.1</text>
+  <text x="502" y="214" fill="#c9d1d9" font-size="13">Arista EOS</text>
+  <text x="602" y="214" fill="#c9d1d9" font-size="13">7280R3</text>
+  <rect x="742" y="202" width="48" height="18" fill="#238636" rx="9" opacity="0.3"/>
+  <text x="750" y="216" fill="#3fb950" font-size="11">Online</text>
+  <line x1="220" y1="226" x2="880" y2="226" stroke="#21262d"/>
+  <text x="232" y="248" fill="#c9d1d9" font-size="13">edge-rtr-04.den</text>
+  <text x="382" y="248" fill="#c9d1d9" font-size="13">10.4.0.1</text>
+  <text x="502" y="248" fill="#c9d1d9" font-size="13">Nokia SR OS</text>
+  <text x="602" y="248" fill="#c9d1d9" font-size="13">7250 IXR-6e</text>
+  <rect x="742" y="236" width="48" height="18" fill="#d29922" rx="9" opacity="0.3"/>
+  <text x="750" y="250" fill="#d29922" font-size="11">Warn</text>
+  <line x1="220" y1="260" x2="880" y2="260" stroke="#21262d"/>
+  <text x="232" y="282" fill="#c9d1d9" font-size="13">dist-sw-05.phx</text>
+  <text x="382" y="282" fill="#c9d1d9" font-size="13">10.5.0.1</text>
+  <text x="502" y="282" fill="#c9d1d9" font-size="13">Cisco IOS</text>
+  <text x="602" y="282" fill="#c9d1d9" font-size="13">C9300-48P</text>
+  <rect x="742" y="270" width="48" height="18" fill="#238636" rx="9" opacity="0.3"/>
+  <text x="750" y="284" fill="#3fb950" font-size="11">Online</text>
+  <line x1="220" y1="294" x2="880" y2="294" stroke="#21262d"/>
+  <text x="232" y="316" fill="#c9d1d9" font-size="13">bng-01.chi</text>
+  <text x="382" y="316" fill="#c9d1d9" font-size="13">10.6.0.1</text>
+  <text x="502" y="316" fill="#c9d1d9" font-size="13">Nokia SR OS</text>
+  <text x="602" y="316" fill="#c9d1d9" font-size="13">7705 SAR-18</text>
+  <rect x="742" y="304" width="48" height="18" fill="#238636" rx="9" opacity="0.3"/>
+  <text x="750" y="318" fill="#3fb950" font-size="11">Online</text>
+  <!-- Status bar -->
+  <rect x="0" y="536" width="900" height="24" fill="#1c2128"/>
+  <text x="8" y="552" fill="#8b949e" font-size="11">487 devices</text>
+  <text x="120" y="552" fill="#3fb950" font-size="11">● 461 online</text>
+  <text x="240" y="552" fill="#d29922" font-size="11">● 19 warning</text>
+  <text x="360" y="552" fill="#f85149" font-size="11">● 7 offline</text>
+  <text x="780" y="552" fill="#8b949e" font-size="11">Last scan: 2m ago</text>
+</svg>

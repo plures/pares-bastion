@@ -1,0 +1,162 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="560" viewBox="0 0 900 560">
+  <defs>
+    <style>
+      .bg { fill: #1a1b26; }
+      .sidebar-bg { fill: #16161e; }
+      .card { fill: #24283b; rx: 8; }
+      .card-hover { fill: #292e42; rx: 8; }
+      .title { font: bold 18px 'Segoe UI', system-ui; fill: #c0caf5; }
+      .subtitle { font: 13px 'Segoe UI', system-ui; fill: #565f89; }
+      .nav-item { font: 14px 'Segoe UI', system-ui; fill: #a9b1d6; }
+      .nav-active { font: bold 14px 'Segoe UI', system-ui; fill: #7aa2f7; }
+      .nav-icon { font: 16px 'Segoe UI', system-ui; fill: #565f89; }
+      .nav-icon-active { font: 16px 'Segoe UI', system-ui; fill: #7aa2f7; }
+      .stat-value { font: bold 28px 'Segoe UI', system-ui; fill: #c0caf5; }
+      .stat-label { font: 12px 'Segoe UI', system-ui; fill: #565f89; }
+      .badge-green { fill: #9ece6a; }
+      .badge-yellow { fill: #e0af68; }
+      .badge-red { fill: #f7768e; }
+      .badge-blue { fill: #7aa2f7; }
+      .text-green { font: bold 12px 'Segoe UI', system-ui; fill: #9ece6a; }
+      .text-yellow { font: bold 12px 'Segoe UI', system-ui; fill: #e0af68; }
+      .text-red { font: bold 12px 'Segoe UI', system-ui; fill: #f7768e; }
+      .card-title { font: bold 14px 'Segoe UI', system-ui; fill: #c0caf5; }
+      .card-text { font: 13px 'Segoe UI', system-ui; fill: #a9b1d6; }
+      .divider { stroke: #292e42; stroke-width: 1; }
+      .active-indicator { fill: #7aa2f7; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect class="bg" width="900" height="560"/>
+
+  <!-- Sidebar -->
+  <rect class="sidebar-bg" x="0" y="0" width="200" height="560"/>
+  <text x="24" y="36" class="title">🌐 netops</text>
+  <text x="24" y="52" class="subtitle">Network Operations</text>
+
+  <line x1="0" y1="64" x2="200" y2="64" class="divider"/>
+
+  <!-- Active indicator -->
+  <rect class="active-indicator" x="0" y="72" width="3" height="32" rx="1"/>
+  <rect class="card-hover" x="4" y="72" width="192" height="32" rx="4"/>
+  <text x="40" y="93" class="nav-icon-active">📊</text>
+  <text x="62" y="93" class="nav-active">Dashboard</text>
+
+  <text x="40" y="125" class="nav-icon">📦</text>
+  <text x="62" y="125" class="nav-item">Inventory</text>
+
+  <text x="40" y="157" class="nav-icon">🔍</text>
+  <text x="62" y="157" class="nav-item">Scan</text>
+
+  <text x="40" y="189" class="nav-icon">📝</text>
+  <text x="62" y="189" class="nav-item">Configs</text>
+
+  <text x="40" y="221" class="nav-icon">💓</text>
+  <text x="62" y="221" class="nav-item">Health</text>
+
+  <line x1="16" y1="500" x2="184" y2="500" class="divider"/>
+  <text x="40" y="524" class="nav-icon">⚙️</text>
+  <text x="62" y="524" class="nav-item">Settings</text>
+
+  <!-- Main content -->
+  <text x="224" y="44" class="title">Dashboard</text>
+  <text x="224" y="64" class="subtitle">Network overview — Last scan: Mar 27, 2026 06:00 UTC</text>
+
+  <!-- Stats row -->
+  <rect class="card" x="224" y="84" width="155" height="80"/>
+  <text x="248" y="128" class="stat-value">24</text>
+  <text x="248" y="148" class="stat-label">Total Devices</text>
+
+  <rect class="card" x="393" y="84" width="155" height="80"/>
+  <text x="417" y="128" class="stat-value">20</text>
+  <circle cx="466" cy="123" r="6" class="badge-green"/>
+  <text x="417" y="148" class="stat-label">Healthy</text>
+
+  <rect class="card" x="562" y="84" width="155" height="80"/>
+  <text x="586" y="128" class="stat-value">3</text>
+  <circle cx="619" cy="123" r="6" class="badge-yellow"/>
+  <text x="586" y="148" class="stat-label">Warning</text>
+
+  <rect class="card" x="731" y="84" width="155" height="80"/>
+  <text x="755" y="128" class="stat-value">1</text>
+  <circle cx="782" cy="123" r="6" class="badge-red"/>
+  <text x="755" y="148" class="stat-label">Critical</text>
+
+  <!-- Vendor breakdown -->
+  <rect class="card" x="224" y="180" width="320" height="160"/>
+  <text x="248" y="208" class="card-title">Vendor Breakdown</text>
+  <line x1="248" y1="218" x2="520" y2="218" class="divider"/>
+
+  <!-- Cisco bar -->
+  <text x="248" y="244" class="card-text">Cisco IOS</text>
+  <rect fill="#7aa2f7" x="340" y="232" width="160" height="16" rx="3"/>
+  <text x="508" y="244" class="card-text">12</text>
+
+  <!-- Nokia bar -->
+  <text x="248" y="272" class="card-text">Nokia SROS</text>
+  <rect fill="#bb9af7" x="340" y="260" width="100" height="16" rx="3"/>
+  <text x="448" y="272" class="card-text">8</text>
+
+  <!-- Arista bar -->
+  <text x="248" y="300" class="card-text">Arista EOS</text>
+  <rect fill="#9ece6a" x="340" y="288" width="53" height="16" rx="3"/>
+  <text x="401" y="300" class="card-text">4</text>
+
+  <!-- Recent alerts -->
+  <rect class="card" x="558" y="180" width="328" height="160"/>
+  <text x="582" y="208" class="card-title">Recent Alerts</text>
+  <line x1="582" y1="218" x2="862" y2="218" class="divider"/>
+
+  <circle cx="594" cy="240" r="5" class="badge-yellow"/>
+  <text x="606" y="244" class="card-text">core-rtr-02 CPU above 75%</text>
+  <text x="606" y="258" class="subtitle">5:58 AM</text>
+
+  <circle cx="594" cy="278" r="5" class="badge-red"/>
+  <text x="606" y="282" class="card-text">dist-sw-03 unreachable</text>
+  <text x="606" y="296" class="subtitle">5:45 AM</text>
+
+  <circle cx="594" cy="316" r="5" class="badge-green"/>
+  <text x="606" y="320" class="card-text">core-rtr-01 BGP neighbor Up</text>
+  <text x="606" y="334" class="subtitle">6:12 AM</text>
+
+  <!-- Quick actions -->
+  <rect class="card" x="224" y="356" width="662" height="80"/>
+  <text x="248" y="384" class="card-title">Quick Actions</text>
+  <line x1="248" y1="394" x2="862" y2="394" class="divider"/>
+
+  <rect fill="#7aa2f7" x="248" y="406" width="120" height="24" rx="4"/>
+  <text x="272" y="423" font-size="12" font-family="Segoe UI, system-ui" fill="#1a1b26" font-weight="bold">🔍 New Scan</text>
+
+  <rect fill="#292e42" x="380" y="406" width="140" height="24" rx="4"/>
+  <text x="400" y="423" font-size="12" font-family="Segoe UI, system-ui" fill="#a9b1d6">📝 Collect Configs</text>
+
+  <rect fill="#292e42" x="532" y="406" width="120" height="24" rx="4"/>
+  <text x="552" y="423" font-size="12" font-family="Segoe UI, system-ui" fill="#a9b1d6">📊 Health Check</text>
+
+  <!-- Top CPU utilization -->
+  <rect class="card" x="224" y="452" width="320" height="100"/>
+  <text x="248" y="480" class="card-title">Top CPU Utilization</text>
+  <line x1="248" y1="490" x2="520" y2="490" class="divider"/>
+
+  <text x="248" y="510" class="card-text">core-rtr-02</text>
+  <rect fill="#e0af68" x="360" y="498" width="114" height="14" rx="3"/>
+  <text x="480" y="510" class="text-yellow">78%</text>
+
+  <text x="248" y="530" class="card-text">dist-sw-01</text>
+  <rect fill="#9ece6a" x="360" y="518" width="62" height="14" rx="3"/>
+  <text x="428" y="530" class="text-green">42%</text>
+
+  <!-- Top Memory -->
+  <rect class="card" x="558" y="452" width="328" height="100"/>
+  <text x="582" y="480" class="card-title">Top Memory Usage</text>
+  <line x1="582" y1="490" x2="862" y2="490" class="divider"/>
+
+  <text x="582" y="510" class="card-text">core-rtr-02</text>
+  <rect fill="#f7768e" x="690" y="498" width="124" height="14" rx="3"/>
+  <text x="820" y="510" class="text-red">85%</text>
+
+  <text x="582" y="530" class="card-text">edge-rtr-01</text>
+  <rect fill="#9ece6a" x="690" y="518" width="87" height="14" rx="3"/>
+  <text x="783" y="530" class="text-green">61%</text>
+</svg>

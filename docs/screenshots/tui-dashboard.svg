@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="440" viewBox="0 0 820 440">
+  <defs>
+    <style>
+      .term-bg { fill: #0d1117; }
+      .term-border { stroke: #30363d; stroke-width: 1; fill: none; }
+      .term-text { font: 13px 'SF Mono', 'Cascadia Code', monospace; fill: #c9d1d9; }
+      .term-dim { font: 13px 'SF Mono', 'Cascadia Code', monospace; fill: #484f58; }
+      .term-blue { font: 13px 'SF Mono', 'Cascadia Code', monospace; fill: #58a6ff; }
+      .term-green { font: 13px 'SF Mono', 'Cascadia Code', monospace; fill: #56d364; }
+      .term-yellow { font: 13px 'SF Mono', 'Cascadia Code', monospace; fill: #e3b341; }
+      .term-red { font: 13px 'SF Mono', 'Cascadia Code', monospace; fill: #f85149; }
+      .term-cyan { font: 13px 'SF Mono', 'Cascadia Code', monospace; fill: #79c0ff; }
+      .term-bold { font: bold 13px 'SF Mono', 'Cascadia Code', monospace; fill: #f0f6fc; }
+      .term-header { font: bold 13px 'SF Mono', 'Cascadia Code', monospace; fill: #58a6ff; }
+      .selected { fill: #1f2937; }
+      .status-bg { fill: #161b22; }
+    </style>
+  </defs>
+
+  <rect class="term-bg" width="820" height="440"/>
+
+  <!-- Title bar -->
+  <rect fill="#161b22" x="0" y="0" width="820" height="22"/>
+  <text x="8" y="16" class="term-dim">┌─ netops-toolkit ─ Dashboard ─────────────────────────────────────────────────────┐</text>
+
+  <!-- Dashboard content -->
+  <text x="8" y="42" class="term-bold">  FLEET STATUS                                        Last scan: 06:00 UTC</text>
+  <text x="8" y="62" class="term-dim">  ════════════════════════════════════════════════════════════════════════════</text>
+
+  <!-- Summary boxes -->
+  <text x="8" y="82" class="term-dim">  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐</text>
+  <text x="8" y="98" class="term-dim">  │</text>
+  <text x="36" y="98" class="term-bold"> Total: 24    </text>
+  <text x="150" y="98" class="term-dim">│ │</text>
+  <text x="178" y="98" class="term-green"> Healthy: 20  </text>
+  <text x="292" y="98" class="term-dim">│ │</text>
+  <text x="320" y="98" class="term-yellow"> Warning: 3   </text>
+  <text x="434" y="98" class="term-dim">│ │</text>
+  <text x="462" y="98" class="term-red"> Critical: 1  </text>
+  <text x="576" y="98" class="term-dim">│</text>
+  <text x="8" y="114" class="term-dim">  └──────────────┘ └──────────────┘ └──────────────┘ └──────────────┘</text>
+
+  <!-- Vendor breakdown -->
+  <text x="8" y="142" class="term-header">  VENDOR BREAKDOWN</text>
+  <text x="8" y="162" class="term-cyan">  Cisco IOS  </text>
+  <text x="140" y="162" class="term-blue">████████████████</text>
+  <text x="280" y="162" class="term-text"> 12</text>
+  <text x="8" y="178" class="term-cyan">  Nokia SROS </text>
+  <text x="140" y="178" class="term-blue">██████████</text>
+  <text x="228" y="178" class="term-text"> 8</text>
+  <text x="8" y="194" class="term-cyan">  Arista EOS </text>
+  <text x="140" y="194" class="term-blue">█████</text>
+  <text x="188" y="194" class="term-text"> 4</text>
+
+  <!-- Recent alerts -->
+  <text x="8" y="222" class="term-header">  RECENT ALERTS</text>
+  <text x="8" y="242" class="term-dim">  06:12</text>
+  <text x="68" y="242" class="term-green"> INFO </text>
+  <text x="120" y="242" class="term-cyan">core-rtr-01</text>
+  <text x="228" y="242" class="term-text">BGP neighbor 10.0.0.2 Up</text>
+  <text x="8" y="258" class="term-dim">  05:58</text>
+  <text x="68" y="258" class="term-yellow"> WARN </text>
+  <text x="120" y="258" class="term-cyan">core-rtr-02</text>
+  <text x="228" y="258" class="term-text">CPU utilization above 75% threshold</text>
+  <text x="8" y="274" class="term-dim">  05:45</text>
+  <text x="68" y="274" class="term-red"> CRIT </text>
+  <text x="120" y="274" class="term-cyan">dist-sw-03</text>
+  <text x="228" y="274" class="term-text">Device unreachable — SSH timeout after 30s</text>
+  <text x="8" y="290" class="term-dim">  05:30</text>
+  <text x="68" y="290" class="term-yellow"> WARN </text>
+  <text x="120" y="290" class="term-cyan">edge-rtr-02</text>
+  <text x="228" y="290" class="term-text">Memory utilization above 70% threshold</text>
+
+  <!-- Top utilization -->
+  <text x="8" y="318" class="term-header">  TOP CPU</text>
+  <text x="280" y="318" class="term-header">TOP MEMORY</text>
+  <text x="8" y="338" class="term-cyan">  core-rtr-02 </text>
+  <text x="140" y="338" class="term-yellow">████████████████</text>
+  <text x="274" y="338" class="term-yellow"> 78%</text>
+  <text x="280" y="338" class="term-cyan">  core-rtr-02 </text>
+  <text x="412" y="338" class="term-red">█████████████████</text>
+  <text x="556" y="338" class="term-red"> 85%</text>
+
+  <text x="8" y="354" class="term-cyan">  dist-sw-01  </text>
+  <text x="140" y="354" class="term-green">████████</text>
+  <text x="210" y="354" class="term-text"> 42%</text>
+  <text x="280" y="354" class="term-cyan">  edge-rtr-01 </text>
+  <text x="412" y="354" class="term-green">████████████</text>
+  <text x="516" y="354" class="term-text"> 61%</text>
+
+  <text x="8" y="370" class="term-cyan">  edge-rtr-01 </text>
+  <text x="140" y="370" class="term-green">███████</text>
+  <text x="200" y="370" class="term-text"> 35%</text>
+  <text x="280" y="370" class="term-cyan">  dist-sw-01  </text>
+  <text x="412" y="370" class="term-green">█████████</text>
+  <text x="488" y="370" class="term-text"> 48%</text>
+
+  <!-- Quick actions -->
+  <text x="8" y="398" class="term-dim">  ─────────────────────────────────────────────────────────────────────────────────</text>
+  <text x="8" y="414" class="term-text">  [s]can  [c]onfigs  [h]ealth  [i]nventory  [q]uit</text>
+
+  <!-- Status bar -->
+  <rect class="status-bg" x="0" y="420" width="820" height="20"/>
+  <text x="8" y="436" class="term-dim">24 devices │ Cisco:12 Nokia:8 Arista:4 │ ↑↓:navigate Tab:switch j/k:scroll q:quit</text>
+</svg>

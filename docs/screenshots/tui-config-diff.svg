@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="420" viewBox="0 0 820 420">
+  <defs>
+    <style>
+      .term-bg { fill: #0d1117; }
+      .term-text { font: 13px 'SF Mono', 'Cascadia Code', monospace; fill: #c9d1d9; }
+      .term-dim { font: 13px 'SF Mono', 'Cascadia Code', monospace; fill: #484f58; }
+      .term-blue { font: 13px 'SF Mono', 'Cascadia Code', monospace; fill: #58a6ff; }
+      .term-green { font: 13px 'SF Mono', 'Cascadia Code', monospace; fill: #56d364; }
+      .term-yellow { font: 13px 'SF Mono', 'Cascadia Code', monospace; fill: #e3b341; }
+      .term-red { font: 13px 'SF Mono', 'Cascadia Code', monospace; fill: #f85149; }
+      .term-cyan { font: 13px 'SF Mono', 'Cascadia Code', monospace; fill: #79c0ff; }
+      .term-bold { font: bold 13px 'SF Mono', 'Cascadia Code', monospace; fill: #f0f6fc; }
+      .term-header { font: bold 13px 'SF Mono', 'Cascadia Code', monospace; fill: #58a6ff; }
+      .selected { fill: #1f2937; }
+      .status-bg { fill: #161b22; }
+      .diff-add { font: 13px 'SF Mono', 'Cascadia Code', monospace; fill: #56d364; }
+      .diff-del { font: 13px 'SF Mono', 'Cascadia Code', monospace; fill: #f85149; }
+      .diff-hdr { font: 13px 'SF Mono', 'Cascadia Code', monospace; fill: #58a6ff; }
+    </style>
+  </defs>
+
+  <rect class="term-bg" width="820" height="420"/>
+
+  <!-- Title -->
+  <rect fill="#161b22" x="0" y="0" width="820" height="22"/>
+  <text x="8" y="16" class="term-dim">┌─ netops-toolkit ─ Config Diff ─ core-rtr-01 v2→v3 ──────────────────────────────┐</text>
+
+  <!-- Split: left versions, right diff -->
+  <text x="8" y="42" class="term-header">  VERSIONS                     │  UNIFIED DIFF: v2 → v3</text>
+  <text x="8" y="58" class="term-dim">  ─────────────────────────────┼──────────────────────────────────────────────────</text>
+
+  <!-- Left: version list -->
+  <rect class="selected" x="8" y="62" width="230" height="18"/>
+  <text x="8" y="76" class="term-bold">  ▸ v3  Mar 26 08:00  4.0KB  </text>
+  <text x="8" y="92" class="term-cyan">    v2  Mar 20 14:30  3.9KB  </text>
+  <text x="8" y="108" class="term-dim">    v1  Mar 10 09:15  3.8KB  </text>
+
+  <text x="8" y="136" class="term-dim">  ─────────────────────────────</text>
+  <text x="8" y="152" class="term-text">  Changes: </text>
+  <text x="104" y="152" class="diff-add">+12</text>
+  <text x="136" y="152" class="diff-del"> -3</text>
+  <text x="164" y="152" class="term-text"> lines</text>
+
+  <text x="8" y="176" class="term-dim">  [d]iff  [r]ollback  [b]ack</text>
+
+  <!-- Right: diff content -->
+  <text x="250" y="76" class="diff-hdr">  @@ -15,6 +15,9 @@ interface Gi0/0/0</text>
+  <text x="250" y="92" class="term-dim">   ip address 10.0.0.2 255.255.255.252</text>
+  <text x="250" y="108" class="term-dim">   no shutdown</text>
+  <text x="250" y="124" class="term-dim">   description Uplink to spine-01</text>
+  <text x="250" y="140" class="diff-add">  +ip access-group MGMT-ACL in</text>
+  <text x="250" y="156" class="diff-add">  +ip access-group MGMT-ACL out</text>
+  <text x="250" y="172" class="term-dim">   !</text>
+
+  <text x="250" y="196" class="diff-hdr">  @@ -42,8 +44,14 @@ router bgp 65001</text>
+  <text x="250" y="212" class="term-dim">   neighbor 10.0.0.1 remote-as 65001</text>
+  <text x="250" y="228" class="diff-del">  -neighbor 10.0.0.1 timers 30 90</text>
+  <text x="250" y="244" class="diff-add">  +neighbor 10.0.0.1 timers 10 30</text>
+  <text x="250" y="260" class="diff-add">  +neighbor 10.0.0.1 password 7 encrypted</text>
+  <text x="250" y="276" class="term-dim">   neighbor 10.0.0.1 update-source Lo0</text>
+
+  <text x="250" y="300" class="diff-hdr">  @@ -68,3 +76,8 @@ line vty 0 4</text>
+  <text x="250" y="316" class="diff-del">  -transport input telnet ssh</text>
+  <text x="250" y="332" class="diff-add">  +transport input ssh</text>
+  <text x="250" y="348" class="diff-add">  +logging buffered 32768 informational</text>
+  <text x="250" y="364" class="diff-add">  +ntp server 10.0.100.1 prefer</text>
+  <text x="250" y="380" class="diff-add">  +ntp server 10.0.100.2</text>
+
+  <!-- Status bar -->
+  <rect class="status-bg" x="0" y="400" width="820" height="20"/>
+  <text x="8" y="416" class="term-dim">core-rtr-01 │ v2 → v3 │ +12 -3 │ j/k:scroll  d:diff  r:rollback  b:back  q:quit</text>
+</svg>

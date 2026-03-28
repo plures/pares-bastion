@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520">
+  <defs>
+    <style>
+      .bg { fill: #1a1b26; }
+      .sidebar-bg { fill: #16161e; }
+      .card { fill: #24283b; rx: 8; }
+      .title { font: bold 18px 'Segoe UI', system-ui; fill: #c0caf5; }
+      .subtitle { font: 13px 'Segoe UI', system-ui; fill: #565f89; }
+      .nav-active { font: bold 14px 'Segoe UI', system-ui; fill: #7aa2f7; }
+      .card-title { font: bold 14px 'Segoe UI', system-ui; fill: #c0caf5; }
+      .divider { stroke: #292e42; stroke-width: 1; }
+      .active-indicator { fill: #7aa2f7; }
+      .card-hover { fill: #292e42; rx: 4; }
+      .header { font: bold 12px 'SF Mono', monospace; fill: #7aa2f7; }
+      .cell { font: 13px 'SF Mono', monospace; fill: #a9b1d6; }
+      .badge-green { fill: #9ece6a; }
+      .badge-yellow { fill: #e0af68; }
+      .badge-red { fill: #f7768e; }
+      .badge-text { font: bold 11px 'Segoe UI', system-ui; fill: #1a1b26; }
+      .progress-bg { fill: #1a1b26; rx: 3; }
+      .label { font: 13px 'Segoe UI', system-ui; fill: #a9b1d6; }
+      .stat-value { font: bold 24px 'Segoe UI', system-ui; fill: #c0caf5; }
+      .text-green { font: bold 12px 'Segoe UI', system-ui; fill: #9ece6a; }
+      .text-yellow { font: bold 12px 'Segoe UI', system-ui; fill: #e0af68; }
+      .text-red { font: bold 12px 'Segoe UI', system-ui; fill: #f7768e; }
+      .log-time { font: 12px 'SF Mono', monospace; fill: #565f89; }
+      .log-info { font: 12px 'SF Mono', monospace; fill: #9ece6a; }
+      .log-warn { font: 12px 'SF Mono', monospace; fill: #e0af68; }
+      .log-error { font: 12px 'SF Mono', monospace; fill: #f7768e; }
+      .log-msg { font: 12px 'SF Mono', monospace; fill: #a9b1d6; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="900" height="520"/>
+
+  <!-- Sidebar -->
+  <rect class="sidebar-bg" x="0" y="0" width="200" height="520"/>
+  <text x="24" y="36" class="title">🌐 netops</text>
+  <line x1="0" y1="64" x2="200" y2="64" class="divider"/>
+
+  <text x="40" y="93" font-size="14" fill="#565f89" font-family="Segoe UI, system-ui">📊 Dashboard</text>
+  <text x="40" y="125" font-size="14" fill="#a9b1d6" font-family="Segoe UI, system-ui">📦 Inventory</text>
+  <text x="40" y="157" font-size="14" fill="#a9b1d6" font-family="Segoe UI, system-ui">🔍 Scan</text>
+  <text x="40" y="189" font-size="14" fill="#a9b1d6" font-family="Segoe UI, system-ui">📝 Configs</text>
+
+  <rect class="active-indicator" x="0" y="200" width="3" height="32" rx="1"/>
+  <rect class="card-hover" x="4" y="200" width="192" height="32" rx="4"/>
+  <text x="40" y="221" class="nav-active">💓 Health</text>
+
+  <!-- Main -->
+  <text x="224" y="44" class="title">Fleet Health</text>
+  <text x="224" y="64" class="subtitle">Real-time device health monitoring — Auto-refresh: 30s</text>
+
+  <!-- Summary cards -->
+  <rect class="card" x="224" y="80" width="130" height="72"/>
+  <text x="248" y="112" class="stat-value">24</text>
+  <text x="248" y="132" class="subtitle">Monitored</text>
+
+  <rect class="card" x="366" y="80" width="130" height="72"/>
+  <circle cx="380" cy="107" r="7" class="badge-green"/>
+  <text x="394" y="112" class="stat-value">20</text>
+  <text x="394" y="132" class="text-green">Healthy</text>
+
+  <rect class="card" x="508" y="80" width="130" height="72"/>
+  <circle cx="522" cy="107" r="7" class="badge-yellow"/>
+  <text x="536" y="112" class="stat-value">3</text>
+  <text x="536" y="132" class="text-yellow">Warning</text>
+
+  <rect class="card" x="650" y="80" width="130" height="72"/>
+  <circle cx="664" cy="107" r="7" class="badge-red"/>
+  <text x="678" y="112" class="stat-value">1</text>
+  <text x="678" y="132" class="text-red">Critical</text>
+
+  <!-- Top CPU card -->
+  <rect class="card" x="224" y="166" width="320" height="140"/>
+  <text x="248" y="194" class="card-title">Top CPU Utilization</text>
+  <line x1="248" y1="204" x2="520" y2="204" class="divider"/>
+
+  <text x="248" y="226" class="cell">core-rtr-02</text>
+  <rect class="progress-bg" x="364" y="214" width="130" height="14"/>
+  <rect fill="#e0af68" x="364" y="214" width="101" height="14" rx="3"/>
+  <text x="502" y="226" class="text-yellow">78%</text>
+
+  <text x="248" y="250" class="cell">dist-sw-01</text>
+  <rect class="progress-bg" x="364" y="238" width="130" height="14"/>
+  <rect fill="#9ece6a" x="364" y="238" width="55" height="14" rx="3"/>
+  <text x="502" y="250" class="text-green">42%</text>
+
+  <text x="248" y="274" class="cell">edge-rtr-01</text>
+  <rect class="progress-bg" x="364" y="262" width="130" height="14"/>
+  <rect fill="#9ece6a" x="364" y="262" width="45" height="14" rx="3"/>
+  <text x="502" y="274" class="text-green">35%</text>
+
+  <text x="248" y="298" class="cell">access-sw-01</text>
+  <rect class="progress-bg" x="364" y="286" width="130" height="14"/>
+  <rect fill="#9ece6a" x="364" y="286" width="32" height="14" rx="3"/>
+  <text x="502" y="298" class="text-green">24%</text>
+
+  <!-- Interface errors table -->
+  <rect class="card" x="558" y="166" width="328" height="140"/>
+  <text x="582" y="194" class="card-title">Interface Errors</text>
+  <line x1="582" y1="204" x2="862" y2="204" class="divider"/>
+
+  <text x="582" y="222" class="header">Device</text>
+  <text x="684" y="222" class="header">Interface</text>
+  <text x="778" y="222" class="header">Total</text>
+
+  <text x="582" y="244" class="cell">core-rtr-02</text>
+  <text x="684" y="244" class="cell">Gi0/0/1</text>
+  <text x="778" y="244" font-size="13" fill="#f7768e" font-family="SF Mono, monospace">60</text>
+
+  <text x="582" y="266" class="cell">dist-sw-03</text>
+  <text x="684" y="266" class="cell">Eth1/1</text>
+  <text x="778" y="266" font-size="13" fill="#e0af68" font-family="SF Mono, monospace">23</text>
+
+  <text x="582" y="288" class="cell">edge-rtr-02</text>
+  <text x="684" y="288" class="cell">1/1/1</text>
+  <text x="778" y="288" font-size="13" fill="#e0af68" font-family="SF Mono, monospace">8</text>
+
+  <!-- Log alerts -->
+  <rect class="card" x="224" y="320" width="662" height="190"/>
+  <text x="248" y="348" class="card-title">Recent Log Alerts</text>
+  <line x1="248" y1="358" x2="862" y2="358" class="divider"/>
+
+  <text x="248" y="378" class="log-time">06:12</text>
+  <text x="296" y="378" class="log-info">INFO</text>
+  <text x="340" y="378" class="cell">core-rtr-01</text>
+  <text x="460" y="378" class="log-msg">BGP neighbor 10.0.0.2 Up</text>
+
+  <text x="248" y="400" class="log-time">05:58</text>
+  <text x="296" y="400" class="log-warn">WARN</text>
+  <text x="340" y="400" class="cell">core-rtr-02</text>
+  <text x="460" y="400" class="log-msg">CPU utilization above 75% threshold</text>
+
+  <text x="248" y="422" class="log-time">05:45</text>
+  <text x="296" y="422" class="log-error">CRIT</text>
+  <text x="340" y="422" class="cell">dist-sw-03</text>
+  <text x="460" y="422" class="log-msg">Device unreachable — SSH timeout after 30s</text>
+
+  <text x="248" y="444" class="log-time">05:30</text>
+  <text x="296" y="444" class="log-warn">WARN</text>
+  <text x="340" y="444" class="cell">edge-rtr-02</text>
+  <text x="460" y="444" class="log-msg">Memory utilization above 70% threshold</text>
+
+  <text x="248" y="466" class="log-time">05:15</text>
+  <text x="296" y="466" class="log-info">INFO</text>
+  <text x="340" y="466" class="cell">spine-01</text>
+  <text x="460" y="466" class="log-msg">Config change detected — admin login via SSH</text>
+
+  <text x="248" y="488" class="log-time">04:55</text>
+  <text x="296" y="488" class="log-info">INFO</text>
+  <text x="340" y="488" class="cell">fw-01</text>
+  <text x="460" y="488" class="log-msg">Firewall policy update applied successfully</text>
+</svg>

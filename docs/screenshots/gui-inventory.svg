@@ -1,0 +1,176 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520">
+  <defs>
+    <style>
+      .bg { fill: #1a1b26; }
+      .sidebar-bg { fill: #16161e; }
+      .card { fill: #24283b; rx: 8; }
+      .title { font: bold 18px 'Segoe UI', system-ui; fill: #c0caf5; }
+      .subtitle { font: 13px 'Segoe UI', system-ui; fill: #565f89; }
+      .nav-item { font: 14px 'Segoe UI', system-ui; fill: #a9b1d6; }
+      .nav-active { font: bold 14px 'Segoe UI', system-ui; fill: #7aa2f7; }
+      .header { font: bold 12px 'SF Mono', monospace; fill: #7aa2f7; }
+      .cell { font: 13px 'SF Mono', monospace; fill: #a9b1d6; }
+      .cell-highlight { font: 13px 'SF Mono', monospace; fill: #c0caf5; }
+      .selected-row { fill: #283457; }
+      .badge-cisco { fill: #7aa2f7; }
+      .badge-nokia { fill: #bb9af7; }
+      .badge-arista { fill: #9ece6a; }
+      .search-bg { fill: #1a1b26; stroke: #3b4261; rx: 4; }
+      .search-text { font: 13px 'SF Mono', monospace; fill: #565f89; }
+      .status-bar { fill: #16161e; }
+      .status-text { font: 12px 'SF Mono', monospace; fill: #565f89; }
+      .badge-text { font: bold 11px 'Segoe UI', system-ui; fill: #1a1b26; }
+      .divider { stroke: #292e42; stroke-width: 1; }
+      .active-indicator { fill: #7aa2f7; }
+      .card-hover { fill: #292e42; rx: 4; }
+      .filter-active { fill: #7aa2f7; }
+      .filter-inactive { fill: #292e42; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="900" height="520"/>
+
+  <!-- Sidebar -->
+  <rect class="sidebar-bg" x="0" y="0" width="200" height="520"/>
+  <text x="24" y="36" class="title">🌐 netops</text>
+  <line x1="0" y1="64" x2="200" y2="64" class="divider"/>
+
+  <text x="40" y="93" font-size="14" fill="#565f89" font-family="Segoe UI, system-ui">📊 Dashboard</text>
+
+  <rect class="active-indicator" x="0" y="104" width="3" height="32" rx="1"/>
+  <rect class="card-hover" x="4" y="104" width="192" height="32" rx="4"/>
+  <text x="40" y="125" class="nav-active">📦 Inventory</text>
+
+  <text x="40" y="157" font-size="14" fill="#a9b1d6" font-family="Segoe UI, system-ui">🔍 Scan</text>
+  <text x="40" y="189" font-size="14" fill="#a9b1d6" font-family="Segoe UI, system-ui">📝 Configs</text>
+  <text x="40" y="221" font-size="14" fill="#a9b1d6" font-family="Segoe UI, system-ui">💓 Health</text>
+
+  <!-- Main -->
+  <text x="224" y="44" class="title">Inventory</text>
+
+  <!-- Vendor filter badges -->
+  <rect class="filter-active" x="224" y="56" width="40" height="22" rx="11"/>
+  <text x="232" y="71" class="badge-text">All</text>
+  <rect class="badge-cisco" x="272" y="56" width="75" height="22" rx="11"/>
+  <text x="280" y="71" class="badge-text">Cisco (12)</text>
+  <rect class="badge-nokia" x="355" y="56" width="78" height="22" rx="11"/>
+  <text x="363" y="71" class="badge-text">Nokia (8)</text>
+  <rect class="badge-arista" x="441" y="56" width="78" height="22" rx="11"/>
+  <text x="449" y="71" class="badge-text">Arista (4)</text>
+
+  <!-- Search -->
+  <rect class="search-bg" x="680" y="56" width="200" height="24"/>
+  <text x="692" y="73" class="search-text">🔍 Search devices...</text>
+
+  <!-- Table header -->
+  <rect fill="#1a1b26" x="224" y="90" width="662" height="24"/>
+  <text x="232" y="107" class="header">Name</text>
+  <text x="340" y="107" class="header">Host</text>
+  <text x="432" y="107" class="header">Vendor</text>
+  <text x="530" y="107" class="header">Model</text>
+  <text x="660" y="107" class="header">Version</text>
+  <text x="750" y="107" class="header">Site</text>
+
+  <line x1="224" y1="114" x2="886" y2="114" class="divider"/>
+
+  <!-- Row 1 -->
+  <text x="232" y="134" class="cell-highlight">core-rtr-01</text>
+  <text x="340" y="134" class="cell">10.0.0.1</text>
+  <rect class="badge-cisco" x="432" y="122" width="60" height="18" rx="9"/>
+  <text x="443" y="135" class="badge-text">Cisco</text>
+  <text x="530" y="134" class="cell">ASR1001-X</text>
+  <text x="660" y="134" class="cell">16.9.4</text>
+  <text x="750" y="134" class="cell">NYC-DC1</text>
+
+  <!-- Row 2 (selected) -->
+  <rect class="selected-row" x="224" y="142" width="662" height="24"/>
+  <text x="232" y="160" class="cell-highlight">core-rtr-02</text>
+  <text x="340" y="160" class="cell">10.0.0.2</text>
+  <rect class="badge-cisco" x="432" y="148" width="60" height="18" rx="9"/>
+  <text x="443" y="161" class="badge-text">Cisco</text>
+  <text x="530" y="160" class="cell">ASR1001-X</text>
+  <text x="660" y="160" class="cell">16.9.4</text>
+  <text x="750" y="160" class="cell">NYC-DC1</text>
+
+  <!-- Row 3 -->
+  <text x="232" y="186" class="cell-highlight">edge-rtr-01</text>
+  <text x="340" y="186" class="cell">10.0.1.1</text>
+  <rect class="badge-nokia" x="432" y="174" width="60" height="18" rx="9"/>
+  <text x="442" y="187" class="badge-text">Nokia</text>
+  <text x="530" y="186" class="cell">7750 SR-12</text>
+  <text x="660" y="186" class="cell">23.10.R1</text>
+  <text x="750" y="186" class="cell">CHI-DC1</text>
+
+  <!-- Row 4 -->
+  <text x="232" y="212" class="cell-highlight">edge-rtr-02</text>
+  <text x="340" y="212" class="cell">10.0.1.2</text>
+  <rect class="badge-nokia" x="432" y="200" width="60" height="18" rx="9"/>
+  <text x="442" y="213" class="badge-text">Nokia</text>
+  <text x="530" y="212" class="cell">7750 SR-12</text>
+  <text x="660" y="212" class="cell">23.10.R1</text>
+  <text x="750" y="212" class="cell">CHI-DC1</text>
+
+  <!-- Row 5 -->
+  <text x="232" y="238" class="cell-highlight">dist-sw-01</text>
+  <text x="340" y="238" class="cell">10.0.2.1</text>
+  <rect class="badge-arista" x="432" y="226" width="60" height="18" rx="9"/>
+  <text x="440" y="239" class="badge-text">Arista</text>
+  <text x="530" y="238" class="cell">7280R3</text>
+  <text x="660" y="238" class="cell">4.29.1F</text>
+  <text x="750" y="238" class="cell">NYC-DC1</text>
+
+  <!-- Row 6 -->
+  <text x="232" y="264" class="cell-highlight">dist-sw-02</text>
+  <text x="340" y="264" class="cell">10.0.2.2</text>
+  <rect class="badge-arista" x="432" y="252" width="60" height="18" rx="9"/>
+  <text x="440" y="265" class="badge-text">Arista</text>
+  <text x="530" y="264" class="cell">7280R3</text>
+  <text x="660" y="264" class="cell">4.29.1F</text>
+  <text x="750" y="264" class="cell">NYC-DC1</text>
+
+  <!-- Rows 7-10 -->
+  <text x="232" y="290" class="cell-highlight">access-sw-01</text>
+  <text x="340" y="290" class="cell">10.0.3.1</text>
+  <rect class="badge-cisco" x="432" y="278" width="60" height="18" rx="9"/>
+  <text x="443" y="291" class="badge-text">Cisco</text>
+  <text x="530" y="290" class="cell">C9300-48T</text>
+  <text x="660" y="290" class="cell">17.3.6</text>
+  <text x="750" y="290" class="cell">NYC-DC1</text>
+
+  <text x="232" y="316" class="cell-highlight">access-sw-02</text>
+  <text x="340" y="316" class="cell">10.0.3.2</text>
+  <rect class="badge-cisco" x="432" y="304" width="60" height="18" rx="9"/>
+  <text x="443" y="317" class="badge-text">Cisco</text>
+  <text x="530" y="316" class="cell">C9300-48T</text>
+  <text x="660" y="316" class="cell">17.3.6</text>
+  <text x="750" y="316" class="cell">NYC-DC2</text>
+
+  <text x="232" y="342" class="cell-highlight">fw-01</text>
+  <text x="340" y="342" class="cell">10.0.4.1</text>
+  <rect class="badge-cisco" x="432" y="330" width="60" height="18" rx="9"/>
+  <text x="443" y="343" class="badge-text">Cisco</text>
+  <text x="530" y="342" class="cell">FPR4110</text>
+  <text x="660" y="342" class="cell">7.2.5</text>
+  <text x="750" y="342" class="cell">NYC-DC1</text>
+
+  <text x="232" y="368" class="cell-highlight">spine-01</text>
+  <text x="340" y="368" class="cell">10.0.5.1</text>
+  <rect class="badge-arista" x="432" y="356" width="60" height="18" rx="9"/>
+  <text x="440" y="369" class="badge-text">Arista</text>
+  <text x="530" y="368" class="cell">7500R3</text>
+  <text x="660" y="368" class="cell">4.29.1F</text>
+  <text x="750" y="368" class="cell">LAX-DC1</text>
+
+  <!-- More rows indicator -->
+  <text x="540" y="400" class="subtitle">↓ 14 more devices below ↓</text>
+
+  <!-- Split pane — device detail sidebar -->
+  <rect fill="#1a1b26" x="886" y="90" width="1" height="396" class="divider"/>
+
+  <!-- Status bar -->
+  <rect class="status-bar" x="200" y="496" width="700" height="24"/>
+  <text x="224" y="512" class="status-text">24 devices</text>
+  <text x="340" y="512" class="status-text">│ Cisco: 12 Nokia: 8 Arista: 4</text>
+  <text x="640" y="512" class="status-text">│ Last scan: 06:00 UTC</text>
+  <text x="810" y="512" class="status-text">│ ↑↓ Navigate</text>
+</svg>

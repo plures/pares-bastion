@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="500" viewBox="0 0 900 500">
+  <defs>
+    <style>
+      .bg { fill: #1a1b26; }
+      .sidebar-bg { fill: #16161e; }
+      .card { fill: #24283b; rx: 8; }
+      .title { font: bold 18px 'Segoe UI', system-ui; fill: #c0caf5; }
+      .subtitle { font: 13px 'Segoe UI', system-ui; fill: #565f89; }
+      .nav-active { font: bold 14px 'Segoe UI', system-ui; fill: #7aa2f7; }
+      .card-title { font: bold 14px 'Segoe UI', system-ui; fill: #c0caf5; }
+      .divider { stroke: #292e42; stroke-width: 1; }
+      .active-indicator { fill: #7aa2f7; }
+      .card-hover { fill: #292e42; rx: 4; }
+      .header { font: bold 12px 'SF Mono', monospace; fill: #7aa2f7; }
+      .cell { font: 13px 'SF Mono', monospace; fill: #a9b1d6; }
+      .search-bg { fill: #1a1b26; stroke: #3b4261; rx: 4; }
+      .search-text { font: 13px 'SF Mono', monospace; fill: #565f89; }
+      .btn-primary { fill: #7aa2f7; rx: 4; }
+      .btn-text { font: bold 12px 'Segoe UI', system-ui; fill: #1a1b26; }
+      .btn-secondary { fill: #292e42; rx: 4; }
+      .selected-row { fill: #283457; }
+      .diff-add { font: 12px 'SF Mono', monospace; fill: #9ece6a; }
+      .diff-del { font: 12px 'SF Mono', monospace; fill: #f7768e; }
+      .diff-header { font: 12px 'SF Mono', monospace; fill: #7aa2f7; }
+      .diff-ctx { font: 12px 'SF Mono', monospace; fill: #565f89; }
+      .diff-add-bg { fill: rgba(158, 206, 106, 0.1); }
+      .diff-del-bg { fill: rgba(247, 118, 142, 0.1); }
+    </style>
+  </defs>
+
+  <rect class="bg" width="900" height="500"/>
+
+  <!-- Sidebar -->
+  <rect class="sidebar-bg" x="0" y="0" width="200" height="500"/>
+  <text x="24" y="36" class="title">🌐 netops</text>
+  <line x1="0" y1="64" x2="200" y2="64" class="divider"/>
+
+  <text x="40" y="93" font-size="14" fill="#565f89" font-family="Segoe UI, system-ui">📊 Dashboard</text>
+  <text x="40" y="125" font-size="14" fill="#a9b1d6" font-family="Segoe UI, system-ui">📦 Inventory</text>
+  <text x="40" y="157" font-size="14" fill="#a9b1d6" font-family="Segoe UI, system-ui">🔍 Scan</text>
+
+  <rect class="active-indicator" x="0" y="168" width="3" height="32" rx="1"/>
+  <rect class="card-hover" x="4" y="168" width="192" height="32" rx="4"/>
+  <text x="40" y="189" class="nav-active">📝 Configs</text>
+
+  <text x="40" y="221" font-size="14" fill="#a9b1d6" font-family="Segoe UI, system-ui">💓 Health</text>
+
+  <!-- Main: Split pane — left: config list, right: diff viewer -->
+  <text x="224" y="30" class="subtitle">Configs › core-rtr-01 › Diff</text>
+  <text x="224" y="52" class="title">Config Diff</text>
+
+  <!-- Left pane: version list -->
+  <rect class="card" x="224" y="66" width="220" height="420"/>
+  <text x="248" y="94" class="card-title">core-rtr-01 Versions</text>
+  <line x1="248" y1="104" x2="420" y2="104" class="divider"/>
+
+  <rect class="selected-row" x="232" y="112" width="204" height="28" rx="4"/>
+  <text x="248" y="131" class="cell" font-weight="bold">v3</text>
+  <text x="280" y="131" class="subtitle">Mar 26 08:00</text>
+  <text x="390" y="131" class="subtitle">4.0KB</text>
+
+  <text x="248" y="161" class="cell">v2</text>
+  <text x="280" y="161" class="subtitle">Mar 20 14:30</text>
+  <text x="390" y="161" class="subtitle">3.9KB</text>
+
+  <text x="248" y="191" class="cell">v1</text>
+  <text x="280" y="191" class="subtitle">Mar 10 09:15</text>
+  <text x="390" y="191" class="subtitle">3.8KB</text>
+
+  <line x1="248" y1="210" x2="420" y2="210" class="divider"/>
+  <text x="248" y="232" class="subtitle">Comparing: v2 → v3</text>
+
+  <rect class="btn-primary" x="248" y="248" width="100" height="28" rx="4"/>
+  <text x="268" y="267" class="btn-text">View Diff</text>
+
+  <rect class="btn-secondary" x="356" y="248" width="76" height="28" rx="4"/>
+  <text x="366" y="267" font-size="12" fill="#a9b1d6" font-family="Segoe UI, system-ui">Rollback</text>
+
+  <!-- Right pane: diff view -->
+  <rect class="card" x="456" y="66" width="430" height="420"/>
+  <text x="480" y="94" class="card-title">Unified Diff — v2 → v3</text>
+  <text x="780" y="94" class="subtitle">+12 / -3 lines</text>
+  <line x1="480" y1="104" x2="862" y2="104" class="divider"/>
+
+  <text x="480" y="124" class="diff-header">@@ -15,6 +15,9 @@ interface GigabitEthernet0/0/0</text>
+
+  <text x="480" y="144" class="diff-ctx"> ip address 10.0.0.2 255.255.255.252</text>
+  <text x="480" y="160" class="diff-ctx"> no shutdown</text>
+  <text x="480" y="176" class="diff-ctx"> description Uplink to spine-01</text>
+
+  <rect fill="#1a2b1a" x="468" y="182" width="406" height="16"/>
+  <text x="480" y="192" class="diff-add">+ip access-group MGMT-ACL in</text>
+
+  <rect fill="#1a2b1a" x="468" y="198" width="406" height="16"/>
+  <text x="480" y="208" class="diff-add">+ip access-group MGMT-ACL out</text>
+
+  <text x="480" y="228" class="diff-ctx"> !</text>
+
+  <text x="480" y="248" class="diff-header">@@ -42,8 +44,14 @@ router bgp 65001</text>
+
+  <text x="480" y="268" class="diff-ctx"> neighbor 10.0.0.1 remote-as 65001</text>
+
+  <rect fill="#2b1a1a" x="468" y="274" width="406" height="16"/>
+  <text x="480" y="284" class="diff-del">-neighbor 10.0.0.1 timers 30 90</text>
+
+  <rect fill="#1a2b1a" x="468" y="290" width="406" height="16"/>
+  <text x="480" y="300" class="diff-add">+neighbor 10.0.0.1 timers 10 30</text>
+
+  <rect fill="#1a2b1a" x="468" y="306" width="406" height="16"/>
+  <text x="480" y="316" class="diff-add">+neighbor 10.0.0.1 password 7 encrypted</text>
+
+  <text x="480" y="336" class="diff-ctx"> neighbor 10.0.0.1 update-source Lo0</text>
+  <text x="480" y="352" class="diff-ctx"> !</text>
+
+  <text x="480" y="372" class="diff-header">@@ -68,3 +76,8 @@ line vty 0 4</text>
+
+  <rect fill="#2b1a1a" x="468" y="378" width="406" height="16"/>
+  <text x="480" y="388" class="diff-del">-transport input telnet ssh</text>
+
+  <rect fill="#1a2b1a" x="468" y="394" width="406" height="16"/>
+  <text x="480" y="404" class="diff-add">+transport input ssh</text>
+
+  <rect fill="#1a2b1a" x="468" y="410" width="406" height="16"/>
+  <text x="480" y="420" class="diff-add">+logging buffered 32768 informational</text>
+
+  <rect fill="#1a2b1a" x="468" y="426" width="406" height="16"/>
+  <text x="480" y="436" class="diff-add">+ntp server 10.0.100.1 prefer</text>
+
+  <rect fill="#1a2b1a" x="468" y="442" width="406" height="16"/>
+  <text x="480" y="452" class="diff-add">+ntp server 10.0.100.2</text>
+
+  <text x="480" y="472" class="diff-ctx"> end</text>
+</svg>

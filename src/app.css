@@ -1,0 +1,101 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+:root {
+	--color-bg: #1a1a2e;
+	--color-surface: #16213e;
+	--color-border: #0f3460;
+	--color-accent: #e94560;
+	--color-text: #eaeaea;
+	--color-text-muted: #888;
+	--color-success: #4caf50;
+	--color-warning: #ff9800;
+	--color-error: #f44336;
+	--space-xs: 0.25rem;
+	--space-sm: 0.5rem;
+	--space-md: 1rem;
+	--space-lg: 1.5rem;
+	--space-xl: 2rem;
+	--radius-sm: 4px;
+	--radius-md: 8px;
+	font-family: system-ui, -apple-system, sans-serif;
+}
+=======
+/* Global CSS — imported in +layout.svelte script so Svelte does not scope it */
+@import '@plures/design-dojo/tokens.css';
+@import '@plures/design-dojo/tui-tokens.css';
+>>>>>>> c447cdf (feat: Build Inventory Dashboard view with design-dojo Table)
+=======
+/* Global design tokens */
+:root {
+	--color-bg: #0f1117;
+	--color-surface: #1a1d27;
+	--color-surface-2: #252836;
+	--color-border: #2e3348;
+	--color-text: #e2e8f0;
+	--color-text-muted: #8b9cbf;
+	--color-primary: #4f8ef7;
+	--color-primary-hover: #6ba3ff;
+	--color-success: #34c98b;
+	--color-warning: #f6b744;
+	--color-error: #f05b5b;
+	--color-info: #64b5f6;
+
+	--space-1: 0.25rem;
+	--space-2: 0.5rem;
+	--space-3: 0.75rem;
+	--space-4: 1rem;
+	--space-6: 1.5rem;
+	--space-8: 2rem;
+
+	--radius-sm: 4px;
+	--radius-md: 8px;
+	--radius-lg: 12px;
+
+	--font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
+	--font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+>>>>>>> 6e090c1 (Changes before error encountered)
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 6e090c1 (Changes before error encountered)
+}
+
+body {
+	margin: 0;
+	background: var(--color-bg);
+	color: var(--color-text);
+<<<<<<< HEAD
+	min-height: 100vh;
+=======
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background: var(--surface-0, #0a0a0a);
+	color: var(--color-text, #e8e8e8);
+	font-family: var(--font-sans);
+>>>>>>> c447cdf (feat: Build Inventory Dashboard view with design-dojo Table)
+=======
+	font-family: var(--font-sans);
+	font-size: 14px;
+	line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+}
+
+a {
+	color: var(--color-primary);
+	text-decoration: none;
+}
+
+a:hover {
+	color: var(--color-primary-hover);
+	text-decoration: underline;
+>>>>>>> 6e090c1 (Changes before error encountered)
+}

@@ -1,0 +1,198 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="560" font-family="'Cascadia Code', 'JetBrains Mono', 'Fira Code', monospace">
+  <!-- Terminal background -->
+  <rect width="900" height="560" fill="#1a1b26"/>
+  <!-- Terminal title bar -->
+  <rect x="0" y="0" width="900" height="28" fill="#24283b"/>
+  <circle cx="16" cy="14" r="6" fill="#f7768e"/>
+  <circle cx="36" cy="14" r="6" fill="#e0af68"/>
+  <circle cx="56" cy="14" r="6" fill="#9ece6a"/>
+  <text x="380" y="18" fill="#a9b1d6" font-size="12" text-anchor="middle">netops-toolkit-tui — 80×24</text>
+
+  <!-- Box-drawing top border -->
+  <text x="8" y="50" fill="#565f89" font-size="13">┌─────────────┬──────────────────────────────────────────────────────────────────────┐</text>
+
+  <!-- Sidebar -->
+  <text x="8" y="66" fill="#565f89" font-size="13">│</text>
+  <text x="22" y="66" fill="#7aa2f7" font-size="13" font-weight="bold"> ◆ Inventory </text>
+  <text x="120" y="66" fill="#565f89" font-size="13">│</text>
+  <text x="8" y="82" fill="#565f89" font-size="13">│</text>
+  <text x="22" y="82" fill="#a9b1d6" font-size="13">   Scan       </text>
+  <text x="120" y="82" fill="#565f89" font-size="13">│</text>
+  <text x="8" y="98" fill="#565f89" font-size="13">│</text>
+  <text x="22" y="98" fill="#a9b1d6" font-size="13">   Device     </text>
+  <text x="120" y="98" fill="#565f89" font-size="13">│</text>
+  <text x="8" y="114" fill="#565f89" font-size="13">│</text>
+  <text x="22" y="114" fill="#a9b1d6" font-size="13">   Settings   </text>
+  <text x="120" y="114" fill="#565f89" font-size="13">│</text>
+  <text x="8" y="130" fill="#565f89" font-size="13">│</text>
+  <text x="22" y="130" fill="#565f89" font-size="13">             </text>
+  <text x="120" y="130" fill="#565f89" font-size="13">│</text>
+  <text x="8" y="146" fill="#565f89" font-size="13">│</text>
+  <text x="120" y="146" fill="#565f89" font-size="13">│</text>
+  <text x="8" y="162" fill="#565f89" font-size="13">│</text>
+  <text x="120" y="162" fill="#565f89" font-size="13">│</text>
+  <text x="8" y="178" fill="#565f89" font-size="13">│</text>
+  <text x="120" y="178" fill="#565f89" font-size="13">│</text>
+  <text x="8" y="194" fill="#565f89" font-size="13">│</text>
+  <text x="120" y="194" fill="#565f89" font-size="13">│</text>
+  <text x="8" y="210" fill="#565f89" font-size="13">│</text>
+  <text x="120" y="210" fill="#565f89" font-size="13">│</text>
+  <text x="8" y="226" fill="#565f89" font-size="13">│</text>
+  <text x="120" y="226" fill="#565f89" font-size="13">│</text>
+  <text x="8" y="242" fill="#565f89" font-size="13">│</text>
+  <text x="120" y="242" fill="#565f89" font-size="13">│</text>
+  <text x="8" y="258" fill="#565f89" font-size="13">│</text>
+  <text x="120" y="258" fill="#565f89" font-size="13">│</text>
+  <text x="8" y="274" fill="#565f89" font-size="13">│</text>
+  <text x="120" y="274" fill="#565f89" font-size="13">│</text>
+  <text x="8" y="290" fill="#565f89" font-size="13">│</text>
+  <text x="120" y="290" fill="#565f89" font-size="13">│</text>
+  <text x="8" y="306" fill="#565f89" font-size="13">│</text>
+  <text x="120" y="306" fill="#565f89" font-size="13">│</text>
+  <text x="8" y="322" fill="#565f89" font-size="13">│</text>
+  <text x="120" y="322" fill="#565f89" font-size="13">│</text>
+  <text x="8" y="338" fill="#565f89" font-size="13">│</text>
+  <text x="120" y="338" fill="#565f89" font-size="13">│</text>
+  <text x="8" y="354" fill="#565f89" font-size="13">│</text>
+  <text x="120" y="354" fill="#565f89" font-size="13">│</text>
+  <text x="8" y="370" fill="#565f89" font-size="13">│</text>
+  <text x="120" y="370" fill="#565f89" font-size="13">│</text>
+  <text x="8" y="386" fill="#565f89" font-size="13">│</text>
+  <text x="120" y="386" fill="#565f89" font-size="13">│</text>
+  <text x="8" y="402" fill="#565f89" font-size="13">│</text>
+  <text x="120" y="402" fill="#565f89" font-size="13">│</text>
+  <text x="8" y="418" fill="#565f89" font-size="13">│</text>
+  <text x="120" y="418" fill="#565f89" font-size="13">│</text>
+  <text x="8" y="434" fill="#565f89" font-size="13">│</text>
+  <text x="120" y="434" fill="#565f89" font-size="13">│</text>
+  <text x="8" y="450" fill="#565f89" font-size="13">│</text>
+  <text x="120" y="450" fill="#565f89" font-size="13">│</text>
+  <text x="8" y="466" fill="#565f89" font-size="13">│</text>
+  <text x="120" y="466" fill="#565f89" font-size="13">│</text>
+  <text x="8" y="482" fill="#565f89" font-size="13">│</text>
+  <text x="120" y="482" fill="#565f89" font-size="13">│</text>
+  <text x="8" y="498" fill="#565f89" font-size="13">│</text>
+  <text x="120" y="498" fill="#565f89" font-size="13">│</text>
+
+  <!-- Main content area header -->
+  <text x="134" y="66" fill="#7aa2f7" font-size="13" font-weight="bold"> Inventory Dashboard                    [All:487] [Cisco:312] [Nokia:143] [Arista:32]</text>
+  <text x="880" y="66" fill="#565f89" font-size="13">│</text>
+
+  <!-- Filter line -->
+  <text x="134" y="82" fill="#565f89" font-size="13"> Filter: _______________                                                           </text>
+  <text x="880" y="82" fill="#565f89" font-size="13">│</text>
+
+  <!-- Separator -->
+  <text x="120" y="98" fill="#565f89" font-size="13">├──────────────────────────────────────────────────────────────────────────────────┤</text>
+
+  <!-- Table header -->
+  <text x="134" y="114" fill="#bb9af7" font-size="13"> Hostname             IP Address      Vendor         Model           Status       </text>
+  <text x="880" y="114" fill="#565f89" font-size="13">│</text>
+  <text x="120" y="130" fill="#565f89" font-size="13">│──────────────────────────────────────────────────────────────────────────────────│</text>
+
+  <!-- Selected row (highlighted) -->
+  <rect x="122" y="134" width="756" height="16" fill="#283457"/>
+  <text x="134" y="146" fill="#c0caf5" font-size="13"> core-rtr-01.sea      10.1.0.1        Cisco IOS-XR   ASR 9006        </text>
+  <text x="770" y="146" fill="#9ece6a" font-size="13">● online</text>
+  <text x="880" y="146" fill="#565f89" font-size="13">│</text>
+
+  <!-- Regular rows -->
+  <text x="134" y="162" fill="#a9b1d6" font-size="13"> pe-rtr-02.lax        10.2.0.1        Nokia SR OS    7750 SR-12      </text>
+  <text x="770" y="162" fill="#9ece6a" font-size="13">● online</text>
+  <text x="880" y="162" fill="#565f89" font-size="13">│</text>
+
+  <text x="134" y="178" fill="#a9b1d6" font-size="13"> agg-sw-03.sjc        10.3.0.1        Arista EOS     7280R3          </text>
+  <text x="770" y="178" fill="#9ece6a" font-size="13">● online</text>
+  <text x="880" y="178" fill="#565f89" font-size="13">│</text>
+
+  <text x="134" y="194" fill="#a9b1d6" font-size="13"> edge-rtr-04.den      10.4.0.1        Nokia SR OS    7250 IXR-6e     </text>
+  <text x="770" y="194" fill="#e0af68" font-size="13">● warn  </text>
+  <text x="880" y="194" fill="#565f89" font-size="13">│</text>
+
+  <text x="134" y="210" fill="#a9b1d6" font-size="13"> dist-sw-05.phx       10.5.0.1        Cisco IOS      C9300-48P       </text>
+  <text x="770" y="210" fill="#9ece6a" font-size="13">● online</text>
+  <text x="880" y="210" fill="#565f89" font-size="13">│</text>
+
+  <text x="134" y="226" fill="#a9b1d6" font-size="13"> bng-01.chi           10.6.0.1        Nokia SR OS    7705 SAR-18     </text>
+  <text x="770" y="226" fill="#9ece6a" font-size="13">● online</text>
+  <text x="880" y="226" fill="#565f89" font-size="13">│</text>
+
+  <text x="134" y="242" fill="#a9b1d6" font-size="13"> core-rtr-06.iad      10.7.0.1        Cisco IOS-XR   NCS 5504        </text>
+  <text x="770" y="242" fill="#9ece6a" font-size="13">● online</text>
+  <text x="880" y="242" fill="#565f89" font-size="13">│</text>
+
+  <text x="134" y="258" fill="#a9b1d6" font-size="13"> edge-rtr-07.mia      10.7.0.2        Cisco IOS-XR   ASR 9001        </text>
+  <text x="770" y="258" fill="#f7768e" font-size="13">● down  </text>
+  <text x="880" y="258" fill="#565f89" font-size="13">│</text>
+
+  <text x="134" y="274" fill="#a9b1d6" font-size="13"> pe-rtr-08.dfw        10.8.0.1        Nokia SR OS    7750 SR-7s      </text>
+  <text x="770" y="274" fill="#9ece6a" font-size="13">● online</text>
+  <text x="880" y="274" fill="#565f89" font-size="13">│</text>
+
+  <text x="134" y="290" fill="#a9b1d6" font-size="13"> pe-rtr-09.ord        10.9.0.1        Nokia SR OS    7250 IXR-10     </text>
+  <text x="770" y="290" fill="#9ece6a" font-size="13">● online</text>
+  <text x="880" y="290" fill="#565f89" font-size="13">│</text>
+
+  <text x="134" y="306" fill="#a9b1d6" font-size="13"> agg-sw-10.atl        10.10.0.1       Arista EOS     7050X3          </text>
+  <text x="770" y="306" fill="#9ece6a" font-size="13">● online</text>
+  <text x="880" y="306" fill="#565f89" font-size="13">│</text>
+
+  <text x="134" y="322" fill="#a9b1d6" font-size="13"> dist-sw-11.bos       10.11.0.1       Cisco IOS      C9300-24T       </text>
+  <text x="770" y="322" fill="#9ece6a" font-size="13">● online</text>
+  <text x="880" y="322" fill="#565f89" font-size="13">│</text>
+
+  <text x="134" y="338" fill="#a9b1d6" font-size="13"> core-rtr-12.lax      10.12.0.1       Cisco IOS-XR   ASR 9006        </text>
+  <text x="770" y="338" fill="#9ece6a" font-size="13">● online</text>
+  <text x="880" y="338" fill="#565f89" font-size="13">│</text>
+
+  <text x="134" y="354" fill="#a9b1d6" font-size="13"> bng-13.sea           10.13.0.1       Nokia SR OS    7705 SAR-8      </text>
+  <text x="770" y="354" fill="#9ece6a" font-size="13">● online</text>
+  <text x="880" y="354" fill="#565f89" font-size="13">│</text>
+
+  <text x="134" y="370" fill="#a9b1d6" font-size="13"> edge-rtr-14.sjc      10.14.0.1       Arista EOS     7280R3          </text>
+  <text x="770" y="370" fill="#e0af68" font-size="13">● warn  </text>
+  <text x="880" y="370" fill="#565f89" font-size="13">│</text>
+
+  <text x="134" y="386" fill="#a9b1d6" font-size="13"> pe-rtr-15.den        10.15.0.1       Nokia SR OS    7730 SXR-1x     </text>
+  <text x="770" y="386" fill="#9ece6a" font-size="13">● online</text>
+  <text x="880" y="386" fill="#565f89" font-size="13">│</text>
+
+  <text x="134" y="402" fill="#a9b1d6" font-size="13"> dist-sw-16.phx       10.16.0.1       Cisco IOS      C9200L-24P      </text>
+  <text x="770" y="402" fill="#9ece6a" font-size="13">● online</text>
+  <text x="880" y="402" fill="#565f89" font-size="13">│</text>
+
+  <text x="134" y="418" fill="#a9b1d6" font-size="13"> core-rtr-17.iad      10.17.0.1       Cisco IOS-XR   NCS 540         </text>
+  <text x="770" y="418" fill="#9ece6a" font-size="13">● online</text>
+  <text x="880" y="418" fill="#565f89" font-size="13">│</text>
+
+  <text x="134" y="434" fill="#a9b1d6" font-size="13"> pe-rtr-18.chi        10.18.0.1       Nokia SR OS    VSR-I           </text>
+  <text x="770" y="434" fill="#9ece6a" font-size="13">● online</text>
+  <text x="880" y="434" fill="#565f89" font-size="13">│</text>
+
+  <text x="134" y="450" fill="#a9b1d6" font-size="13"> agg-sw-19.ord        10.19.0.1       Arista EOS     7060X5          </text>
+  <text x="770" y="450" fill="#9ece6a" font-size="13">● online</text>
+  <text x="880" y="450" fill="#565f89" font-size="13">│</text>
+
+  <!-- Scrollbar indicator -->
+  <text x="134" y="466" fill="#565f89" font-size="13">                                                                   ▼ 20/487     </text>
+  <text x="880" y="466" fill="#565f89" font-size="13">│</text>
+
+  <!-- Empty rows for padding -->
+  <text x="134" y="482" fill="#565f89" font-size="13">                                                                                 </text>
+  <text x="880" y="482" fill="#565f89" font-size="13">│</text>
+  <text x="134" y="498" fill="#565f89" font-size="13">                                                                                 </text>
+  <text x="880" y="498" fill="#565f89" font-size="13">│</text>
+
+  <!-- Bottom border -->
+  <text x="8" y="510" fill="#565f89" font-size="13">└─────────────┴──────────────────────────────────────────────────────────────────────┘</text>
+
+  <!-- Status bar -->
+  <rect x="0" y="518" width="900" height="22" fill="#24283b"/>
+  <text x="8" y="534" fill="#a9b1d6" font-size="12"> 487 devices │ </text>
+  <text x="120" y="534" fill="#9ece6a" font-size="12">461 online</text>
+  <text x="210" y="534" fill="#a9b1d6" font-size="12"> │ </text>
+  <text x="230" y="534" fill="#e0af68" font-size="12">19 warn</text>
+  <text x="300" y="534" fill="#a9b1d6" font-size="12"> │ </text>
+  <text x="318" y="534" fill="#f7768e" font-size="12">7 down</text>
+  <text x="660" y="534" fill="#565f89" font-size="12">↑↓ navigate  / filter  Enter select  q quit</text>
+</svg>

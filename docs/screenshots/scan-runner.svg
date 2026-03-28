@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="560" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif">
+  <rect width="900" height="560" fill="#0d1117"/>
+  <rect x="0" y="0" width="200" height="560" fill="#161b22"/>
+  <rect x="0" y="0" width="200" height="48" fill="#1c2128"/>
+  <text x="16" y="32" fill="#58a6ff" font-size="16" font-weight="700">netops-toolkit</text>
+  <text x="40" y="80" fill="#8b949e" font-size="13">󰲔  Inventory</text>
+  <rect x="0" y="90" width="200" height="36" fill="#1f6feb" rx="4" opacity="0.2"/>
+  <text x="40" y="116" fill="#58a6ff" font-size="13">󰑮  Scan Runner</text>
+  <text x="40" y="152" fill="#8b949e" font-size="13">󰢹  Device Detail</text>
+  <text x="40" y="188" fill="#8b949e" font-size="13">󰒓  Settings</text>
+  <!-- Main -->
+  <text x="220" y="36" fill="#c9d1d9" font-size="18" font-weight="600">Scan Runner</text>
+  <!-- Scan config -->
+  <rect x="220" y="50" width="320" height="200" fill="#161b22" stroke="#30363d" rx="8"/>
+  <text x="236" y="74" fill="#c9d1d9" font-size="14" font-weight="600">Scan Configuration</text>
+  <text x="236" y="100" fill="#8b949e" font-size="12">Target</text>
+  <rect x="236" y="106" width="288" height="28" fill="#0d1117" stroke="#30363d" rx="4"/>
+  <text x="248" y="125" fill="#c9d1d9" font-size="13">10.0.0.0/8</text>
+  <text x="236" y="152" fill="#8b949e" font-size="12">Profile</text>
+  <rect x="236" y="158" width="288" height="28" fill="#0d1117" stroke="#30363d" rx="4"/>
+  <text x="248" y="177" fill="#c9d1d9" font-size="13">production-full</text>
+  <rect x="236" y="200" width="120" height="32" fill="#238636" rx="6"/>
+  <text x="268" y="221" fill="#ffffff" font-size="13" font-weight="600">▶ Start Scan</text>
+  <!-- Progress -->
+  <rect x="560" y="50" width="320" height="200" fill="#161b22" stroke="#30363d" rx="8"/>
+  <text x="576" y="74" fill="#c9d1d9" font-size="14" font-weight="600">Progress</text>
+  <text x="576" y="100" fill="#8b949e" font-size="12">Scanning... 342 / 487 devices</text>
+  <rect x="576" y="110" width="288" height="8" fill="#21262d" rx="4"/>
+  <rect x="576" y="110" width="202" height="8" fill="#1f6feb" rx="4"/>
+  <text x="576" y="138" fill="#c9d1d9" font-size="13">70.2%</text>
+  <text x="620" y="138" fill="#8b949e" font-size="12">ETA: 2m 14s</text>
+  <text x="576" y="162" fill="#3fb950" font-size="12">✓ 298 succeeded</text>
+  <text x="576" y="180" fill="#f85149" font-size="12">✗ 12 failed</text>
+  <text x="576" y="198" fill="#d29922" font-size="12">⧗ 32 pending</text>
+  <!-- Live results -->
+  <rect x="220" y="266" width="660" height="270" fill="#161b22" stroke="#30363d" rx="8"/>
+  <text x="236" y="290" fill="#c9d1d9" font-size="14" font-weight="600">Live Results</text>
+  <text x="236" y="314" fill="#3fb950" font-size="12">✓ core-rtr-01.sea — Cisco IOS-XR 7.9.2 — ASR 9006</text>
+  <text x="236" y="334" fill="#3fb950" font-size="12">✓ pe-rtr-02.lax — Nokia SR OS 23.10.R2 — 7750 SR-12</text>
+  <text x="236" y="354" fill="#f85149" font-size="12">✗ edge-rtr-07.mia — Connection timeout (10.7.0.1)</text>
+  <text x="236" y="374" fill="#3fb950" font-size="12">✓ agg-sw-03.sjc — Arista EOS 4.31.2F — 7280R3</text>
+  <text x="236" y="394" fill="#3fb950" font-size="12">✓ bng-01.chi — Nokia SR OS 24.3.R1 — 7705 SAR-18</text>
+  <text x="236" y="414" fill="#d29922" font-size="12">⧗ dist-sw-12.atl — Connecting...</text>
+  <text x="236" y="434" fill="#3fb950" font-size="12">✓ core-rtr-08.dfw — Cisco IOS-XR 7.11.1 — NCS 5504</text>
+  <text x="236" y="454" fill="#3fb950" font-size="12">✓ pe-rtr-09.ord — Nokia SR OS 23.10.R2 — 7250 IXR-6e</text>
+  <!-- Status bar -->
+  <rect x="0" y="536" width="900" height="24" fill="#1c2128"/>
+  <text x="8" y="552" fill="#8b949e" font-size="11">Scan: production-full</text>
+  <text x="200" y="552" fill="#1f6feb" font-size="11">● Running</text>
+  <text x="300" y="552" fill="#8b949e" font-size="11">342/487 (70.2%)</text>
+  <text x="780" y="552" fill="#8b949e" font-size="11">Elapsed: 4m 32s</text>
+</svg>

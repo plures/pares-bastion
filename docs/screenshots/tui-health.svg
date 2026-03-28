@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="420" viewBox="0 0 820 420">
+  <defs>
+    <style>
+      .term-bg { fill: #0d1117; }
+      .term-text { font: 13px 'SF Mono', 'Cascadia Code', monospace; fill: #c9d1d9; }
+      .term-dim { font: 13px 'SF Mono', 'Cascadia Code', monospace; fill: #484f58; }
+      .term-blue { font: 13px 'SF Mono', 'Cascadia Code', monospace; fill: #58a6ff; }
+      .term-green { font: 13px 'SF Mono', 'Cascadia Code', monospace; fill: #56d364; }
+      .term-yellow { font: 13px 'SF Mono', 'Cascadia Code', monospace; fill: #e3b341; }
+      .term-red { font: 13px 'SF Mono', 'Cascadia Code', monospace; fill: #f85149; }
+      .term-cyan { font: 13px 'SF Mono', 'Cascadia Code', monospace; fill: #79c0ff; }
+      .term-bold { font: bold 13px 'SF Mono', 'Cascadia Code', monospace; fill: #f0f6fc; }
+      .term-header { font: bold 13px 'SF Mono', 'Cascadia Code', monospace; fill: #58a6ff; }
+      .selected { fill: #1f2937; }
+      .status-bg { fill: #161b22; }
+    </style>
+  </defs>
+
+  <rect class="term-bg" width="820" height="420"/>
+
+  <rect fill="#161b22" x="0" y="0" width="820" height="22"/>
+  <text x="8" y="16" class="term-dim">┌─ netops-toolkit ─ Health ────────────────────────────────────────────────────────┐</text>
+
+  <!-- Summary -->
+  <text x="8" y="42" class="term-bold">  FLEET HEALTH</text>
+  <text x="200" y="42" class="term-green">●20 healthy</text>
+  <text x="340" y="42" class="term-yellow">●3 warning</text>
+  <text x="460" y="42" class="term-red">●1 critical</text>
+  <text x="600" y="42" class="term-dim">Auto-refresh: 30s</text>
+
+  <text x="8" y="62" class="term-dim">  ════════════════════════════════════════════════════════════════════════════</text>
+
+  <!-- Device health table -->
+  <text x="8" y="82" class="term-header">  DEVICE HEALTH</text>
+  <text x="8" y="102" class="term-blue">  Hostname        IP            Status    CPU     Mem     Temp</text>
+  <text x="8" y="118" class="term-dim">  ───────────────────────────────────────────────────────────────────────────</text>
+
+  <text x="8" y="134" class="term-cyan">  core-rtr-01    </text>
+  <text x="140" y="134" class="term-text">10.0.0.1      </text>
+  <text x="284" y="134" class="term-green">healthy  </text>
+  <text x="370" y="134" class="term-text"> 24%    </text>
+  <text x="434" y="134" class="term-text"> 61%    </text>
+  <text x="498" y="134" class="term-text"> 42°C</text>
+
+  <rect class="selected" x="8" y="140" width="804" height="18"/>
+  <text x="8" y="154" class="term-cyan">  core-rtr-02    </text>
+  <text x="140" y="154" class="term-text">10.0.0.2      </text>
+  <text x="284" y="154" class="term-yellow">warning  </text>
+  <text x="370" y="154" class="term-yellow"> 78%    </text>
+  <text x="434" y="154" class="term-red"> 85%    </text>
+  <text x="498" y="154" class="term-yellow"> 55°C</text>
+
+  <text x="8" y="174" class="term-cyan">  edge-rtr-01    </text>
+  <text x="140" y="174" class="term-text">10.0.1.1      </text>
+  <text x="284" y="174" class="term-green">healthy  </text>
+  <text x="370" y="174" class="term-text"> 35%    </text>
+  <text x="434" y="174" class="term-text"> 48%    </text>
+  <text x="498" y="174" class="term-text"> 38°C</text>
+
+  <text x="8" y="194" class="term-cyan">  dist-sw-01     </text>
+  <text x="140" y="194" class="term-text">10.0.2.1      </text>
+  <text x="284" y="194" class="term-green">healthy  </text>
+  <text x="370" y="194" class="term-text"> 42%    </text>
+  <text x="434" y="194" class="term-text"> 52%    </text>
+  <text x="498" y="194" class="term-text"> 40°C</text>
+
+  <text x="8" y="214" class="term-cyan">  dist-sw-03     </text>
+  <text x="140" y="214" class="term-text">10.0.2.3      </text>
+  <text x="284" y="214" class="term-red">critical </text>
+  <text x="370" y="214" class="term-dim">  —     </text>
+  <text x="434" y="214" class="term-dim">  —     </text>
+  <text x="498" y="214" class="term-dim">  —  </text>
+  <text x="550" y="214" class="term-red">UNREACHABLE</text>
+
+  <!-- Interface errors -->
+  <text x="8" y="242" class="term-dim">  ════════════════════════════════════════════════════════════════════════════</text>
+  <text x="8" y="262" class="term-header">  INTERFACE ERRORS</text>
+  <text x="8" y="282" class="term-blue">  Device          Interface     CRC    In     Out    Total</text>
+  <text x="8" y="298" class="term-dim">  ───────────────────────────────────────────────────────────────────────────</text>
+  <text x="8" y="314" class="term-cyan">  core-rtr-02    </text>
+  <text x="140" y="314" class="term-text">Gi0/0/1       </text>
+  <text x="284" y="314" class="term-red">  12    </text>
+  <text x="340" y="314" class="term-red">  45    </text>
+  <text x="396" y="314" class="term-yellow">   3    </text>
+  <text x="452" y="314" class="term-red">  60</text>
+
+  <text x="8" y="330" class="term-cyan">  dist-sw-03     </text>
+  <text x="140" y="330" class="term-text">Eth1/1        </text>
+  <text x="284" y="330" class="term-yellow">   5    </text>
+  <text x="340" y="330" class="term-yellow">  12    </text>
+  <text x="396" y="330" class="term-text">   6    </text>
+  <text x="452" y="330" class="term-yellow">  23</text>
+
+  <!-- Log alerts -->
+  <text x="8" y="358" class="term-dim">  ════════════════════════════════════════════════════════════════════════════</text>
+  <text x="8" y="378" class="term-header">  RECENT LOGS</text>
+  <text x="8" y="394" class="term-dim">  05:58 </text>
+  <text x="60" y="394" class="term-yellow">WARN</text>
+  <text x="104" y="394" class="term-cyan"> core-rtr-02 </text>
+  <text x="228" y="394" class="term-text">CPU utilization above 75% threshold</text>
+
+  <!-- Status bar -->
+  <rect class="status-bg" x="0" y="400" width="820" height="20"/>
+  <text x="8" y="416" class="term-dim">24 devices │ j/k:scroll  r:refresh  a:auto-refresh  Enter:detail  q:quit</text>
+</svg>
