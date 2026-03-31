@@ -1,3 +1,7 @@
+## [0.12.3] — 2026-03-31
+
+- fix(lifecycle): rewrite v9 — apply suggestions, merge, no nudges (aadfaa9)
+
 ## [0.12.2] — 2026-03-28
 
 - refactor: pure Rust backend — remove all Python dependencies (116f7b7)
