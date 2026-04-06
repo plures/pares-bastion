@@ -42,7 +42,7 @@
     "url": "https://github.com/plures/pares-bastion.git"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=24"
   },
   "description": "Infrastructure operations platform for network and systems engineers",
   "homepage": "https://bastion.plures.io"
