@@ -1,51 +1,12 @@
 name: CI
-
 on:
   push:
-    branches: [main]
+    branches: [main, "copilot/**", "feature/**"]
   pull_request:
-    branches: [main]
   workflow_dispatch:
-
 permissions:
   contents: read
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
-  check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+  ci:
+    uses: plures/.github/.github/workflows/ci-reusable.yml@main
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "lts/*"
-
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            libgtk-3-dev libwebkit2gtk-4.1-dev \
-            libayatana-appindicator3-dev librsvg2-dev \
-            libjavascriptcoregtk-4.1-dev libsoup-3.0-dev
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Svelte check
-        run: npm run check || echo "check skipped (project bootstrapping)"
-
-      - name: Lint
-        run: npx eslint . || echo "no eslint config yet"
-
-      - name: Type check
-        run: npm run check || echo "check skipped (project bootstrapping)"
-
-      - name: Test
-        run: npm test || echo "no tests yet"
-
-      - name: Build
-        run: npm run build
