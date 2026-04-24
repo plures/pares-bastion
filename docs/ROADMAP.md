@@ -1,29 +1,36 @@
-# netops-toolkit-app Roadmap
+# Pares Bastion Roadmap
 
-## Role in Plures Ecosystem
-netops-toolkit-app is the GUI/TUI product shell for netops-toolkit, showcasing the Plures stack (Svelte 5, Tauri 2, design-dojo, Praxis, PluresDB). It serves as both a real operator console and a dogfood platform for the design-once-run-everywhere UI model.
+## Role in OASIS
+Pares Bastion is the operator-facing control center for OASIS infrastructure. It provides inventory, secure access, auditing, and operational workflows for managing the mesh while keeping sensitive data local-first and policy-governed.
 
 ## Current State
-The app includes a working Svelte 5 UI with routes for inventory, scans, health, and settings. TUI mode is documented via the svelte-ratatui adapter, and screenshots show the core views. The Python backend runs as a Tauri sidecar, but data wiring, workflow depth, and device detail views are still thin.
+The product is active with a Svelte 5 + Tauri 2 UI, inventory/scanning features, credential vault, and SSH tunneling. Core workflows exist but deeper OASIS integrations and automation hooks are still missing.
 
-## Milestones
+## Phases
 
-### Near-term (Q2 2026)
-- Finish inventory dashboard wiring (live data from netops-toolkit scans).
-- Implement scan runner UX end-to-end: launch, progress, and result ingestion.
-- Build device detail view (interfaces, neighbors, health summary).
-- TUI mode polish: keyboard navigation, focus states, status bar.
-- Add basic persistence via PluresDB for scan history.
+### Phase 1 — Stabilize MVP Ops Workflows
+- Finish end-to-end inventory + scan ingestion with durable local storage.
+- Harden credential vault flows (rotation, scoped access, audit events).
+- Improve device detail views, diff tooling, and bulk configuration previews.
+- Expand test coverage for licensing/partition guards.
 
-### Mid-term (Q3–Q4 2026)
-- Introduce job scheduling (recurring scans, retention policies).
-- Add multi-tenant profiles and credential vault integration.
-- Expand health view to show trending metrics and alerts.
-- Export reports (CSV/PDF) directly from the UI.
-- Add guided workflows (backup, diff, safe push).
+### Phase 2 — OASIS Data Plane Integration
+- Persist operational state in PluresDB for local-first sync.
+- Apply Praxis policy enforcement on actions (access, change control).
+- Add agent-assisted runbooks (pares-agens suggestions, gated execution).
+- Emit Chronos-compatible audit trails for every operation.
 
-### Long-term
-- Full offline-first operator console with sync across devices.
-- Plugin system for custom scan modules and vendor packs.
-- Advanced topology visualization and dependency mapping.
-- Integrate with broader Plures governance (Praxis rules + Chronos history).
+### Phase 3 — Collaboration & Enterprise Readiness
+- Multi-partition collaboration with granular RBAC.
+- Secure sharing of runbooks and device metadata across teams.
+- Performance profiling for large fleets (10k+ assets).
+- Compliance reporting and export automation.
+
+### Phase 4 — OASIS Marketplace & Managed Ops
+- Operator marketplace for vetted automation workflows.
+- Managed fleet templates for common OASIS deployments.
+- Advanced analytics (drift trends, SLA dashboards, risk scoring).
+- Partner integrations (ticketing, CMDB, SIEM).
+
+## Status
+🚧 Active product — needs deeper OASIS integrations and scale hardening.
