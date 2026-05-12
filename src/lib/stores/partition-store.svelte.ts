@@ -19,12 +19,15 @@ const ACTIVE_PARTITION_KEY = 'netops-active-partition-v1';
 class PartitionStore {
 	partitions = $state<Partition[]>([]);
 	activePartitionId = $state<string | null>(null);
+	#cleanup: (() => void) | null = null;
 
 	constructor() {
 		this.load();
 		// Sync partition list to license store for entitlement computation
-		$effect(() => {
-			licenseStore.setPartitions(this.partitions);
+		this.#cleanup = $effect.root(() => {
+			$effect(() => {
+				licenseStore.setPartitions(this.partitions);
+			});
 		});
 	}
 
@@ -226,6 +229,10 @@ class PartitionStore {
 		this.partitions = [...this.partitions.slice(0, idx), updated, ...this.partitions.slice(idx + 1)];
 		this.save();
 		return true;
+	}
+
+	destroy(): void {
+		this.#cleanup?.();
 	}
 
 	// ── Internal ─────────────────────────────────────────────────────────────

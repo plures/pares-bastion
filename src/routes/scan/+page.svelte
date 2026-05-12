@@ -33,6 +33,13 @@
 	let elapsedInterval: ReturnType<typeof setInterval> | null = null;
 	let scanInterval: ReturnType<typeof setInterval> | null = null;
 
+	$effect(() => {
+		return () => {
+			if (scanInterval) clearInterval(scanInterval);
+			if (elapsedInterval) clearInterval(elapsedInterval);
+		};
+	});
+
 	// ---------------------------------------------------------------------------
 	// Derived values
 	// ---------------------------------------------------------------------------

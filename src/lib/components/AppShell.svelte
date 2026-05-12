@@ -164,6 +164,25 @@
 		color: var(--color-text, #1a1a1a);
 	}
 
+	.partition-switcher {
+		padding: 0 var(--space-md, 1rem) var(--space-md, 1rem);
+	}
+	.partition-switcher select {
+		width: 100%;
+		background: var(--color-bg-hover, rgba(205, 214, 244, 0.1));
+		color: var(--color-text-sidebar, #cdd6f4);
+		border: 1px solid rgba(205, 214, 244, 0.15);
+		border-radius: var(--radius-sm, 4px);
+		padding: var(--space-xs, 0.25rem) var(--space-sm, 0.5rem);
+		font-size: 0.8125rem;
+	}
+	.partition-indicator {
+		padding: var(--space-sm, 0.5rem) var(--space-md, 1rem) var(--space-md, 1rem);
+		font-size: 0.8125rem;
+		color: var(--color-text-sidebar, #cdd6f4);
+		opacity: 0.7;
+	}
+
 	.gui-sidebar {
 		width: var(--sidebar-width, 200px);
 		min-width: var(--sidebar-width, 200px);
