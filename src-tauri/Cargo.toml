@@ -32,6 +32,12 @@ base64 = "0.22"
 uuid = { version = "1", features = ["v4"] }
 dirs = "6"
 
+# Network device simulation actors
+ssh2 = "0.9"
+russh = "0.46"
+russh-keys = "0.46"
+chrono = "0.4"
+
 [profile.release]
 codegen-units = 1
 lto = true

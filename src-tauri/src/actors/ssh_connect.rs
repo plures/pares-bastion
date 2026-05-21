@@ -22,7 +22,7 @@ pub struct SshConnectParams {
 }
 
 /// Result of a successful SSH connection.
-pub struct SshConnection {
+pub struct SshSession {
     pub session: ssh2::Session,
     pub banner: String,
     pub prompt: String,
@@ -40,38 +40,33 @@ pub struct SshConnection {
 /// - Vendor detection (praxis rule)
 /// - Retry logic (praxis procedure)
 /// - Terminal negotiation commands (praxis procedure)
-pub fn connect(params: &SshConnectParams) -> Result<SshConnection> {
-    // TCP connect with timeout
+pub fn connect(params: &SshConnectParams) -> Result<SshSession> {
+    let addr = format!("{}:{}", params.host, params.port);
     let tcp = TcpStream::connect_timeout(
-        &format!("{}:{}", params.host, params.port).parse()?,
+        &addr.parse()?,
         params.timeout,
     )?;
     tcp.set_read_timeout(Some(params.timeout))?;
 
-    // SSH session setup
     let mut session = ssh2::Session::new()?;
     session.set_tcp_stream(tcp);
     session.set_timeout(params.timeout.as_millis() as u32);
-    
-    // Enable legacy algorithms for old devices (Brocade, old Cisco)
-    // ssh2 crate uses libssh2 which still supports group14-sha1
     session.handshake()?;
 
-    // Authenticate
-    if !params.use_keys {
-        session.userauth_password(&params.username, &params.password)?;
-    } else {
-        // Try key-based auth first, fall back to password
+    // Authenticate — password only unless keys explicitly requested
+    if params.use_keys && params.allow_agent {
         if session.userauth_agent(&params.username).is_err() {
             session.userauth_password(&params.username, &params.password)?;
         }
+    } else {
+        session.userauth_password(&params.username, &params.password)?;
     }
 
     if !session.authenticated() {
         anyhow::bail!("SSH authentication failed for {}@{}", params.username, params.host);
     }
 
-    // Open channel and capture banner
+    // Open channel and capture initial output
     let mut channel = session.channel_session()?;
     channel.request_pty("xterm", None, None)?;
     channel.shell()?;
@@ -80,14 +75,13 @@ pub fn connect(params: &SshConnectParams) -> Result<SshConnection> {
     let mut banner = String::new();
     let mut buf = [0u8; 4096];
     std::thread::sleep(Duration::from_millis(500));
-    if let Ok(n) = channel.read(&mut buf) {
+    if let Ok(n) = std::io::Read::read(&mut channel, &mut buf) {
         banner = String::from_utf8_lossy(&buf[..n]).to_string();
     }
 
-    // Extract prompt from end of banner
     let prompt = banner.lines().last().unwrap_or("").to_string();
 
-    Ok(SshConnection {
+    Ok(SshSession {
         session,
         banner,
         prompt,

@@ -1,6 +1,6 @@
 //! Fixture recorder actor — captures real device responses to files.
 //!
-//! IO: SSH to a device, run commands, write output to disk.
+//! IO: write captured command output to disk as fixture files.
 //! The praxis procedure (netops-record.px) orchestrates which commands
 //! to run and how to organize the output.
 
@@ -13,40 +13,36 @@ use std::path::{Path, PathBuf};
 ///   "show version" → "show_version.txt"
 ///   "show running-config | include snmp" → "show_running-config__include_snmp.txt"
 ///   "__manifest__" → "__manifest__.json"
-pub fn write_fixture(dir: &Path, command: &str, output: &str, metadata: &str) -> Result<PathBuf> {
+pub fn write_fixture(dir: &Path, command: &str, output: &str) -> Result<PathBuf> {
     std::fs::create_dir_all(dir)?;
 
-    let (filename, content) = if command == "__manifest__" {
-        ("__manifest__.json".to_string(), output.to_string())
-    } else if command == "__connect_banner__" {
-        ("__connect_banner__.txt".to_string(), output.to_string())
-    } else if command == "__prompt_pattern__" {
-        ("__prompt_pattern__.txt".to_string(), output.to_string())
+    let (filename, content) = if command.starts_with("__") && command.ends_with("__") {
+        let ext = if command == "__manifest__" { "json" } else { "txt" };
+        (format!("{}.{}", command, ext), output.to_string())
     } else {
         let safe_name = command
             .replace(" | ", "__")
             .replace(' ', "_")
             .replace('/', "_")
             + ".txt";
-        
-        // Prepend metadata as a comment header
         let content = format!(
-            "# Recorded from: {}\n# Command: {}\n# Recorded at: {}\n---\n{}",
-            metadata, command, chrono::Utc::now().to_rfc3339(), output
+            "# Command: {}\n# Recorded: {}\n---\n{}",
+            command,
+            chrono::Utc::now().to_rfc3339(),
+            output
         );
         (safe_name, content)
     };
 
     let path = dir.join(&filename);
     std::fs::write(&path, &content)?;
-    
     Ok(path)
 }
 
-/// List all fixture files in a directory.
-pub fn list_fixtures(dir: &Path) -> Result<Vec<(String, PathBuf)>> {
-    let mut fixtures = Vec::new();
-    
+/// Load all fixture files from a directory into a command→response map.
+pub fn load_fixtures(dir: &Path) -> Result<std::collections::HashMap<String, String>> {
+    let mut fixtures = std::collections::HashMap::new();
+
     if !dir.exists() {
         return Ok(fixtures);
     }
@@ -54,12 +50,20 @@ pub fn list_fixtures(dir: &Path) -> Result<Vec<(String, PathBuf)>> {
     for entry in std::fs::read_dir(dir)? {
         let entry = entry?;
         let path = entry.path();
-        if path.extension().map_or(false, |e| e == "txt" || e == "json") {
+        if path.extension().map_or(false, |e| e == "txt") {
             let stem = path.file_stem().unwrap().to_string_lossy();
-            let command = stem
-                .replace("__", " | ")
-                .replace('_', " ");
-            fixtures.push((command, path));
+            if stem.starts_with("__") {
+                continue; // Skip metadata files
+            }
+            let command = stem.replace("__", " | ").replace('_', " ");
+            let content = std::fs::read_to_string(&path)?;
+            // Strip header (lines before ---)
+            let body = if let Some(idx) = content.find("---\n") {
+                content[idx + 4..].to_string()
+            } else {
+                content
+            };
+            fixtures.insert(command, body);
         }
     }
 

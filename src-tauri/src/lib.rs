@@ -6,6 +6,7 @@ mod commands;
 mod licensing;
 mod partitions;
 mod policy;
+pub mod actors;
 
 use commands::{InventoryState, ScanCancelState};
 use licensing::commands::LicenseState;

@@ -1,21 +1,16 @@
 //! Mock SSH server actor — simulated device for testing.
 //!
-//! Starts a TCP listener that speaks SSH and responds to commands
-//! based on .px simulation rules and fixture files.
-//!
-//! This is the Rust side-effect layer for netops-simulate.px:
-//! - Accepts SSH connections (IO)
-//! - Reads incoming commands (IO)
-//! - Routes command to praxis simulation rules (logic)
-//! - Sends response bytes back (IO)
+//! Uses russh to accept SSH connections and respond to commands
+//! based on loaded fixture files. The routing logic is driven by
+//! praxis/netops-simulate.px rules.
 
 use anyhow::Result;
 use std::collections::HashMap;
-use std::net::TcpListener;
 use std::path::Path;
 use std::sync::Arc;
 
 /// A device personality loaded from fixtures.
+#[derive(Clone)]
 pub struct Personality {
     pub vendor: String,
     pub vendor_family: String,
@@ -33,98 +28,85 @@ pub struct MockServerConfig {
 }
 
 /// Load a personality from a fixtures directory.
-///
-/// Reads all .txt files in the directory as command→response mappings.
-/// The filename is the command (with underscores replacing spaces/pipes).
-/// The file content is the response.
 pub fn load_personality(fixtures_dir: &Path) -> Result<Personality> {
     let manifest_path = fixtures_dir.join("__manifest__.json");
-    let manifest: serde_json::Value = if manifest_path.exists() {
-        serde_json::from_str(&std::fs::read_to_string(&manifest_path)?)?
+    let (vendor, vendor_family, prompt) = if manifest_path.exists() {
+        let manifest: serde_json::Value =
+            serde_json::from_str(&std::fs::read_to_string(&manifest_path)?)?;
+        (
+            manifest["vendor"].as_str().unwrap_or("unknown").to_string(),
+            manifest["vendor_family"].as_str().unwrap_or("unknown").to_string(),
+            manifest["prompt"].as_str().unwrap_or("#").to_string(),
+        )
     } else {
-        serde_json::json!({
-            "vendor": "unknown",
-            "vendor_family": "unknown",
-            "prompt": "#"
-        })
+        ("unknown".to_string(), "unknown".to_string(), "#".to_string())
     };
 
-    let mut fixtures = HashMap::new();
-
-    for entry in std::fs::read_dir(fixtures_dir)? {
-        let entry = entry?;
-        let path = entry.path();
-        if path.extension().map_or(false, |e| e == "txt") {
-            // Filename → command (reverse the encoding)
-            let stem = path.file_stem().unwrap().to_string_lossy();
-            let command = stem
-                .replace("__", " | ")
-                .replace("_", " ");
-            let content = std::fs::read_to_string(&path)?;
-            fixtures.insert(command, content);
-        }
-    }
+    let fixtures = super::fixture_recorder::load_fixtures(fixtures_dir)?;
 
     Ok(Personality {
-        vendor: manifest["vendor"].as_str().unwrap_or("unknown").to_string(),
-        vendor_family: manifest["vendor_family"].as_str().unwrap_or("unknown").to_string(),
-        prompt: manifest["prompt"].as_str().unwrap_or("#").to_string(),
+        vendor,
+        vendor_family,
+        prompt,
         fixtures,
     })
 }
 
-/// Start the mock SSH server.
+/// Find the best matching fixture for a command.
 ///
-/// Blocks the current thread, accepting connections and responding
-/// to commands based on the loaded personality.
-///
-/// In production use, this runs in a background thread or tokio task.
-pub fn start_server(config: MockServerConfig) -> Result<()> {
-    let listener = TcpListener::bind(format!("{}:{}", config.bind_addr, config.port))?;
-    let personality = Arc::new(config.personality);
-
-    eprintln!(
-        "Mock SSH server ({}) listening on {}:{}",
-        personality.vendor, config.bind_addr, config.port
-    );
-
-    for stream in listener.incoming() {
-        let stream = stream?;
-        let personality = Arc::clone(&personality);
-        let username = config.username.clone();
-        let password = config.password.clone();
-
-        std::thread::spawn(move || {
-            if let Err(e) = handle_client(stream, &personality, &username, &password) {
-                eprintln!("Client handler error: {}", e);
-            }
-        });
+/// Tries exact match first, then partial (contains) match.
+pub fn match_command(personality: &Personality, command: &str) -> Option<String> {
+    // Exact match
+    if let Some(response) = personality.fixtures.get(command) {
+        return Some(response.clone());
     }
-
-    Ok(())
+    // Partial match — find fixture whose key is contained in the command
+    for (key, response) in &personality.fixtures {
+        if command.contains(key.as_str()) || key.contains(command) {
+            return Some(response.clone());
+        }
+    }
+    None
 }
 
-/// Handle a single SSH client connection.
-fn handle_client(
-    _stream: std::net::TcpStream,
-    _personality: &Personality,
-    _username: &str,
-    _password: &str,
-) -> Result<()> {
-    // TODO: Implement SSH server using russh or thrussh crate
-    // For now, this is a skeleton that will be filled in with:
-    // 1. SSH handshake (accept connection, auth)
-    // 2. PTY/shell request handling
-    // 3. Command routing to personality fixtures
-    // 4. Prompt injection between responses
+/// Generate a vendor-appropriate error response.
+pub fn error_response(vendor_family: &str, command: &str) -> String {
+    match vendor_family {
+        "cisco" => format!("% Invalid input detected at '^' marker.\n"),
+        "brocade" => format!("Invalid input -> {}\n", command),
+        "juniper" => "unknown command.\n".to_string(),
+        "nokia" => "Error: Bad command.\n".to_string(),
+        "arista" => "% Invalid input\n".to_string(),
+        _ => format!("% Unknown command: {}\n", command),
+    }
+}
+
+/// Start the mock SSH server (async, uses russh).
+///
+/// This is a placeholder — full implementation requires russh server setup.
+/// For now, documents the intended interface.
+pub async fn start_server(_config: MockServerConfig) -> Result<()> {
+    // TODO: Implement with russh::server
     //
-    // The routing logic itself calls into the praxis engine:
-    //   praxis.evaluate("netops.simulate.handle_command", {
-    //     command: received_command,
-    //     personality: personality,
-    //   })
+    // The flow:
+    // 1. Bind TCP, accept connections
+    // 2. Perform SSH handshake (accept password auth)
+    // 3. On shell request: send prompt
+    // 4. On incoming data: parse command, match against personality fixtures
+    // 5. Send response + prompt
+    // 6. On "exit"/"quit": close channel
     //
-    // This keeps the IO boundary clean: Rust does TCP/SSH, praxis does routing.
+    // The command routing calls into praxis:
+    //   let response = praxis.evaluate("netops.simulate.handle_command", context);
+    //
+    // For the initial implementation, we route directly through match_command().
     
-    Ok(())
+    anyhow::bail!("Mock SSH server not yet implemented — requires russh server wiring")
+}
+
+/// Start a mock server in a background tokio task, return the join handle.
+pub fn spawn_server(
+    config: MockServerConfig,
+) -> tokio::task::JoinHandle<Result<()>> {
+    tokio::spawn(async move { start_server(config).await })
 }
