@@ -1,0 +1,173 @@
+// netops-simulate.px — Device simulation rules for testing
+//
+// Drives the mock SSH server. Given a personality (device type + version)
+// and an incoming command, returns the appropriate fixture response.
+// Rules are generated/validated by the fixture-recorder from containerlab captures.
+
+namespace netops.simulate;
+
+// --- Simulation engine ---
+
+rule handle_command {
+  description "Route incoming SSH commands to the correct fixture response"
+
+  // Terminal negotiation — always respond empty (all vendors)
+  when input.command matches r"terminal length|terminal width|skip-page-display" {
+    emit response = "";
+    emit prompt = input.personality.prompt;
+  }
+  when input.command matches r"set cli screen-(width|length)" {
+    emit response = "";
+    emit prompt = input.personality.prompt;
+  }
+
+  // Exit/quit/logout
+  when input.command matches r"^(exit|quit|logout)$" {
+    emit action = "disconnect";
+  }
+
+  // Show commands — delegate to personality fixtures
+  when input.personality.fixtures contains_key input.command {
+    emit response = input.personality.fixtures[input.command];
+    emit prompt = input.personality.prompt;
+  }
+
+  // Partial command match (e.g. "show version" matches "show version | include")
+  when input.personality.fixtures has_partial_match input.command {
+    emit response = input.personality.fixtures.partial_match(input.command);
+    emit prompt = input.personality.prompt;
+  }
+
+  // Unknown command — vendor-appropriate error
+  otherwise {
+    emit response = format_error(input.personality.vendor, input.command);
+    emit prompt = input.personality.prompt;
+  }
+}
+
+// --- Error response formatting (vendor-specific) ---
+
+rule format_error {
+  when input.vendor_family == "cisco" {
+    emit error = "% Invalid input detected at '^' marker.";
+  }
+  when input.vendor_family == "brocade" {
+    emit error = "Invalid input -> " + input.command;
+  }
+  when input.vendor_family == "juniper" {
+    emit error = "unknown command.";
+  }
+  when input.vendor_family == "nokia" {
+    emit error = "Error: Bad command.";
+  }
+  when input.vendor_family == "arista" {
+    emit error = "% Invalid input";
+  }
+  otherwise {
+    emit error = "% Unknown command: " + input.command;
+  }
+}
+
+// --- Personality definitions ---
+// These are compiled from containerlab fixture recordings.
+// Each personality includes: vendor, prompt pattern, and fixture map.
+
+personality "nokia_srlinux" {
+  vendor = "nokia_srl";
+  vendor_family = "nokia";
+  prompt = "--{ running }--[  ]--\nA:nokia-srl-lab# ";
+  fixtures_dir = "fixtures/nokia-srlinux-24.10.1/";
+  commands = [
+    "info from state /system/information",
+    "info from state /system/lldp/interface",
+    "info from state /interface",
+    "show version",
+    "show system information",
+  ];
+}
+
+personality "arista_ceos" {
+  vendor = "arista_eos";
+  vendor_family = "arista";
+  prompt = "arista-eos-lab#";
+  fixtures_dir = "fixtures/arista-ceos-4.32.2/";
+  commands = [
+    "show version",
+    "show inventory",
+    "show lldp neighbors",
+    "show interfaces status",
+    "show running-config | include snmp-server community",
+  ];
+}
+
+personality "cisco_xrd" {
+  vendor = "cisco_xr";
+  vendor_family = "cisco";
+  prompt = "RP/0/RP0/CPU0:cisco-xrd-lab#";
+  fixtures_dir = "fixtures/cisco-xrd-7.11.1/";
+  commands = [
+    "show version",
+    "show inventory",
+    "show lldp neighbors",
+    "terminal length 0",
+    "show running-config | include snmp-server community",
+  ];
+}
+
+personality "juniper_crpd" {
+  vendor = "juniper_junos";
+  vendor_family = "juniper";
+  prompt = "admin@juniper-crpd-lab> ";
+  fixtures_dir = "fixtures/juniper-crpd-24.2/";
+  commands = [
+    "show version",
+    "show chassis hardware",
+    "show lldp neighbors",
+    "show configuration snmp | display set | match community",
+    "set cli screen-length 0",
+    "set cli screen-width 511",
+  ];
+}
+
+// Legacy devices (recorded from real hardware, not containerlab)
+personality "brocade_mlxe" {
+  vendor = "brocade_fastiron";
+  vendor_family = "brocade";
+  prompt = "SSH@mlxe-core#";
+  fixtures_dir = "fixtures/brocade-ironware-6.3.0e/";
+  commands = [
+    "show version",
+    "show inventory",
+    "show running-config | include snmp-server community",
+    "skip-page-display",
+    "terminal length 0",
+  ];
+}
+
+personality "brocade_icx" {
+  vendor = "brocade_fastiron";
+  vendor_family = "brocade";
+  prompt = "SSH@icx-sw#";
+  fixtures_dir = "fixtures/brocade-fastiron-08.0.95/";
+  commands = [
+    "show version",
+    "show inventory",
+    "show running-config | include snmp-server community",
+    "skip-page-display",
+    "terminal length 0",
+  ];
+}
+
+personality "cisco_me3600x" {
+  vendor = "cisco_ios";
+  vendor_family = "cisco";
+  prompt = "router-01#";
+  fixtures_dir = "fixtures/cisco-ios-15.6.1.S2/";
+  commands = [
+    "show version",
+    "show inventory",
+    "show running-config | include snmp-server community",
+    "terminal length 0",
+    "terminal width 511",
+  ];
+}

@@ -1,0 +1,191 @@
+// netops-record.px — Fixture recording orchestration
+//
+// Logic for recording device responses from containerlab or real devices.
+// Produces fixture files that compile into simulation personalities.
+
+namespace netops.record;
+
+// --- Command matrix per vendor family ---
+// These are the commands we record from each device type.
+
+const COMMAND_MATRIX = {
+  cisco: [
+    "terminal length 0",
+    "terminal width 511",
+    "show version",
+    "show inventory",
+    "show interfaces status",
+    "show ip interface brief",
+    "show lldp neighbors",
+    "show cdp neighbors detail",
+    "show running-config | include snmp-server community",
+    "show running-config | include hostname",
+  ],
+  brocade: [
+    "skip-page-display",
+    "show version",
+    "show inventory",
+    "show interfaces brief",
+    "show lldp neighbors",
+    "show running-config | include snmp-server community",
+  ],
+  juniper: [
+    "set cli screen-length 0",
+    "set cli screen-width 511",
+    "show version",
+    "show chassis hardware",
+    "show interfaces terse",
+    "show lldp neighbors",
+    "show configuration snmp | display set | match community",
+  ],
+  nokia: [
+    "environment more false",
+    "show version",
+    "show system information",
+    "show port",
+    "show system lldp neighbor",
+    "admin display-config | match community",
+    // SR Linux uses different commands
+    "info from state /system/information",
+    "info from state /system/lldp/interface",
+  ],
+  arista: [
+    "terminal length 0",
+    "terminal width 999",
+    "show version",
+    "show inventory",
+    "show interfaces status",
+    "show lldp neighbors",
+    "show running-config | include snmp-server community",
+  ],
+};
+
+// --- Recording procedure ---
+
+procedure record_device {
+  description "SSH into a device, run command matrix, save fixtures"
+
+  input host: string;
+  input user: string;
+  input password: string;
+  input vendor_hint: string = "unknown";
+  input output_dir: string;
+  input timeout: int = 30;
+
+  // Step 1: Connect and detect vendor
+  step connect {
+    actor = "ssh_connect";
+    params = {
+      host: input.host,
+      user: input.user,
+      password: input.password,
+      device_type: if input.vendor_hint != "unknown" { input.vendor_hint } else { "autodetect" },
+      timeout: input.timeout,
+      use_keys: false,
+      allow_agent: false,
+    };
+    emit connection = result.connection;
+  }
+
+  // Step 2: Detect vendor from initial output
+  step detect {
+    let banner = invoke actor "device_command" {
+      connection: connection,
+      command: "show version",
+    };
+    let detection = invoke netops.detect.detect_vendor(output: banner);
+    emit vendor = detection.vendor;
+    emit vendor_family = detection.vendor_family;
+    emit raw_version = banner;
+  }
+
+  // Step 3: Run full command matrix
+  step record_commands {
+    let commands = COMMAND_MATRIX[vendor_family] ?? COMMAND_MATRIX["cisco"];
+    
+    for cmd in commands {
+      let output = invoke actor "device_command" {
+        connection: connection,
+        command: cmd,
+      };
+      
+      // Save to fixture file
+      invoke actor "write_fixture" {
+        dir: input.output_dir,
+        command: cmd,
+        output: output,
+        metadata: {
+          host: input.host,
+          vendor: vendor,
+          recorded_at: now(),
+        },
+      };
+    }
+  }
+
+  // Step 4: Record terminal negotiation behavior
+  step record_negotiation {
+    // Capture what the device sends on connect (banner, prompt)
+    invoke actor "write_fixture" {
+      dir: input.output_dir,
+      command: "__connect_banner__",
+      output: connection.banner,
+      metadata: { host: input.host, vendor: vendor },
+    };
+    invoke actor "write_fixture" {
+      dir: input.output_dir,
+      command: "__prompt_pattern__",
+      output: connection.prompt,
+      metadata: { host: input.host, vendor: vendor },
+    };
+  }
+
+  // Step 5: Generate personality manifest
+  step write_manifest {
+    invoke actor "write_fixture" {
+      dir: input.output_dir,
+      command: "__manifest__",
+      output: json({
+        vendor: vendor,
+        vendor_family: vendor_family,
+        host: input.host,
+        prompt: connection.prompt,
+        recorded_at: now(),
+        commands_recorded: len(COMMAND_MATRIX[vendor_family] ?? []),
+      }),
+      metadata: { host: input.host, vendor: vendor },
+    };
+  }
+}
+
+// --- Containerlab batch recording ---
+
+procedure record_topology {
+  description "Record fixtures from all nodes in a containerlab topology"
+
+  input topology_file: string;
+  input user: string = "admin";
+  input password: string = "admin";
+  input output_base: string = "fixtures/";
+
+  step parse_topology {
+    actor = "read_file";
+    params = { path: input.topology_file };
+    let topology = yaml_parse(result.content);
+    emit nodes = topology.topology.nodes;
+  }
+
+  step record_all {
+    for name, node in nodes {
+      let host = clab_mgmt_ip(name, input.topology_file);
+      let output_dir = input.output_base + name + "-" + node.image.split(":")[1] + "/";
+      
+      invoke record_device {
+        host: host,
+        user: input.user,
+        password: input.password,
+        output_dir: output_dir,
+      };
+    }
+  }
+}

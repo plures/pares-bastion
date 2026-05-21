@@ -1,0 +1,190 @@
+// netops-detect.px — Vendor detection rules
+//
+// Pure logic: given raw SSH output, determine the device vendor.
+// No IO — this runs against strings returned by the ssh_connect actor.
+// Rules are ordered by specificity (most specific first).
+
+namespace netops.detect;
+
+// --- Vendor identification from CLI output ---
+
+rule detect_vendor {
+  description "Identify network device vendor from show version or banner output"
+  
+  // Brocade / Extreme / IronWare family
+  when input.output contains "IronWare" {
+    emit vendor = "brocade_fastiron";
+    emit vendor_family = "brocade";
+    emit confidence = "high";
+  }
+  when input.output contains "Extreme Networks" and input.output contains "Version" {
+    emit vendor = "brocade_fastiron";
+    emit vendor_family = "brocade";
+    emit confidence = "high";
+  }
+  when input.output matches r"ICX\d+" {
+    emit vendor = "brocade_fastiron";
+    emit vendor_family = "brocade";
+    emit confidence = "high";
+  }
+  when input.output contains "Ruckus" or input.output contains "CommScope" {
+    emit vendor = "brocade_fastiron";
+    emit vendor_family = "brocade";
+    emit confidence = "medium";
+  }
+  when input.output contains "Brocade" or input.output contains "Foundry" {
+    emit vendor = "brocade_fastiron";
+    emit vendor_family = "brocade";
+    emit confidence = "high";
+  }
+  when input.output contains "Brocade Network OS" or input.output contains "Network OS" {
+    emit vendor = "brocade_nos";
+    emit vendor_family = "brocade";
+    emit confidence = "high";
+  }
+
+  // Cisco family
+  when input.output contains "IOS XE" or input.output contains "IOS-XE" {
+    emit vendor = "cisco_xe";
+    emit vendor_family = "cisco";
+    emit confidence = "high";
+  }
+  when input.output contains "IOS XR" {
+    emit vendor = "cisco_xr";
+    emit vendor_family = "cisco";
+    emit confidence = "high";
+  }
+  when input.output contains "NX-OS" or input.output contains "NXOS" {
+    emit vendor = "cisco_nxos";
+    emit vendor_family = "cisco";
+    emit confidence = "high";
+  }
+  when input.output contains "Cisco IOS" {
+    emit vendor = "cisco_ios";
+    emit vendor_family = "cisco";
+    emit confidence = "high";
+  }
+
+  // Nokia family
+  when input.output contains "SR Linux" or input.output contains "SRLinux" {
+    emit vendor = "nokia_srl";
+    emit vendor_family = "nokia";
+    emit confidence = "high";
+  }
+  when input.output contains "TiMOS" or input.output contains "Nokia" {
+    emit vendor = "nokia_sros";
+    emit vendor_family = "nokia";
+    emit confidence = "high";
+  }
+
+  // Juniper
+  when input.output contains "Junos" or input.output contains "JUNOS" {
+    emit vendor = "juniper_junos";
+    emit vendor_family = "juniper";
+    emit confidence = "high";
+  }
+
+  // Arista
+  when input.output contains "Arista" or input.output contains "EOS" {
+    emit vendor = "arista_eos";
+    emit vendor_family = "arista";
+    emit confidence = "high";
+  }
+
+  // Fallback
+  otherwise {
+    emit vendor = "unknown";
+    emit vendor_family = "unknown";
+    emit confidence = "none";
+  }
+}
+
+// --- Version extraction ---
+
+rule extract_version {
+  description "Extract firmware version from show version output"
+  priority 100;
+
+  // IronWare takes absolute priority (avoid FE Version 1 garbage)
+  when input.output matches r"IronWare\s*:\s*Version\s+(\S+)" {
+    emit version = $1;
+    emit version_source = "ironware";
+  }
+  // SW: Version for FastIron/ICX
+  when input.output matches r"SW:\s*Version\s+(\S+)" {
+    emit version = $1;
+    emit version_source = "sw_version";
+  }
+  // Junos
+  when input.output matches r"Junos:\s+(\S+)" {
+    emit version = $1;
+    emit version_source = "junos";
+  }
+  // TiMOS
+  when input.output matches r"TiMOS-\S+-([\d.]+\S*)" {
+    emit version = $1;
+    emit version_source = "timos";
+  }
+  // Generic "Version X.Y.Z" (must have dot, 3+ chars)
+  when input.output matches r"\bVersion\s+([\d().a-zA-Z/:-]{3,})" and $1 contains "." {
+    emit version = $1;
+    emit version_source = "generic";
+  }
+}
+
+// --- Model extraction ---
+
+rule extract_model {
+  description "Extract hardware model from show version output"
+
+  // Brocade MLX/XMR chassis
+  when input.output matches r"Chassis:\s+(.+?)\s*\(" {
+    emit model = $1;
+  }
+  // Brocade ICX/FastIron
+  when input.output matches r"HW:\s+(?:Stackable\s+)?(\S+)" {
+    emit model = $1;
+  }
+  // Cisco platform
+  when input.output matches r"^[Cc]isco\s+(\S+)\s+.*processor" {
+    emit model = $1;
+  }
+  when input.output matches r"[Mm]odel\s+(?:number\s*)?[:\s]+(\S+)" {
+    emit model = $1;
+  }
+  // Juniper
+  when input.output matches r"^Model:\s+(\S+)" {
+    emit model = $1;
+  }
+  // Nokia chassis type
+  when input.output matches r"Chassis Type\s*:\s*(.*\S)" {
+    emit model = $1;
+  }
+  // Arista
+  when input.output matches r"Arista\s+(DCS-\S+)" {
+    emit model = $1;
+  }
+}
+
+// --- Serial extraction ---
+
+rule extract_serial {
+  description "Extract chassis serial number"
+
+  // Brocade Serial  #: or Serial #:
+  when input.output matches r"Serial\s*#\s*:\s*(\S+)" {
+    emit serial = trim_trailing($1, ",");
+  }
+  // Cisco Processor Board ID
+  when input.output matches r"Processor [Bb]oard ID\s+(\S+)" {
+    emit serial = $1;
+  }
+  // Generic System serial number
+  when input.output matches r"System serial number\s*[:\s]+(\S+)" {
+    emit serial = $1;
+  }
+  // Generic Serial number:
+  when input.output matches r"Serial number:\s+(\S+)" {
+    emit serial = $1;
+  }
+}

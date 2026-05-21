@@ -1,0 +1,56 @@
+# Containerlab Topology: netops-fixtures
+# Purpose: Spin up real network OS containers for fixture recording
+# and integration testing. Used by `pares-bastion fixture-record`.
+#
+# Free images (no license needed):
+#   - Nokia SR Linux (ghcr.io/nokia/srlinux)
+#   - Juniper cRPD (available via Juniper downloads)
+#
+# Registration-required (free for lab use):
+#   - Arista cEOS (arista.com account)
+#   - Cisco XRd (CML/DevNet)
+#
+# Usage:
+#   clab deploy -t clab/netops-fixtures.yml
+#   pares-bastion fixture-record --topology clab/netops-fixtures.yml
+#   clab destroy -t clab/netops-fixtures.yml
+
+name: netops-fixtures
+
+topology:
+  defaults:
+    kind: linux
+
+  nodes:
+    # Nokia SR Linux — fully free, no license
+    nokia-srl:
+      kind: nokia_srlinux
+      image: ghcr.io/nokia/srlinux:24.10.1
+      startup-config: clab/configs/nokia-srl.cfg
+
+    # Arista cEOS — free with account registration
+    arista-eos:
+      kind: arista_ceos
+      image: ceos:4.32.2F
+      startup-config: clab/configs/arista-eos.cfg
+      env:
+        INTFTYPE: et
+
+    # Cisco IOS-XRd — available via CML/DevNet
+    cisco-xrd:
+      kind: cisco_xrd
+      image: ios-xr:7.11.1
+      startup-config: clab/configs/cisco-xrd.cfg
+
+    # Juniper cRPD — containerized routing
+    juniper-crpd:
+      kind: juniper_crpd
+      image: crpd:24.2R1
+      startup-config: clab/configs/juniper-crpd.cfg
+
+  links:
+    # Mesh topology for LLDP/CDP discovery testing
+    - endpoints: ["nokia-srl:e1-1", "arista-eos:et1"]
+    - endpoints: ["arista-eos:et2", "cisco-xrd:Gi0-0-0-1"]
+    - endpoints: ["cisco-xrd:Gi0-0-0-2", "juniper-crpd:eth1"]
+    - endpoints: ["juniper-crpd:eth2", "nokia-srl:e1-2"]

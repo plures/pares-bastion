@@ -1,0 +1,176 @@
+// netops-scan.px — Scan orchestration logic
+//
+// Pure logic: given a set of hosts, determine the scan pipeline.
+// Side effects (SSH connect, SNMP query) are delegated to Rust actors.
+
+namespace netops.scan;
+
+// --- Scan pipeline ---
+
+procedure scan_hosts {
+  description "Orchestrate device discovery and enrichment"
+  
+  input hosts: list<string>;
+  input credentials: { user: string, password: string } | null;
+  input snmp_community: string = "public";
+  input concurrency: int = 5;
+
+  // Phase 1: Reachability (ICMP ping sweep)
+  step ping_sweep {
+    actor = "ping";
+    params = { hosts: input.hosts, concurrency: input.concurrency };
+    emit reachable_hosts = result.reachable;
+  }
+
+  // Phase 2: SNMP identification (parallel)
+  step snmp_identify {
+    actor = "snmp_query";
+    for host in reachable_hosts {
+      params = {
+        host: host,
+        community: input.snmp_community,
+        oids: ["sysDescr", "sysName", "sysObjectID", "sysLocation"],
+      };
+    }
+    emit snmp_results = results;
+  }
+
+  // Phase 3: SSH deep scan (when credentials available)
+  step ssh_enrich {
+    guard input.credentials != null;
+    
+    for host in reachable_hosts {
+      // Determine vendor from SNMP if available
+      let known_vendor = snmp_results[host].vendor ?? "unknown";
+      
+      // SSH connect + detect
+      actor = "ssh_deep_scan";
+      params = {
+        host: host,
+        user: input.credentials.user,
+        password: input.credentials.password,
+        known_vendor: known_vendor,
+        timeout: 15,
+      };
+    }
+    emit enriched_devices = results;
+  }
+
+  // Phase 4: Compile inventory
+  step compile_inventory {
+    for host in reachable_hosts {
+      let device = merge(
+        snmp_results[host] ?? {},
+        enriched_devices[host] ?? {},
+      );
+      // Run detection rules against the raw output
+      let detection = invoke netops.detect.detect_vendor(output: device.raw_output ?? "");
+      if detection.vendor != "unknown" {
+        device.vendor = detection.vendor;
+      }
+    }
+    emit inventory = devices;
+  }
+}
+
+// --- SSH deep scan sub-procedure ---
+
+procedure ssh_deep_scan {
+  description "Connect via SSH, detect vendor, extract device info"
+  
+  input host: string;
+  input user: string;
+  input password: string;
+  input known_vendor: string;
+  input timeout: int;
+
+  // Step 1: Try SSHDetect (with hard timeout)
+  step autodetect {
+    guard input.known_vendor == "unknown";
+    actor = "ssh_detect";
+    params = {
+      host: input.host,
+      user: input.user,
+      password: input.password,
+      timeout: min(input.timeout, 8),
+    };
+    on_timeout(seconds: input.timeout) {
+      emit detected_vendor = "unknown";
+      emit fallback = true;
+    }
+    emit detected_vendor = result.vendor ?? "unknown";
+    emit fallback = (detected_vendor == "unknown");
+  }
+
+  // Step 2: Connect and run show version
+  step connect_and_identify {
+    let login_vendor = if input.known_vendor != "unknown" {
+      input.known_vendor
+    } else {
+      detected_vendor ?? "cisco_ios"  // first in probe order
+    };
+
+    actor = "ssh_connect";
+    params = {
+      host: input.host,
+      user: input.user,
+      password: input.password,
+      device_type: login_vendor,
+      timeout: input.timeout,
+      use_keys: false,
+      allow_agent: false,
+    };
+
+    // Run show version
+    let version_output = invoke actor "device_command" {
+      connection: result.connection,
+      command: "show version",
+    };
+
+    // Identify vendor from actual output
+    let detection = invoke netops.detect.detect_vendor(output: version_output);
+    emit vendor = detection.vendor;
+    emit raw_output = version_output;
+  }
+
+  // Step 3: Extract structured data
+  step parse_output {
+    let version_info = invoke netops.detect.extract_version(output: raw_output);
+    let model_info = invoke netops.detect.extract_model(output: raw_output);
+    let serial_info = invoke netops.detect.extract_serial(output: raw_output);
+
+    emit device = {
+      host: input.host,
+      vendor: vendor,
+      version: version_info.version,
+      model: model_info.model,
+      serial: serial_info.serial,
+      raw_output: raw_output,
+    };
+  }
+
+  // Step 4: Extract SNMP community while connected
+  step extract_community {
+    let snmp_cmd = match vendor {
+      "cisco_ios" | "cisco_xe" | "cisco_xr" | "cisco_nxos" | "brocade_fastiron" =>
+        "show running-config | include snmp-server community",
+      "juniper_junos" =>
+        "show configuration snmp | display set | match community",
+      "arista_eos" =>
+        "show running-config section snmp | include community",
+      "nokia_sros" =>
+        "admin display-config | match community",
+      _ => null,
+    };
+
+    guard snmp_cmd != null;
+    
+    let snmp_output = invoke actor "device_command" {
+      connection: connect_and_identify.connection,
+      command: snmp_cmd,
+    };
+    
+    let communities = extract_matches(snmp_output, r"community\s+(\S+)");
+    emit device.communities = communities;
+  }
+}
