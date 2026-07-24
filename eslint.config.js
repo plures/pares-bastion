@@ -3,13 +3,11 @@ import tseslint from "typescript-eslint";
 import sveltePlugin from "eslint-plugin-svelte";
 import svelteParser from "svelte-eslint-parser";
 import globals from "globals";
-import designDojoPlugin from "@plures/design-dojo/enforce";
 
 export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   ...sveltePlugin.configs["flat/recommended"],
-  designDojoPlugin.configs.recommended,
   {
     languageOptions: {
       globals: {

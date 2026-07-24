@@ -202,7 +202,7 @@ function parseSimpleYaml(text: string): Record<string, unknown> {
 			// Key: value
 			const colonIdx = trimmed.indexOf(':');
 			const key = trimmed.slice(0, colonIdx).trim();
-			let valueStr = trimmed.slice(colonIdx + 1).trim();
+			const valueStr = trimmed.slice(colonIdx + 1).trim();
 
 			// Parse value
 			if (valueStr.startsWith('"') && valueStr.endsWith('"')) {

@@ -17,12 +17,12 @@ describe('license domain', () => {
 		});
 
 		it('returns expired for past expiry', () => {
+			const now = Date.now();
 			const license = {
 				...createFreeLicense(),
 				tier: 'pro' as const,
-				expiresAt: Date.now() - 86400000 * 30,
-				// 30 days ago
-				gracePeriodDays: 7,
+				validUntil: now - 86400000 * 30, // expired 30 days ago
+				graceUntil: now - 86400000 * 23, // 7-day grace also expired
 			};
 			const status = computeLicenseStatus(license);
 			expect(['expired', 'grace']).toContain(status);
