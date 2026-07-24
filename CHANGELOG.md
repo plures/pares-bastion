@@ -1,3 +1,23 @@
+## [0.15.2] — 2026-07-24
+
+- Merge pull request #7 from plures/release-trigger-autobump (fe33826)
+- Potential fix for pull request finding (41d223f)
+- Merge pull request #6 from plures/fix/ci-green (42c0677)
+- fix(license): correct test to use validUntil/graceUntil instead of expiresAt/gracePeriodDays (cf01bb3)
+- fix: exclude tests/e2e from root tsconfig to resolve CI typecheck failure (01406f0)
+- fix: satisfy lint for unused service stub parameters (2751b96)
+- fix: resolve all ESLint errors causing CI node job failure (c7c0407)
+- fix(lint): remove missing design-dojo enforce plugin from eslint config (3837d1a)
+- ci(release): trigger release pipeline on merge to main (f78fa1f)
+- fix(ci): sync package-lock.json with package.json (cd780c1)
+- ci: migrate Tech Doc Writer to shared reusable (743d2cd)
+- fix(ci): repair tech-doc-writer YAML indentation / remove empty workflow (ad83760)
+- ci: add security-aware Dependabot auto-merge workflow (org backfill) (0da3d57)
+- ci: change release trigger from push-to-main to tag-only (0443c35)
+- docs: update README license section for BSL-1.1 OR MIT dual-license (ce66c6b)
+- license: dual-license under BSL-1.1 OR MIT (d6a13ec)
+- wip: save work in progress (df777f9)
+
 ## [0.15.1] — 2026-05-11
 
 - refactor: replace inline lifecycle with reusable workflow call (4801549)
