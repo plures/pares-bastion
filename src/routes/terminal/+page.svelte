@@ -185,16 +185,17 @@
 <script context="module" lang="ts">
 	/** Minimal ANSI → HTML converter for terminal output display */
 	function ansiToHtml(text: string): string {
+		const esc = String.fromCharCode(0x1b);
 		return text
 			.replace(/&/g, '&amp;')
 			.replace(/</g, '&lt;')
 			.replace(/>/g, '&gt;')
-			.replace(/\x1b\[32m/g, '<span style="color:#9ece6a">')
-			.replace(/\x1b\[34m/g, '<span style="color:#7aa2f7">')
-			.replace(/\x1b\[36m/g, '<span style="color:#7dcfff">')
-			.replace(/\x1b\[33m/g, '<span style="color:#e0af68">')
-			.replace(/\x1b\[31m/g, '<span style="color:#f7768e">')
-			.replace(/\x1b\[0m/g, '</span>');
+			.replaceAll(`${esc}[32m`, '<span style="color:#9ece6a">')
+			.replaceAll(`${esc}[34m`, '<span style="color:#7aa2f7">')
+			.replaceAll(`${esc}[36m`, '<span style="color:#7dcfff">')
+			.replaceAll(`${esc}[33m`, '<span style="color:#e0af68">')
+			.replaceAll(`${esc}[31m`, '<span style="color:#f7768e">')
+			.replaceAll(`${esc}[0m`, '</span>');
 	}
 </script>
 

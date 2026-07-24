@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { createDefaultPartition, countSyncedPartitions, slugify } from '../partition.js';
+import { createDefaultPartition, countSyncedPartitions, slugify, type Partition } from '../partition.js';
 
 describe('partition domain', () => {
 	describe('slugify', () => {
@@ -31,7 +31,7 @@ describe('partition domain', () => {
 				{ state: 'local_only' },
 				{ state: 'synced' },
 				{ state: 'archived' },
-			] as any[];
+			] as Pick<Partition, 'state'>[] as Partition[];
 			expect(countSyncedPartitions(partitions)).toBe(2);
 		});
 		it('returns 0 for empty array', () => {

@@ -20,7 +20,7 @@ export async function listPartitions(): Promise<Partition[]> {
  * Phase 1: reads from partition store.
  * Phase 2+: invoke('get_partition', { partitionId })
  */
-export async function getPartition(partitionId: string): Promise<Partition | null> {
+export async function getPartition(_partitionId: string): Promise<Partition | null> {
 	// TODO: invoke('get_partition', { partitionId })
 	return null;
 }
@@ -31,9 +31,9 @@ export async function getPartition(partitionId: string): Promise<Partition | nul
  * Phase 2+: invoke('create_partition', { name, state, ... })
  */
 export async function createPartition(
-	displayName: string,
-	state: PartitionState,
-	options?: { tags?: string[]; classification?: Record<string, string> },
+	_displayName: string,
+	_state: PartitionState,
+	_options?: { tags?: string[]; classification?: Record<string, string> },
 ): Promise<Partition | null> {
 	// TODO: invoke('create_partition', { displayName, state, ...options })
 	return null;
@@ -45,8 +45,8 @@ export async function createPartition(
  * Phase 2+: invoke('update_partition_state', { partitionId, state })
  */
 export async function updatePartitionState(
-	partitionId: string,
-	state: PartitionState,
+	_partitionId: string,
+	_state: PartitionState,
 ): Promise<boolean> {
 	// TODO: invoke('update_partition_state', { partitionId, state })
 	return false;
@@ -56,7 +56,7 @@ export async function updatePartitionState(
  * Delete a partition permanently (admin only, requires confirmation).
  * Data is destroyed — this is NOT the same as archive.
  */
-export async function deletePartition(partitionId: string): Promise<boolean> {
+export async function deletePartition(_partitionId: string): Promise<boolean> {
 	// TODO: invoke('delete_partition', { partitionId })
 	return false;
 }

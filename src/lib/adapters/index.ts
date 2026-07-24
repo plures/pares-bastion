@@ -1,5 +1,5 @@
 // Data adapter pattern — swap between mock and Tauri backend
-import type { Device, ScanConfig, ScanState } from '$lib/types.js';
+import type { Device, ScanConfig } from '$lib/types.js';
 
 export interface DataAdapter {
 	scan(config: ScanConfig): AsyncGenerator<{ scanned: number; total: number; devices: Device[] }>;
