@@ -38,6 +38,7 @@ export async function validateLicenseFile(file: LicenseFile): Promise<{ valid: b
  * Uses Tauri's file dialog + fs API in production.
  */
 export async function readLicenseFile(_path: string): Promise<LicenseFile | null> {
+	void _path;
 	try {
 		// In browser/dev mode, this would use FileReader
 		// In Tauri, this calls invoke('read_license_file', { path })
