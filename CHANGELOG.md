@@ -1,3 +1,9 @@
+## [0.15.3] — 2026-07-28
+
+- Merge pull request #8 from plures/chore/dependabot-auto-merge-workflow-call (d75605a)
+- fix: gate dependabot auto-merge workflow and reduce secret scope (0cc0204)
+- chore: delegate dependabot-auto-merge.yml to plures/.github reusable template (8438e44)
+
 ## [0.15.2] — 2026-07-24
 
 - Merge pull request #7 from plures/release-trigger-autobump (fe33826)
