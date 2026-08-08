@@ -1,6 +1,8 @@
 <script lang="ts">
 	import ProgressBar from '$lib/components/ProgressBar.svelte';
 	import type { Device, ScanConfig, ScanState } from '$lib/types.js';
+	import { inventoryStore } from '$lib/stores/inventory-store.svelte.js';
+	import { partitionStore } from '$lib/stores/partition-store.svelte.js';
 
 	// ---------------------------------------------------------------------------
 	// Form state
@@ -175,6 +177,17 @@
 			scan.elapsedMs = Date.now() - scan.startedAt;
 		}
 		scan.status = 'complete';
+
+		// Persist discovered devices to durable local storage
+		const partitionId = partitionStore.activePartitionId;
+		if (partitionId && scan.devices.length > 0) {
+			inventoryStore.ingestScan(scan.devices, {
+				hostsScanned: scan.scanned,
+				durationMs: scan.elapsedMs,
+				target: config.subnet || config.csvPath,
+				partitionId,
+			});
+		}
 	}
 
 	function resetScan() {

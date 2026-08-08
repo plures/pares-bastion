@@ -14,12 +14,64 @@
 	} from '@plures/design-dojo';
 	import type { SearchResult } from '@plures/design-dojo';
 	import { mockInventory, LAST_SCAN_TIME } from '$lib/data/mock-inventory';
-	import type { Device } from '$lib/data/mock-inventory';
+	import { inventoryStore } from '$lib/stores/inventory-store.svelte.js';
+	import { partitionStore } from '$lib/stores/partition-store.svelte.js';
+	import type { InventoryDevice } from '$lib/types/inventory.types.js';
 
 	const getTui = useTui();
 
+	// --- Source: use persisted inventory when available, fall back to mock data ---
+	let storedDevices = $derived(
+		partitionStore.activePartitionId
+			? inventoryStore.forPartition(partitionStore.activePartitionId)
+			: []
+	);
+
+	/** Adapt stored devices to the table-friendly shape used by the UI. */
+	interface DisplayDevice {
+		id: string;
+		name: string;
+		host: string;
+		vendor: string;
+		model: string;
+		version: string;
+		serial: string;
+		site: string;
+	}
+
+	let allDevices = $derived<DisplayDevice[]>(
+		storedDevices.length > 0
+			? storedDevices.map((d) => ({
+					id: d.id,
+					name: d.hostname,
+					host: d.ip,
+					vendor: d.vendor,
+					model: d.model,
+					version: d.version,
+					serial: d.serialNumber,
+					site: d.site
+				}))
+			: mockInventory.map((d) => ({
+					id: d.id,
+					name: d.name,
+					host: d.host,
+					vendor: d.vendor,
+					model: d.model,
+					version: d.version,
+					serial: d.serial,
+					site: d.site
+				}))
+	);
+
+	// --- Last scan from store, fall back to constant ---
+	let lastScanRecord = $derived(
+		partitionStore.activePartitionId
+			? inventoryStore.lastScan(partitionStore.activePartitionId)
+			: null
+	);
+
 	// --- Vendor filter state ---
-	type VendorFilter = 'all' | 'cisco_ios' | 'nokia_sros' | 'arista_eos';
+	type VendorFilter = 'all' | string;
 	let vendorFilter = $state<VendorFilter>('all');
 
 	// --- Search state ---
@@ -39,9 +91,14 @@
 		{ key: 'site', label: 'Site', width: 10 }
 	];
 
+	// --- Derived unique vendors ---
+	let uniqueVendors = $derived(
+		[...new Set(allDevices.map((d) => d.vendor))].sort()
+	);
+
 	// --- Filtered rows ---
 	let filteredDevices = $derived(
-		mockInventory.filter((d) => {
+		allDevices.filter((d) => {
 			const matchesVendor = vendorFilter === 'all' || d.vendor === vendorFilter;
 			const q = searchQuery.toLowerCase();
 			const matchesSearch =
@@ -58,7 +115,7 @@
 		filteredDevices.map((d) => ({
 			name: d.name,
 			host: d.host,
-			vendor: vendorLabel(d.vendor),
+			vendor: d.vendor,
 			model: d.model,
 			version: d.version,
 			serial: d.serial,
@@ -66,34 +123,17 @@
 		}))
 	);
 
-	let selectedDevice = $derived<Device | undefined>(
+	let selectedDevice = $derived<DisplayDevice | undefined>(
 		selectedIndex !== undefined ? filteredDevices[selectedIndex] : undefined
 	);
 
 	// --- Vendor counts ---
-	let vendorCounts = $derived({
-		cisco_ios: mockInventory.filter((d) => d.vendor === 'cisco_ios').length,
-		nokia_sros: mockInventory.filter((d) => d.vendor === 'nokia_sros').length,
-		arista_eos: mockInventory.filter((d) => d.vendor === 'arista_eos').length
-	});
-
-	function vendorLabel(v: Device['vendor']): string {
-		const labels: Record<Device['vendor'], string> = {
-			cisco_ios: 'Cisco IOS',
-			nokia_sros: 'Nokia SR OS',
-			arista_eos: 'Arista EOS'
-		};
-		return labels[v];
-	}
-
-	function vendorBadgeVariant(
-		v: VendorFilter
-	): 'accent' | 'info' | 'success' | 'neutral' {
-		if (v === 'cisco_ios') return 'accent';
-		if (v === 'nokia_sros') return 'info';
-		if (v === 'arista_eos') return 'success';
-		return 'neutral';
-	}
+	let vendorCounts = $derived(
+		allDevices.reduce<Record<string, number>>((acc, d) => {
+			acc[d.vendor] = (acc[d.vendor] ?? 0) + 1;
+			return acc;
+		}, {})
+	);
 
 	function handleRowSelect(index: number): void {
 		const device = filteredDevices[index];
@@ -107,7 +147,7 @@
 		searchQuery = query;
 		if (!query) return [];
 		const q = query.toLowerCase();
-		return mockInventory
+		return allDevices
 			.filter(
 				(d) =>
 					d.name.toLowerCase().includes(q) ||
@@ -124,7 +164,7 @@
 	}
 
 	function handleSearchSelect(item: SearchResult): void {
-		const device = mockInventory.find((d) => d.id === item.id);
+		const device = allDevices.find((d) => d.id === item.id);
 		if (device) {
 			goto(`/device/${encodeURIComponent(device.name)}`);
 		}
@@ -132,13 +172,21 @@
 
 	// --- Last scan formatting ---
 	let lastScanFormatted = $derived(
-		new Date(LAST_SCAN_TIME).toLocaleString('en-GB', {
-			day: '2-digit',
-			month: 'short',
-			year: 'numeric',
-			hour: '2-digit',
-			minute: '2-digit'
-		})
+		lastScanRecord
+			? new Date(lastScanRecord.completedAt).toLocaleString('en-GB', {
+					day: '2-digit',
+					month: 'short',
+					year: 'numeric',
+					hour: '2-digit',
+					minute: '2-digit'
+				})
+			: new Date(LAST_SCAN_TIME).toLocaleString('en-GB', {
+					day: '2-digit',
+					month: 'short',
+					year: 'numeric',
+					hour: '2-digit',
+					minute: '2-digit'
+				})
 	);
 </script>
 
@@ -162,35 +210,19 @@
 				tui={getTui()}
 				onclick={() => { vendorFilter = 'all'; selectedIndex = undefined; }}
 			>
-				All ({mockInventory.length})
+				All ({allDevices.length})
 			</Button>
-			<Button
-				variant={vendorFilter === 'cisco_ios' ? 'solid' : 'ghost'}
-				size="sm"
-				tui={getTui()}
-				onclick={() => { vendorFilter = vendorFilter === 'cisco_ios' ? 'all' : 'cisco_ios'; selectedIndex = undefined; }}
-			>
-				<Badge variant={vendorBadgeVariant('cisco_ios')} size="sm" tui={getTui()}>Cisco</Badge>
-				({vendorCounts.cisco_ios})
-			</Button>
-			<Button
-				variant={vendorFilter === 'nokia_sros' ? 'solid' : 'ghost'}
-				size="sm"
-				tui={getTui()}
-				onclick={() => { vendorFilter = vendorFilter === 'nokia_sros' ? 'all' : 'nokia_sros'; selectedIndex = undefined; }}
-			>
-				<Badge variant={vendorBadgeVariant('nokia_sros')} size="sm" tui={getTui()}>Nokia</Badge>
-				({vendorCounts.nokia_sros})
-			</Button>
-			<Button
-				variant={vendorFilter === 'arista_eos' ? 'solid' : 'ghost'}
-				size="sm"
-				tui={getTui()}
-				onclick={() => { vendorFilter = vendorFilter === 'arista_eos' ? 'all' : 'arista_eos'; selectedIndex = undefined; }}
-			>
-				<Badge variant={vendorBadgeVariant('arista_eos')} size="sm" tui={getTui()}>Arista</Badge>
-				({vendorCounts.arista_eos})
-			</Button>
+			{#each uniqueVendors as vendor (vendor)}
+				<Button
+					variant={vendorFilter === vendor ? 'solid' : 'ghost'}
+					size="sm"
+					tui={getTui()}
+					onclick={() => { vendorFilter = vendorFilter === vendor ? 'all' : vendor; selectedIndex = undefined; }}
+				>
+					<Badge variant="neutral" size="sm" tui={getTui()}>{vendor}</Badge>
+					({vendorCounts[vendor] ?? 0})
+				</Button>
+			{/each}
 		</div>
 	</div>
 
@@ -220,8 +252,8 @@
 						<div class="detail-row">
 							<dt>Vendor</dt>
 							<dd>
-								<Badge variant={vendorBadgeVariant(selectedDevice.vendor)} tui={getTui()}>
-									{vendorLabel(selectedDevice.vendor)}
+								<Badge variant="neutral" tui={getTui()}>
+									{selectedDevice.vendor}
 								</Badge>
 							</dd>
 						</div>
@@ -271,7 +303,7 @@
 		{#if vendorFilter !== 'all'}
 			<StatusBarItem
 				label="Filter"
-				value={vendorLabel(vendorFilter)}
+				value={vendorFilter}
 				color="accent"
 				separator
 			/>
