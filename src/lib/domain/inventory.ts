@@ -74,7 +74,7 @@ export function createScanRecord(
 ): ScanRecord {
 	return {
 		id: crypto.randomUUID(),
-		startedAt: new Date(Date.now() - opts.durationMs).toISOString(),
+		startedAt: new Date(new Date(now).getTime() - opts.durationMs).toISOString(),
 		completedAt: now,
 		durationMs: opts.durationMs,
 		hostsScanned: opts.hostsScanned,

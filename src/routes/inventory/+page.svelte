@@ -170,23 +170,19 @@
 		}
 	}
 
+	const scanDateFmtOptions: Intl.DateTimeFormatOptions = {
+		day: '2-digit',
+		month: 'short',
+		year: 'numeric',
+		hour: '2-digit',
+		minute: '2-digit'
+	};
+
 	// --- Last scan formatting ---
 	let lastScanFormatted = $derived(
 		lastScanRecord
-			? new Date(lastScanRecord.completedAt).toLocaleString('en-GB', {
-					day: '2-digit',
-					month: 'short',
-					year: 'numeric',
-					hour: '2-digit',
-					minute: '2-digit'
-				})
-			: new Date(LAST_SCAN_TIME).toLocaleString('en-GB', {
-					day: '2-digit',
-					month: 'short',
-					year: 'numeric',
-					hour: '2-digit',
-					minute: '2-digit'
-				})
+			? new Date(lastScanRecord.completedAt).toLocaleString('en-GB', scanDateFmtOptions)
+			: new Date(LAST_SCAN_TIME).toLocaleString('en-GB', scanDateFmtOptions)
 	);
 </script>
 
