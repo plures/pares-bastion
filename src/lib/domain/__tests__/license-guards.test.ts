@@ -160,6 +160,7 @@ describe('slugify edge cases', () => {
 	});
 
 	it('handles unicode by stripping non-ascii', () => {
+		// slugify uses [^a-z0-9]+ regex which strips accented chars (no NFD normalization)
 		const result = slugify('café résumé');
 		expect(result).toMatch(/^caf-r-sum$/);
 	});
@@ -306,7 +307,7 @@ describe('checkEnableSync', () => {
 		expect(check.allowed).toBe(false);
 	});
 
-	it('grace period blocks new sync enablement', () => {
+	it('grace period allows sync when canSyncPartition is true', () => {
 		const lic = makeLicense({
 			tier: 'pro',
 			maxSyncedPartitions: 1,
@@ -315,9 +316,8 @@ describe('checkEnableSync', () => {
 		});
 		const ent = computeEntitlements(lic, []);
 		const check = checkEnableSync(ent);
-		// Grace period: sync capability is restricted for new enablement
-		// The entitlement allows sync in grace but checkEnableSync may restrict
-		expect(typeof check.allowed).toBe('boolean');
+		// Grace period: license is active, sync feature is enabled, partition available
+		expect(check.allowed).toBe(true);
 	});
 });
 
