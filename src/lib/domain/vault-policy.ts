@@ -64,7 +64,7 @@ export function daysUntilRotation(
 /** Create initial rotation metadata for a new credential. */
 export function createRotationMeta(policy: RotationPolicy | null): RotationMeta {
 	return {
-		lastRotatedAt: policy?.enabled ? Date.now() : null,
+		lastRotatedAt: null,
 		policy: policy ?? null,
 		rotationCount: 0,
 	};
@@ -141,19 +141,6 @@ export function validateAccessScope(scope: VaultAccessScope): string | null {
 
 // ─── Audit Events ───────────────────────────────────────────────────────────
 
-let auditIdCounter = 0;
-
-/** Generate a unique audit event ID (deterministic for tests when seeded). */
-function generateAuditId(): string {
-	auditIdCounter += 1;
-	return `audit-${Date.now()}-${auditIdCounter}`;
-}
-
-/** Reset the audit ID counter (for testing only). */
-export function resetAuditIdCounter(): void {
-	auditIdCounter = 0;
-}
-
 /** Build a vault audit event. */
 export function createAuditEvent(
 	action: VaultAuditAction,
@@ -162,7 +149,7 @@ export function createAuditEvent(
 	partitionId: string | null = null,
 ): VaultAuditEvent {
 	return {
-		id: generateAuditId(),
+		id: crypto.randomUUID(),
 		timestamp: new Date().toISOString(),
 		action,
 		credentialId,

@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import {
 	validateRotationPolicy,
 	isRotationOverdue,
@@ -10,7 +10,6 @@ import {
 	validateAccessScope,
 	createAuditEvent,
 	auditDetail,
-	resetAuditIdCounter,
 	DEFAULT_ROTATION_INTERVAL_DAYS,
 	MIN_ROTATION_INTERVAL_DAYS,
 	MAX_ROTATION_INTERVAL_DAYS,
@@ -18,6 +17,7 @@ import {
 import type {
 	VaultCredential,
 	VaultAccessScope,
+	VaultAuditAction,
 } from '$lib/types/vault.types.js';
 
 // ─── Test Helpers ───────────────────────────────────────────────────────────
@@ -187,9 +187,9 @@ describe('Rotation Meta Lifecycle', () => {
 		expect(meta.rotationCount).toBe(0);
 	});
 
-	it('createRotationMeta with enabled policy sets lastRotatedAt', () => {
+	it('createRotationMeta with enabled policy keeps lastRotatedAt null', () => {
 		const meta = createRotationMeta({ enabled: true, intervalDays: 30 });
-		expect(meta.lastRotatedAt).toBeTypeOf('number');
+		expect(meta.lastRotatedAt).toBeNull();
 		expect(meta.policy?.enabled).toBe(true);
 		expect(meta.rotationCount).toBe(0);
 	});
@@ -300,13 +300,9 @@ describe('Access Scope Validation', () => {
 // ─── Audit Events ───────────────────────────────────────────────────────────
 
 describe('Audit Events', () => {
-	beforeEach(() => {
-		resetAuditIdCounter();
-	});
-
 	it('creates event with all fields', () => {
 		const event = createAuditEvent('credential_created', 'test detail', 'cred-1', 'part-1');
-		expect(event.id).toContain('audit-');
+		expect(event.id).toMatch(/^[0-9a-f]{8}-/);
 		expect(event.timestamp).toBeTruthy();
 		expect(event.action).toBe('credential_created');
 		expect(event.credentialId).toBe('cred-1');
@@ -350,6 +346,3 @@ describe('Audit Events', () => {
 		}
 	});
 });
-
-// Need the import for the type used in tests
-import type { VaultAuditAction } from '$lib/types/vault.types.js';
