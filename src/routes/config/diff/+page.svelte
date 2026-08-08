@@ -4,6 +4,8 @@
 	import { Button, Badge, SplitPane, Pane, StatusBar, StatusBarItem, StatusBarSpacer } from '@plures/design-dojo';
 	import { useTui } from '@plures/design-dojo';
 	import type { DiffResult } from '$lib/types/config.types.js';
+	import { parseDiff, searchDiffLines } from '$lib/domain/diff-utils.js';
+	import type { DiffSummary, DiffSearchMatch } from '$lib/domain/diff-utils.js';
 	import { mockBackups, mockDiff } from '$lib/data/mock-config.js';
 
 	const getTui = useTui();
@@ -20,6 +22,9 @@
 	let selectedHostname = $state('');
 	let selectedVersionA = $state('');
 	let selectedVersionB = $state('');
+	let diffSearch = $state('');
+	let currentMatchIndex = $state(0);
+	let showLineNumbers = $state(true);
 
 	// Initialize from URL params
 	$effect(() => {
@@ -44,26 +49,26 @@
 			.map((b) => b.version);
 	});
 
-	let diffLines = $derived.by(() => {
-		if (!diffResult) return [];
-		return diffResult.unified.split('\n').map((line) => {
-			let type: 'add' | 'del' | 'header' | 'context' = 'context';
-			if (
-				line.startsWith('@@') ||
-				line.startsWith('+++ ') ||
-				line.startsWith('--- ') ||
-				line.startsWith('diff ') ||
-				line.startsWith('index ')
-			) {
-				type = 'header';
-			} else if (line.startsWith('+')) {
-				type = 'add';
-			} else if (line.startsWith('-')) {
-				type = 'del';
-			}
-			return { text: line, type };
-		});
-	});
+	let diffSummary: DiffSummary = $derived(
+		diffResult ? parseDiff(diffResult.unified) : { lines: [], hunks: [], totalAdditions: 0, totalDeletions: 0, totalChanged: 0 }
+	);
+
+	let diffLines = $derived(diffSummary.lines);
+
+	let searchMatches: DiffSearchMatch[] = $derived(searchDiffLines(diffSummary.lines, diffSearch));
+
+	function jumpToMatch(index: number): void {
+		if (searchMatches.length === 0) return;
+		currentMatchIndex = ((index % searchMatches.length) + searchMatches.length) % searchMatches.length;
+		const match = searchMatches[currentMatchIndex];
+		const el = document.getElementById(`diff-line-${match.line.lineNumber}`);
+		if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+	}
+
+	function jumpToHunk(startLine: number): void {
+		const el = document.getElementById(`diff-line-${startLine}`);
+		if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+	}
 
 	async function loadDiff(): Promise<void> {
 		if (!selectedHostname || !selectedVersionA || !selectedVersionB) return;
@@ -108,9 +113,10 @@
 		{#if diffResult}
 			<div class="diff-info">
 				{diffResult.hostname}: {diffResult.versionA} → {diffResult.versionB}
-				| +{diffResult.additions} -{diffResult.deletions}
+				| +{diffSummary.totalAdditions} -{diffSummary.totalDeletions} ({diffSummary.totalChanged} changed)
+				| {diffSummary.hunks.length} hunk{diffSummary.hunks.length === 1 ? '' : 's'}
 			</div>
-			<pre class="diff-content">{#each diffLines as line}<span class="diff-line {line.type}">{line.text}</span>
+			<pre class="diff-content">{#each diffLines as line}<span id="diff-line-{line.lineNumber}" class="diff-line {line.type}"><span class="line-num">{String(line.lineNumber).padStart(4, ' ')}</span> {line.text}</span>
 {/each}</pre>
 		{:else if loading}
 			<div class="loading">Loading diff…</div>
@@ -171,12 +177,49 @@
 
 		{#if diffResult}
 			<SplitPane direction="horizontal">
-				<Pane flex={1} title="Diff: {diffResult.versionA} → {diffResult.versionB}" scrollable>
-					<div class="diff-stats">
-						<Badge variant="success" size="sm">+{diffResult.additions}</Badge>
-						<Badge variant="danger" size="sm">-{diffResult.deletions}</Badge>
+				<Pane flex={0} title="Hunks" scrollable>
+					<div class="hunk-nav">
+						{#each diffSummary.hunks as hunk, i}
+							<button class="hunk-btn" onclick={() => jumpToHunk(hunk.startLine)}>
+								<span class="hunk-label">Hunk {i + 1}</span>
+								<span class="hunk-stats">
+									<Badge variant="success" size="sm">+{hunk.additions}</Badge>
+									<Badge variant="danger" size="sm">-{hunk.deletions}</Badge>
+								</span>
+							</button>
+						{/each}
+						{#if diffSummary.hunks.length === 0}
+							<div class="hunk-empty">No hunks</div>
+						{/if}
 					</div>
-					<pre class="diff-viewer">{#each diffLines as line}<span class="diff-line {line.type}">{line.text}</span>
+				</Pane>
+				<Pane flex={1} title="Diff: {diffResult.versionA} → {diffResult.versionB}" scrollable>
+					<div class="diff-toolbar">
+						<div class="diff-stats">
+							<Badge variant="success" size="sm">+{diffSummary.totalAdditions}</Badge>
+							<Badge variant="danger" size="sm">-{diffSummary.totalDeletions}</Badge>
+							<span class="diff-stat-label">{diffSummary.totalChanged} changed · {diffSummary.hunks.length} hunk{diffSummary.hunks.length === 1 ? '' : 's'}</span>
+						</div>
+						<div class="diff-search-bar">
+							<input
+								type="search"
+								class="diff-search-input"
+								placeholder="Search diff…"
+								bind:value={diffSearch}
+								aria-label="Search diff content"
+							/>
+							{#if searchMatches.length > 0}
+								<span class="match-count">{currentMatchIndex + 1}/{searchMatches.length}</span>
+								<Button variant="ghost" size="sm" onclick={() => jumpToMatch(currentMatchIndex - 1)}>↑</Button>
+								<Button variant="ghost" size="sm" onclick={() => jumpToMatch(currentMatchIndex + 1)}>↓</Button>
+							{/if}
+							<label class="line-num-toggle">
+								<input type="checkbox" bind:checked={showLineNumbers} />
+								#
+							</label>
+						</div>
+					</div>
+					<pre class="diff-viewer">{#each diffLines as line}<span id="diff-line-{line.lineNumber}" class="diff-line {line.type}">{#if showLineNumbers}<span class="line-num">{String(line.lineNumber).padStart(4, ' ')}</span> {/if}{line.text}</span>
 {/each}</pre>
 				</Pane>
 			</SplitPane>
@@ -194,8 +237,9 @@
 			/>
 			{#if diffResult}
 				<StatusBarItem label="Versions" value="{diffResult.versionA} → {diffResult.versionB}" separator />
-				<StatusBarItem label="Added" value="+{diffResult.additions}" color="success" separator />
-				<StatusBarItem label="Removed" value="-{diffResult.deletions}" color="error" separator />
+				<StatusBarItem label="Added" value="+{diffSummary.totalAdditions}" color="success" separator />
+				<StatusBarItem label="Removed" value="-{diffSummary.totalDeletions}" color="error" separator />
+				<StatusBarItem label="Hunks" value={String(diffSummary.hunks.length)} separator />
 			{/if}
 			<StatusBarSpacer />
 			<StatusBarItem label="View" value="Diff Viewer" />
@@ -359,5 +403,110 @@
 
 	.diff-line.context {
 		color: var(--color-text, #cdd6f4);
+	}
+
+	/* ── Hunk navigation ───────────────────────────────── */
+
+	.hunk-nav {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		min-width: 140px;
+		padding: 0.5rem;
+	}
+
+	.hunk-btn {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		padding: 6px 8px;
+		background: transparent;
+		border: 1px solid var(--color-border, #333);
+		border-radius: var(--radius-sm, 4px);
+		color: var(--color-text, #cdd6f4);
+		cursor: pointer;
+		text-align: left;
+		font-size: 0.75rem;
+		transition: background 0.15s ease;
+	}
+
+	.hunk-btn:hover {
+		background: var(--surface-2, #313244);
+	}
+
+	.hunk-label {
+		font-weight: 600;
+	}
+
+	.hunk-stats {
+		display: flex;
+		gap: 4px;
+	}
+
+	.hunk-empty {
+		color: var(--color-text-muted, #888);
+		font-size: 0.75rem;
+		padding: 8px;
+	}
+
+	/* ── Diff toolbar ──────────────────────────────────── */
+
+	.diff-toolbar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0.5rem 1rem;
+		border-bottom: 1px solid var(--color-border, #333);
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	.diff-stat-label {
+		font-size: 0.75rem;
+		color: var(--color-text-muted, #888);
+	}
+
+	.diff-search-bar {
+		display: flex;
+		align-items: center;
+		gap: 0.375rem;
+	}
+
+	.diff-search-input {
+		padding: 3px 8px;
+		border: 1px solid var(--color-border, #444);
+		border-radius: var(--radius-sm, 4px);
+		background: var(--surface-2, #313244);
+		color: var(--color-text, #cdd6f4);
+		font-size: 0.8125rem;
+		outline: none;
+		width: 160px;
+	}
+
+	.match-count {
+		font-size: 0.75rem;
+		color: var(--color-text-muted, #888);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.line-num-toggle {
+		display: flex;
+		align-items: center;
+		gap: 2px;
+		font-size: 0.75rem;
+		color: var(--color-text-muted, #888);
+		cursor: pointer;
+	}
+
+	/* ── Line numbers ──────────────────────────────────── */
+
+	.line-num {
+		color: var(--color-text-muted, #555);
+		user-select: none;
+		font-size: 0.75rem;
+	}
+
+	.diff-page.tui .line-num {
+		color: var(--tui-text-dim, #555);
 	}
 </style>

@@ -12,6 +12,8 @@
 		useTui
 	} from '@plures/design-dojo';
 	import { getDeviceDetail, getDeviceHealth } from '$lib/services/device.js';
+	import { parseConfigSections } from '$lib/domain/diff-utils.js';
+	import type { ConfigSection } from '$lib/domain/diff-utils.js';
 	import type {
 		DeviceDetail,
 		HealthInfo,
@@ -72,6 +74,23 @@
 			.split('\n')
 			.filter((line) => line.toLowerCase().includes(searchQuery.toLowerCase()))
 			.join('\n');
+	});
+
+	let configSections: ConfigSection[] = $derived(
+		detail ? parseConfigSections(detail.configOutput) : []
+	);
+
+	function jumpToConfigSection(lineNumber: number): void {
+		const el = document.querySelector(`.config-output .config-line-${lineNumber}`);
+		if (el) {
+			el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		}
+	}
+
+	let configLines = $derived.by(() => {
+		if (!detail) return [];
+		const src = searchQuery ? filteredConfig : detail.configOutput;
+		return src.split('\n').map((text, i) => ({ text, lineNumber: i + 1 }));
 	});
 
 	let ifaceColumns = [
@@ -322,8 +341,26 @@
 									bind:value={searchQuery}
 									aria-label="Filter config output"
 								/>
+								{#if configSections.length > 0 && !isTui}
+									<select
+										class="config-section-select"
+										onchange={(e) => {
+											const target = e.target as HTMLSelectElement;
+											const ln = Number(target.value);
+											if (ln > 0) jumpToConfigSection(ln);
+											target.value = '';
+										}}
+										aria-label="Jump to config section"
+									>
+										<option value="">Jump to section…</option>
+										{#each configSections as section}
+											<option value={section.lineNumber}>{section.label}</option>
+										{/each}
+									</select>
+								{/if}
 							</div>
-							<pre class="config-output" role="region" aria-label="Device configuration output">{filteredConfig}</pre>
+							<pre class="config-output" role="region" aria-label="Device configuration output">{#each configLines as line}<span class="config-line config-line-{line.lineNumber}"><span class="config-line-num">{String(line.lineNumber).padStart(4, ' ')}</span> {line.text}
+</span>{/each}</pre>
 						</div>
 					{/if}
 				</div>
@@ -656,10 +693,6 @@
 		gap: 8px;
 	}
 
-	.config-search {
-		flex-shrink: 0;
-	}
-
 	.config-search-input {
 		background: var(--surface-2, #1e1e1e);
 		border: 1px solid var(--color-border, #333);
@@ -700,5 +733,39 @@
 		background: var(--tui-bg, #0d0d0d);
 		border-color: var(--tui-border, #0f3460);
 		color: var(--tui-text, #e0e0e0);
+	}
+
+	.config-section-select {
+		padding: 4px 8px;
+		border: 1px solid var(--color-border, #333);
+		border-radius: var(--radius-sm, 4px);
+		background: var(--surface-2, #1e1e1e);
+		color: var(--color-text, #e8e8e8);
+		font-size: 0.8125rem;
+		max-width: 260px;
+	}
+
+	.tui .config-section-select {
+		font-family: monospace;
+		background: var(--tui-surface, #16213e);
+		border-color: var(--tui-border, #0f3460);
+		color: var(--tui-text, #e0e0e0);
+	}
+
+	.config-search {
+		display: flex;
+		gap: 8px;
+		align-items: center;
+		flex-shrink: 0;
+	}
+
+	.config-line-num {
+		color: var(--color-text-muted, #555);
+		user-select: none;
+		font-size: 0.75rem;
+	}
+
+	.tui .config-line-num {
+		color: var(--tui-text-dim, #555);
 	}
 </style>
