@@ -38,7 +38,7 @@ export interface DiffSummary {
 	hunks: DiffHunk[];
 	/** Total additions across all hunks. */
 	totalAdditions: number;
-	/** TotalDeletions across all hunks. */
+	/** Total deletions across all hunks. */
 	totalDeletions: number;
 	/** Total number of changed (non-context, non-header) lines. */
 	totalChanged: number;
