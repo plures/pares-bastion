@@ -1,7 +1,10 @@
 import { invoke } from '@tauri-apps/api/core';
 import type {
+	VaultAuditEvent,
+	VaultAuditFilter,
 	VaultCredential,
 	VaultResolveResult,
+	VaultRotatePayload,
 	VaultSetPayload,
 	VaultStatus
 } from '$lib/types/vault.types.js';
@@ -37,4 +40,14 @@ export async function vaultDelete(id: string): Promise<void> {
  */
 export async function vaultResolve(hostname: string): Promise<VaultResolveResult> {
 	return invoke<VaultResolveResult>('vault_resolve', { hostname });
+}
+
+/** Rotate a credential's password (and optionally enable secret). */
+export async function vaultRotate(payload: VaultRotatePayload): Promise<VaultCredential> {
+	return invoke<VaultCredential>('vault_rotate', { payload });
+}
+
+/** Retrieve vault audit log entries, optionally filtered. */
+export async function vaultAuditLog(filter?: VaultAuditFilter): Promise<VaultAuditEvent[]> {
+	return invoke<VaultAuditEvent[]>('vault_audit_log', { filter: filter ?? {} });
 }
