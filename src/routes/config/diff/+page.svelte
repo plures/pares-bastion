@@ -59,7 +59,7 @@
 
 	$effect(() => {
 		// Reset to the first match whenever the query changes
-		diffSearch;
+		void diffSearch;
 		currentMatchIndex = 0;
 	});
 
