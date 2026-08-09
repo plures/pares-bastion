@@ -9,7 +9,6 @@ import {
 import type { License } from '../license.js';
 import {
 	countsTowardLimit,
-	countSyncedPartitions,
 	slugify,
 	createDefaultPartition,
 } from '../partition.js';
