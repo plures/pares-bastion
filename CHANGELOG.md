@@ -1,3 +1,16 @@
+## [0.17.0] — 2026-08-09
+
+- Merge pull request #12 from plures/copilot/improve-device-detail-views (77ca093)
+- fix: add bulk preview TUI controls (f35d059)
+- fix: satisfy diff search effect lint rule (7489680)
+- Potential fix for pull request finding (c86b180)
+- Potential fix for pull request finding (5c6d8f2)
+- Potential fix for pull request finding (d0d6263)
+- Potential fix for pull request finding (2b2e55c)
+- fix: correct doc comment typo in diff-utils (074ff71)
+- feat: improve device detail views, diff tooling, and bulk config previews (fe5b0fe)
+- Initial plan (76b71b6)
+
 ## [0.16.0] — 2026-08-09
 
 - Merge pull request #9 from plures/copilot/finish-end-to-end-inventory-scan-ingestion (4a74dd6)
