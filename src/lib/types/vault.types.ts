@@ -11,8 +11,8 @@ export type VaultType = 'personal' | 'shared';
 export interface RotationPolicy {
 	/** Whether automatic rotation reminders are enabled. */
 	enabled: boolean;
-	/** Rotation interval in days (e.g. 90). */
-	intervalDays: number;
+	/** Rotation interval in days (e.g. 90). Optional; when omitted and enabled, callers should default to 90. */
+	intervalDays?: number;
 }
 
 /** Metadata about credential rotation history. */
