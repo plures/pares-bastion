@@ -43,7 +43,8 @@ export function isRotationOverdue(credential: VaultCredential, now: number = Dat
 	if (!rotation?.policy?.enabled) return false;
 	if (rotation.lastRotatedAt === null) return true; // never rotated
 
-	const intervalMs = rotation.policy.intervalDays * 24 * 60 * 60 * 1000;
+	const intervalDays = rotation.policy.intervalDays ?? DEFAULT_ROTATION_INTERVAL_DAYS;
+	const intervalMs = intervalDays * 24 * 60 * 60 * 1000;
 	return now - rotation.lastRotatedAt >= intervalMs;
 }
 
@@ -56,7 +57,8 @@ export function daysUntilRotation(
 	if (!rotation?.policy?.enabled) return null;
 	if (rotation.lastRotatedAt === null) return 0; // due immediately
 
-	const intervalMs = rotation.policy.intervalDays * 24 * 60 * 60 * 1000;
+	const intervalDays = rotation.policy.intervalDays ?? DEFAULT_ROTATION_INTERVAL_DAYS;
+	const intervalMs = intervalDays * 24 * 60 * 60 * 1000;
 	const dueAt = rotation.lastRotatedAt + intervalMs;
 	return Math.ceil((dueAt - now) / (24 * 60 * 60 * 1000));
 }
