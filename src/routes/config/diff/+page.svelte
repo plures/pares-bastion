@@ -57,6 +57,17 @@
 
 	let searchMatches: DiffSearchMatch[] = $derived(searchDiffLines(diffSummary.lines, diffSearch));
 
+	$effect(() => {
+		// Reset to the first match whenever the query changes
+		diffSearch;
+		currentMatchIndex = 0;
+	});
+
+	$effect(() => {
+		// Clamp index when the diff changes and match count shrinks
+		if (currentMatchIndex >= searchMatches.length) currentMatchIndex = 0;
+	});
+
 	function jumpToMatch(index: number): void {
 		if (searchMatches.length === 0) return;
 		currentMatchIndex = ((index % searchMatches.length) + searchMatches.length) % searchMatches.length;
