@@ -1,3 +1,14 @@
+## [0.16.0] — 2026-08-09
+
+- Merge pull request #9 from plures/copilot/finish-end-to-end-inventory-scan-ingestion (4a74dd6)
+- fix(scan): restore missing inventory ingest call in finishScan (359a2d9)
+- Potential fix for pull request finding (03267c8)
+- Potential fix for pull request finding (17b4605)
+- Potential fix for pull request finding (9470dfd)
+- fix: derive startedAt from now parameter and extract date format options (9182bf3)
+- feat: add durable local storage for inventory and scan ingestion (05065da)
+- Initial plan (0884a5e)
+
 ## [0.15.3] — 2026-07-28
 
 - Merge pull request #8 from plures/chore/dependabot-auto-merge-workflow-call (d75605a)
