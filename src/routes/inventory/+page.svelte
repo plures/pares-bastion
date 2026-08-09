@@ -16,7 +16,6 @@
 	import { mockInventory, LAST_SCAN_TIME } from '$lib/data/mock-inventory';
 	import { inventoryStore } from '$lib/stores/inventory-store.svelte.js';
 	import { partitionStore } from '$lib/stores/partition-store.svelte.js';
-	import type { InventoryDevice } from '$lib/types/inventory.types.js';
 
 	const getTui = useTui();
 
