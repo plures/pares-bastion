@@ -10,7 +10,6 @@ import {
 	devicesForPartition,
 	scansForPartition,
 	trimScanHistory,
-	createEmptyInventoryState,
 } from '$lib/domain/inventory.js';
 
 const STORAGE_KEY = 'bastion-inventory-v1';
