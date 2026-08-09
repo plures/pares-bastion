@@ -1,3 +1,16 @@
+## [0.18.0] — 2026-08-09
+
+- Merge pull request #10 from plures/copilot/harden-credential-vault-flows (99c118d)
+- fix: default missing rotation interval in vault policy calculations (2e6d065)
+- Potential fix for pull request finding (4a77b6d)
+- Potential fix for pull request finding (49e1fc3)
+- Merge pull request #11 from plures/copilot/expand-test-coverage-licensing-partition-guards (e9ecf8a)
+- Potential fix for pull request finding (a644eee)
+- test: address review feedback for license-guards tests (9314435)
+- test: expand coverage for licensing/partition guards (0fb4717)
+- refactor: address code review feedback for vault hardening (ce6d9c6)
+- feat: harden credential vault flows (rotation, scoped access, audit events) (34964b4)
+
 ## [0.17.0] — 2026-08-09
 
 - Merge pull request #12 from plures/copilot/improve-device-detail-views (77ca093)
