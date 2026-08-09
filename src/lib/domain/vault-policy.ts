@@ -24,13 +24,13 @@ export const MAX_ROTATION_INTERVAL_DAYS = 365;
 
 /** Validate a rotation policy. Returns an error message if invalid, null if valid. */
 export function validateRotationPolicy(policy: RotationPolicy): string | null {
-	if (!policy.enabled) {
-		return null; // disabled policies are always valid
-	}
+	if (!policy.enabled) return null; // disabled policies are always valid
+
+	const intervalDays = policy.intervalDays ?? DEFAULT_ROTATION_INTERVAL_DAYS;
 	if (
-		!Number.isInteger(policy.intervalDays) ||
-		policy.intervalDays < MIN_ROTATION_INTERVAL_DAYS ||
-		policy.intervalDays > MAX_ROTATION_INTERVAL_DAYS
+		!Number.isInteger(intervalDays) ||
+		intervalDays < MIN_ROTATION_INTERVAL_DAYS ||
+		intervalDays > MAX_ROTATION_INTERVAL_DAYS
 	) {
 		return `Rotation interval must be an integer between ${MIN_ROTATION_INTERVAL_DAYS} and ${MAX_ROTATION_INTERVAL_DAYS} days.`;
 	}
