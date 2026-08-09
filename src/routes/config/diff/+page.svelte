@@ -225,8 +225,8 @@
 								<Button variant="ghost" size="sm" onclick={() => jumpToMatch(currentMatchIndex + 1)}>↓</Button>
 							{/if}
 							<label class="line-num-toggle">
-								<input type="checkbox" bind:checked={showLineNumbers} />
-								#
+								<input type="checkbox" bind:checked={showLineNumbers} aria-label="Toggle line numbers" />
+								Line #
 							</label>
 						</div>
 					</div>
