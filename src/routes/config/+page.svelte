@@ -133,6 +133,9 @@
 				<Button variant="outline" onclick={() => goto('/config/diff')}>
 					📊 Diff Viewer
 				</Button>
+				<Button variant="outline" onclick={() => goto('/config/bulk')}>
+					📋 Bulk Preview
+				</Button>
 			</div>
 		</div>
 
