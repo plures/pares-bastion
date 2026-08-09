@@ -111,7 +111,27 @@ ntp source {{sourceInterface}}
 			[hostname]: { ...current, [varName]: value },
 		};
 	}
+
+	function handleTuiKeydown(event: KeyboardEvent): void {
+		if (!tui || event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) {
+			return;
+		}
+
+		switch (event.key.toLowerCase()) {
+			case 'a':
+				selectAll();
+				break;
+			case 'n':
+				selectNone();
+				break;
+			case 'g':
+				if (selectedCount > 0) generatePreviews();
+				break;
+		}
+	}
 </script>
+
+<svelte:window onkeydown={handleTuiKeydown} />
 
 {#if tui}
 	<div class="bulk-page tui">
@@ -123,6 +143,34 @@ ntp source {{sourceInterface}}
 		<div class="tui-section">
 			Template: {templateName} | Devices: {selectedCount} | Vars: {variables.join(', ') || 'none'}
 		</div>
+
+		<Table
+			columns={deviceColumns}
+			rows={deviceRows}
+			onselect={toggleDevice}
+			tui={true}
+		/>
+
+		{#if selectedCount > 0 && variables.length > 0}
+			<div class="tui-variable-values">
+				<div class="tui-section-header">Variable Values</div>
+				{#each [...selectedDevices] as hostname}
+					<div class="tui-variable-device">
+						<div>{hostname}</div>
+						{#each variables as varName}
+							<label class="tui-variable-field">
+								<span>{`{{${varName}}}`}</span>
+								<input
+									type="text"
+									value={variableValues[hostname]?.[varName] ?? ''}
+									oninput={(event) => setVariable(hostname, varName, (event.target as HTMLInputElement).value)}
+								/>
+							</label>
+						{/each}
+					</div>
+				{/each}
+			</div>
+		{/if}
 
 		{#if previews.length > 0}
 			{#each previews as preview}
@@ -305,6 +353,30 @@ ntp source {{sourceInterface}}
 		padding: 0.25ch 0;
 		border-bottom: 1px solid var(--tui-border, #0f3460);
 		margin-bottom: 0.5ch;
+	}
+
+	.bulk-page.tui .tui-variable-values {
+		margin: 0.5ch 0;
+	}
+
+	.bulk-page.tui .tui-section-header {
+		color: var(--color-accent, #7fefbd);
+		margin-bottom: 0.25ch;
+	}
+
+	.bulk-page.tui .tui-variable-device {
+		margin-bottom: 0.5ch;
+	}
+
+	.bulk-page.tui .tui-variable-field {
+		display: flex;
+		gap: 1ch;
+		margin-top: 0.25ch;
+	}
+
+	.bulk-page.tui .tui-variable-field input {
+		flex: 1;
+		font-family: inherit;
 	}
 
 	.bulk-page.tui .tui-preview-block {
