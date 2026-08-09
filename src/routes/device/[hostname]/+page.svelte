@@ -89,8 +89,12 @@
 
 	let configLines = $derived.by(() => {
 		if (!detail) return [];
-		const src = searchQuery ? filteredConfig : detail.configOutput;
-		return src.split('\n').map((text, i) => ({ text, lineNumber: i + 1 }));
+		const all = detail.configOutput.split('\n');
+		if (!searchQuery) return all.map((text, i) => ({ text, lineNumber: i + 1 }));
+		const q = searchQuery.toLowerCase();
+		return all
+			.map((text, i) => ({ text, lineNumber: i + 1 }))
+			.filter((line) => line.text.toLowerCase().includes(q));
 	});
 
 	let ifaceColumns = [
