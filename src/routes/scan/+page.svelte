@@ -181,6 +181,7 @@
 		// Persist discovered devices to durable local storage
 		const partitionId = partitionStore.activePartitionId;
 		if (partitionId) {
+			inventoryStore.ingestScan(scan.devices, {
 				hostsScanned: scan.scanned,
 				durationMs: scan.elapsedMs,
 				target: config.subnet || config.csvPath,
