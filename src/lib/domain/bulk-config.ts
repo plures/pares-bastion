@@ -78,7 +78,7 @@ export function renderBulkPreviews(
 }
 
 /**
- * Validate a template body: checks for balanced braces and known variables.
+ * Validate a template body: checks for non-empty body and balanced `{{` / `}}` tokens.
  */
 export function validateTemplate(body: string): string[] {
 	const errors: string[] = [];
@@ -87,7 +87,7 @@ export function validateTemplate(body: string): string[] {
 		return errors;
 	}
 
-	// Check for unbalanced or malformed placeholders
+	// Check for unbalanced placeholders
 	const openCount = (body.match(/\{\{/g) ?? []).length;
 	const closeCount = (body.match(/\}\}/g) ?? []).length;
 	if (openCount !== closeCount) {
